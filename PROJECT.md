@@ -57,7 +57,7 @@ carries it, and a component can never move to another publisher (PA-T1).
 | G8 | Functionality | Formulas against real lists | `/deliver` | G7 | Done |
 | G9 | Flows | `solution/src/Workflows/` | `/deliver` | G5 | Done |
 | G10 | Test cases | *Test Cases* sheet of the AC workbook | `/deliver` | G2 | Done |
-| G11 | Release candidate | `dist/<Solution>_<version>_managed.zip` + `specs/release-notes.md` | `/deliver` | G8, G9, G10 | Not started |
+| G11 | Release candidate | `dist/<Solution>_<version>_managed.zip` + `specs/release-notes.md` | `/deliver` | G8, G9, G10 | Done |
 
 **G2 signed off by · on:** Albin . 2026-10-29 (the Client PO's name · `YYYY-MM-DD`, matching the workbook's Read Me)
 

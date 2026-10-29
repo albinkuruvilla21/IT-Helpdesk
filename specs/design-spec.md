@@ -194,6 +194,7 @@ Common to every screen: the chrome (§7), the overlay set (6.5), `OnVisible` loa
 | Control outlines (fields, selects, ghost buttons) | `--bd` `#e4e7ec` is 1.24:1 on the surface (needs 3:1) | `ColorBorder` `#838a98` / `#657084`; `--bd` stays for card borders (`ColorDivider`) | Design lead tells the client |
 | In Progress, Resolved, Closed, High badges (light) | Text on its 14 % fill 4.14, 4.14, 4.17, 4.21:1 | Darker text `#a94e08`, `#147839`, `#616a7e`, `#ba3e0c` (4.54, 4.56, 4.51, 4.50) | Design lead tells the client |
 | Priority split bar | Colour alone | Legend with names and counts, text alternative on the bar | — |
+| `ColorPrimary` in the dark scheme | The prototype's `--ac` is `#818cf8` in dark, but its primary button keeps `#4f46e5` (`.btn.p`) | `ColorPrimary` stays `#4f46e5` (white on it 6.29:1); the accent text is `ColorAccentText` `#818cf8` (5.94:1) | `prototype_design.py --check` reports this one warning |
 | Hover-only row highlight | Not reachable by keyboard | Rows are focusable with the focus outline and Enter | — |
 
 ## 9. Deviations from the design

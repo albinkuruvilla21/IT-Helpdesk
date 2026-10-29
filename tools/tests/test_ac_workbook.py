@@ -44,7 +44,9 @@ class AcIdTests(unittest.TestCase):
             self.assertTrue(a["id"].startswith(f"AC-{code}-"), a["id"])
 
     def test_sample_passes(self):
-        code, out = build_and_check(self.data, [ROOT / "canvas", ROOT / "solution" / "src"])
+        # the sample workbook is traced against the starter app; once /project-setup has replaced the starter, the app cites its own project's IDs
+        src = [ROOT / "canvas", ROOT / "solution" / "src"] if (ROOT / "canvas" / "StarterApp").exists() else []
+        code, out = build_and_check(self.data, src)
         self.assertEqual(code, 0, out)
         self.assertNotIn("must use the project code", out)
 

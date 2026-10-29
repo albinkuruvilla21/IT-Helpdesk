@@ -49,6 +49,9 @@ TOKEN_RULES = [
     (r"^(stroke)$", "ColorGlassStroke"), (r"^(hair|border|line|divider)$", "ColorDivider"), (r"^(field|input)$", "ColorField"),
     (r"^(seg|segment|track)$", "ColorSegment"), (r"^(segon|segment-?on)$", "ColorSegmentOn"),
     (r"^b(\d)$", r"ColorBackdrop\1"),
+    # short names a hand-written prototype often uses: --ac, --ah, --as, --c, --bd, --tx, --mu, --h, --h2, --h3, --ln
+    (r"^ac$", "ColorPrimary"), (r"^ah$", "ColorPrimaryHover"), (r"^as$", "ColorPrimaryTint"), (r"^c$", "ColorSurface"), (r"^bd$", "ColorDivider"),
+    (r"^tx$", "ColorText"), (r"^mu$", "ColorTextMuted"), (r"^h$", "ColorHover"), (r"^h2$", "ColorRowHover"), (r"^h3$", "ColorSunken"), (r"^ln$", "ColorLine"),
 ]
 # Text tokens and the surface they are read on (contrast 4.5:1), and boundary tokens (3:1).
 TEXT_ON = {"ColorText": "ColorSurface", "ColorTextMuted": "ColorBackground", "ColorPrimary": "ColorSurface", "ColorSuccess": "ColorSuccessFill",
@@ -92,12 +95,18 @@ def parse_css(css):
     return rules
 
 
+# a dark scheme switched in markup rather than by the device: [data-theme=dark], :root[data-theme="dark"], html.dark, .dark, :root.dark
+DARK_SELECTOR = re.compile(r"""^(?::root|html|body)?(?:\[data-(?:theme|mode|color-scheme)=["']?dark["']?\]|\.dark(?:-theme|-mode)?)$""")
+
+
 def custom_properties(rules):
     light, dark = {}, {}
     for r in rules:
-        if r["selector"] != ":root":
-            continue
-        target = dark if "prefers-color-scheme:dark" in r["media"] else light if not r["media"] else None
+        target = None
+        if r["selector"] == ":root":
+            target = dark if "prefers-color-scheme:dark" in r["media"] else light if not r["media"] else None
+        elif DARK_SELECTOR.match(r["selector"].replace(" ", "")) and not r["media"]:
+            target = dark
         if target is not None:
             target.update({k[2:]: v for k, v in r["decls"].items() if k.startswith("--")})
     return light, dark
@@ -394,6 +403,12 @@ def selftest():
     assert 'ColorText = If(IsDark, RGBA(245, 245, 247, 1), RGBA(29, 29, 31, 1));' in f, f
     assert any(x.startswith("HexPrimary = If(IsDark,") for x in f)
     assert to_pt(32, 1.0) == 24 and text_h(11, 1.47) == 22
+    # a hand-written prototype: short names, and a dark scheme switched by data-theme (not the device)
+    d2 = extract("<style>:root{--bg:#f6f7f9;--c:#fff;--tx:#101828;--mu:#667085;--ac:#4f46e5;--bd:#e4e7ec}"
+                 "[data-theme=dark]{color-scheme:dark;--bg:#0b0f17;--c:#121826;--tx:#e6e9ef;--ac:#818cf8}body{font:14px/1.5 Inter}</style>", 1020)
+    assert d2["has_dark_scheme"], "data-theme dark block not seen"
+    assert d2["tokens"]["ColorPrimary"]["light"] == "RGBA(79, 70, 229, 1)" and d2["tokens"]["ColorPrimary"]["dark"] == "RGBA(129, 140, 248, 1)", d2["tokens"].get("ColorPrimary")
+    assert d2["tokens"]["ColorSurface"]["dark"] == "RGBA(18, 24, 38, 1)" and d2["tokens"]["ColorDivider"]["light"] == "RGBA(228, 231, 236, 1)"
     print("prototype_design self-test: OK")
 
 

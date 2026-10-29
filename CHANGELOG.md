@@ -3,6 +3,23 @@
 Newest first. A project made from this template records here which template version it started from,
 then its own material changes above that line.
 
+## IT Help 1.0.0.0 — 2026-10-29 (delivery G0 to G11, from template 1.9.0)
+
+Acies Innovations IT Help: a canvas app (Overview, ticket lists, create/edit form, ticket panel, knowledge base, Settings), nine SharePoint
+lists, three notification flows, 44 acceptance criteria (43 live), 185 test cases. Built from the accepted prototype `inputs/design/index (4).html`.
+Not yet opened in Studio. PO decisions applied: no delete (Q-11), no phone layout (Q-04), roles from `ITH_UserRole` (Q-03), no demo features (Q-05).
+
+### Lessons to send back to the boilerplate (CLAUDE.md section 12; not yet pushed: the delivery lead agrees first)
+- `pp.py` YAML lint rejected Studio's own `LayoutMaxHeight: =` (PyYAML cannot construct the bare `=`): fixed in `tools/pp.py` (`_Loader`).
+- `prototype_design.py` did not map short custom-property names (`--ac`, `--c`, `--bd`, `--tx`, `--mu`, `--h`...) nor a dark scheme switched by
+  `[data-theme=dark]`; and it infers the prototype's content width from the largest `max-width` (an article column here), giving a wrong scale
+  (pass `--content` equal to that width for scale 1.0). Fixed the first two, with a self-test; the third needs a `--proto-content` option.
+- `test_ac_workbook.test_sample_passes` traced the sample workbook against the delivered project's own app; it now does so only while the starter app is present.
+- `canvas_ui.py` has no icon-button, wrapped-grid or sidebar-with-folding pattern; `tools/ith_ui.py` has one for each (icon image with `OnSelect`; a Gallery with `WrapCount`).
+- Control names are unique across the **whole app** (FX-DUPNAME), not per screen: an overlay repeated on every screen needs a per-screen prefix.
+- A comment (`// ...`) inside a formula that is concatenated into another formula hides what follows it on the line: compose with a `tail` before the comment.
+- Environment-variable display names for lists must equal the list name (PA-T32), and a column the app sorts by must be indexed (FX-INDEX), including master-data `SortOrder`.
+
 ## Template 1.9.0 — 2026-10-28 (the prototype measured in a browser, and compared with Studio)
 
 `prototype_design.py` reads the prototype's CSS as text, so it can't apply the cascade or inheritance, and doesn't see a
