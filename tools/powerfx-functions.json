@@ -1,0 +1,1092 @@
+{
+ "_about": "Power Fx function catalogue for tools/powerfx.py. 'core' is generated from Microsoft's own engine (tools/fxparse.ps1 -DumpFunctions, refresh with `uv run tools/powerfx.py --refresh-functions`); 'canvas' holds the canvas-app functions that engine does not register, with names from https://learn.microsoft.com/en-us/power-platform/power-fx/formula-reference-canvas-apps and arity from each function's syntax (max null = unbounded). 'behavior' lists the functions that change app state: only behaviour properties (On...) may call them (https://learn.microsoft.com/en-us/power-apps/maker/canvas-apps/working-with-formulas-in-depth).",
+ "core": {
+  "source": "Microsoft.PowerFx.Core 1.99.0.0 + Interpreter mutation functions, shipped with pac 2.13.1",
+  "functions": [
+   {
+    "name": "Abs",
+    "min": 1,
+    "max": 1
+   },
+   {
+    "name": "Acos",
+    "min": 1,
+    "max": 1
+   },
+   {
+    "name": "Acot",
+    "min": 1,
+    "max": 1
+   },
+   {
+    "name": "AddColumns",
+    "min": 3,
+    "max": null
+   },
+   {
+    "name": "And",
+    "min": 0,
+    "max": null
+   },
+   {
+    "name": "Asin",
+    "min": 1,
+    "max": 1
+   },
+   {
+    "name": "AsType",
+    "min": 2,
+    "max": 2
+   },
+   {
+    "name": "Atan",
+    "min": 1,
+    "max": 1
+   },
+   {
+    "name": "Atan2",
+    "min": 2,
+    "max": 2
+   },
+   {
+    "name": "Average",
+    "min": 1,
+    "max": null
+   },
+   {
+    "name": "Blank",
+    "min": 0,
+    "max": 0
+   },
+   {
+    "name": "Boolean",
+    "min": 1,
+    "max": 1
+   },
+   {
+    "name": "Char",
+    "min": 1,
+    "max": 1
+   },
+   {
+    "name": "Clear",
+    "min": 1,
+    "max": 1
+   },
+   {
+    "name": "ClearCollect",
+    "min": 2,
+    "max": null
+   },
+   {
+    "name": "Coalesce",
+    "min": 1,
+    "max": null
+   },
+   {
+    "name": "Collect",
+    "min": 2,
+    "max": null
+   },
+   {
+    "name": "ColorFade",
+    "min": 2,
+    "max": 2
+   },
+   {
+    "name": "ColorValue",
+    "min": 1,
+    "max": 1
+   },
+   {
+    "name": "Column",
+    "min": 2,
+    "max": 2
+   },
+   {
+    "name": "ColumnNames",
+    "min": 1,
+    "max": 1
+   },
+   {
+    "name": "Concat",
+    "min": 2,
+    "max": 3
+   },
+   {
+    "name": "Concatenate",
+    "min": 1,
+    "max": null
+   },
+   {
+    "name": "Cos",
+    "min": 1,
+    "max": 1
+   },
+   {
+    "name": "Cot",
+    "min": 1,
+    "max": 1
+   },
+   {
+    "name": "Count",
+    "min": 1,
+    "max": 1
+   },
+   {
+    "name": "CountA",
+    "min": 1,
+    "max": 1
+   },
+   {
+    "name": "CountIf",
+    "min": 2,
+    "max": null
+   },
+   {
+    "name": "CountRows",
+    "min": 1,
+    "max": 1
+   },
+   {
+    "name": "Date",
+    "min": 3,
+    "max": 3
+   },
+   {
+    "name": "DateAdd",
+    "min": 2,
+    "max": 3
+   },
+   {
+    "name": "DateDiff",
+    "min": 2,
+    "max": 3
+   },
+   {
+    "name": "DateTime",
+    "min": 6,
+    "max": 7
+   },
+   {
+    "name": "DateTimeValue",
+    "min": 1,
+    "max": 2
+   },
+   {
+    "name": "DateValue",
+    "min": 1,
+    "max": 2
+   },
+   {
+    "name": "Day",
+    "min": 1,
+    "max": 1
+   },
+   {
+    "name": "Dec2Hex",
+    "min": 1,
+    "max": 2
+   },
+   {
+    "name": "Degrees",
+    "min": 1,
+    "max": 1
+   },
+   {
+    "name": "DropColumns",
+    "min": 2,
+    "max": null
+   },
+   {
+    "name": "EDate",
+    "min": 2,
+    "max": 2
+   },
+   {
+    "name": "EncodeHTML",
+    "min": 1,
+    "max": 1
+   },
+   {
+    "name": "EncodeUrl",
+    "min": 1,
+    "max": 1
+   },
+   {
+    "name": "EndsWith",
+    "min": 2,
+    "max": 2
+   },
+   {
+    "name": "EOMonth",
+    "min": 2,
+    "max": 2
+   },
+   {
+    "name": "Error",
+    "min": 1,
+    "max": 1
+   },
+   {
+    "name": "Exp",
+    "min": 1,
+    "max": 1
+   },
+   {
+    "name": "Filter",
+    "min": 2,
+    "max": null
+   },
+   {
+    "name": "Find",
+    "min": 2,
+    "max": 3
+   },
+   {
+    "name": "First",
+    "min": 1,
+    "max": 1
+   },
+   {
+    "name": "FirstN",
+    "min": 1,
+    "max": 2
+   },
+   {
+    "name": "ForAll",
+    "min": 2,
+    "max": 2
+   },
+   {
+    "name": "GUID",
+    "min": 0,
+    "max": 1
+   },
+   {
+    "name": "Hex2Dec",
+    "min": 1,
+    "max": 1
+   },
+   {
+    "name": "Hour",
+    "min": 1,
+    "max": 1
+   },
+   {
+    "name": "If",
+    "min": 2,
+    "max": null
+   },
+   {
+    "name": "IfError",
+    "min": 2,
+    "max": null
+   },
+   {
+    "name": "Index",
+    "min": 2,
+    "max": 2
+   },
+   {
+    "name": "Int",
+    "min": 1,
+    "max": 1
+   },
+   {
+    "name": "IsBlank",
+    "min": 1,
+    "max": 1
+   },
+   {
+    "name": "IsBlankOrError",
+    "min": 1,
+    "max": 1
+   },
+   {
+    "name": "IsEmpty",
+    "min": 1,
+    "max": 1
+   },
+   {
+    "name": "IsError",
+    "min": 1,
+    "max": 1
+   },
+   {
+    "name": "IsNumeric",
+    "min": 1,
+    "max": 1
+   },
+   {
+    "name": "ISOWeekNum",
+    "min": 1,
+    "max": 1
+   },
+   {
+    "name": "IsToday",
+    "min": 1,
+    "max": 1
+   },
+   {
+    "name": "IsType",
+    "min": 2,
+    "max": 2
+   },
+   {
+    "name": "Language",
+    "min": 0,
+    "max": 0
+   },
+   {
+    "name": "Last",
+    "min": 1,
+    "max": 1
+   },
+   {
+    "name": "LastN",
+    "min": 1,
+    "max": 2
+   },
+   {
+    "name": "Left",
+    "min": 2,
+    "max": 2
+   },
+   {
+    "name": "Len",
+    "min": 1,
+    "max": 1
+   },
+   {
+    "name": "Ln",
+    "min": 1,
+    "max": 1
+   },
+   {
+    "name": "Log",
+    "min": 1,
+    "max": 2
+   },
+   {
+    "name": "LookUp",
+    "min": 2,
+    "max": 3
+   },
+   {
+    "name": "Lower",
+    "min": 1,
+    "max": 1
+   },
+   {
+    "name": "Max",
+    "min": 1,
+    "max": null
+   },
+   {
+    "name": "Mid",
+    "min": 2,
+    "max": 3
+   },
+   {
+    "name": "Min",
+    "min": 1,
+    "max": null
+   },
+   {
+    "name": "Minute",
+    "min": 1,
+    "max": 1
+   },
+   {
+    "name": "Mod",
+    "min": 2,
+    "max": 2
+   },
+   {
+    "name": "Month",
+    "min": 1,
+    "max": 1
+   },
+   {
+    "name": "Not",
+    "min": 1,
+    "max": 1
+   },
+   {
+    "name": "Now",
+    "min": 0,
+    "max": 0
+   },
+   {
+    "name": "Or",
+    "min": 0,
+    "max": null
+   },
+   {
+    "name": "ParseJSON",
+    "min": 1,
+    "max": 2
+   },
+   {
+    "name": "Patch",
+    "min": 2,
+    "max": null
+   },
+   {
+    "name": "Pi",
+    "min": 0,
+    "max": 0
+   },
+   {
+    "name": "PlainText",
+    "min": 1,
+    "max": 1
+   },
+   {
+    "name": "Power",
+    "min": 2,
+    "max": 2
+   },
+   {
+    "name": "Proper",
+    "min": 1,
+    "max": 1
+   },
+   {
+    "name": "Radians",
+    "min": 1,
+    "max": 1
+   },
+   {
+    "name": "Rand",
+    "min": 0,
+    "max": 0
+   },
+   {
+    "name": "RandBetween",
+    "min": 2,
+    "max": 2
+   },
+   {
+    "name": "Refresh",
+    "min": 1,
+    "max": 1
+   },
+   {
+    "name": "Remove",
+    "min": 2,
+    "max": null
+   },
+   {
+    "name": "RenameColumns",
+    "min": 3,
+    "max": null
+   },
+   {
+    "name": "Replace",
+    "min": 4,
+    "max": 4
+   },
+   {
+    "name": "RGBA",
+    "min": 4,
+    "max": 4
+   },
+   {
+    "name": "Right",
+    "min": 2,
+    "max": 2
+   },
+   {
+    "name": "Round",
+    "min": 2,
+    "max": 2
+   },
+   {
+    "name": "RoundDown",
+    "min": 2,
+    "max": 2
+   },
+   {
+    "name": "RoundUp",
+    "min": 2,
+    "max": 2
+   },
+   {
+    "name": "Search",
+    "min": 3,
+    "max": null
+   },
+   {
+    "name": "Second",
+    "min": 1,
+    "max": 1
+   },
+   {
+    "name": "Sequence",
+    "min": 1,
+    "max": 3
+   },
+   {
+    "name": "Set",
+    "min": 2,
+    "max": 2
+   },
+   {
+    "name": "ShowColumns",
+    "min": 2,
+    "max": null
+   },
+   {
+    "name": "Shuffle",
+    "min": 1,
+    "max": 1
+   },
+   {
+    "name": "Sin",
+    "min": 1,
+    "max": 1
+   },
+   {
+    "name": "Sort",
+    "min": 2,
+    "max": 3
+   },
+   {
+    "name": "SortByColumns",
+    "min": 2,
+    "max": null
+   },
+   {
+    "name": "Split",
+    "min": 2,
+    "max": 2
+   },
+   {
+    "name": "Sqrt",
+    "min": 1,
+    "max": 1
+   },
+   {
+    "name": "StartsWith",
+    "min": 2,
+    "max": 2
+   },
+   {
+    "name": "StdevP",
+    "min": 1,
+    "max": null
+   },
+   {
+    "name": "Substitute",
+    "min": 3,
+    "max": 4
+   },
+   {
+    "name": "Sum",
+    "min": 1,
+    "max": null
+   },
+   {
+    "name": "Switch",
+    "min": 3,
+    "max": null
+   },
+   {
+    "name": "Table",
+    "min": 0,
+    "max": null
+   },
+   {
+    "name": "Tan",
+    "min": 1,
+    "max": 1
+   },
+   {
+    "name": "Text",
+    "min": 1,
+    "max": 3
+   },
+   {
+    "name": "Time",
+    "min": 3,
+    "max": 4
+   },
+   {
+    "name": "TimeValue",
+    "min": 1,
+    "max": 2
+   },
+   {
+    "name": "TimeZoneOffset",
+    "min": 0,
+    "max": 1
+   },
+   {
+    "name": "Today",
+    "min": 0,
+    "max": 0
+   },
+   {
+    "name": "Trace",
+    "min": 1,
+    "max": 4
+   },
+   {
+    "name": "Trim",
+    "min": 1,
+    "max": 1
+   },
+   {
+    "name": "TrimEnds",
+    "min": 1,
+    "max": 1
+   },
+   {
+    "name": "Trunc",
+    "min": 1,
+    "max": 2
+   },
+   {
+    "name": "UniChar",
+    "min": 1,
+    "max": 1
+   },
+   {
+    "name": "Upper",
+    "min": 1,
+    "max": 1
+   },
+   {
+    "name": "Value",
+    "min": 1,
+    "max": 2
+   },
+   {
+    "name": "VarP",
+    "min": 1,
+    "max": null
+   },
+   {
+    "name": "Weekday",
+    "min": 1,
+    "max": 2
+   },
+   {
+    "name": "WeekNum",
+    "min": 1,
+    "max": 2
+   },
+   {
+    "name": "With",
+    "min": 2,
+    "max": 2
+   },
+   {
+    "name": "Year",
+    "min": 1,
+    "max": 1
+   }
+  ]
+ },
+ "namespaces": {
+  "Calendar": [
+   {
+    "name": "MonthsLong",
+    "min": 0,
+    "max": 0
+   },
+   {
+    "name": "MonthsShort",
+    "min": 0,
+    "max": 0
+   },
+   {
+    "name": "WeekdaysLong",
+    "min": 0,
+    "max": 0
+   },
+   {
+    "name": "WeekdaysShort",
+    "min": 0,
+    "max": 0
+   }
+  ],
+  "Clock": [
+   {
+    "name": "AmPm",
+    "min": 0,
+    "max": 0
+   },
+   {
+    "name": "AmPmShort",
+    "min": 0,
+    "max": 0
+   },
+   {
+    "name": "IsClock24",
+    "min": 0,
+    "max": 0
+   }
+  ]
+ },
+ "canvas": {
+  "source": "formula-reference-canvas-apps, updated 2026-10-13",
+  "functions": [
+   {
+    "name": "AIClassify",
+    "min": 1,
+    "max": null
+   },
+   {
+    "name": "AIExtract",
+    "min": 1,
+    "max": null
+   },
+   {
+    "name": "AIReply",
+    "min": 1,
+    "max": null
+   },
+   {
+    "name": "AISentiment",
+    "min": 1,
+    "max": null
+   },
+   {
+    "name": "AISummarize",
+    "min": 1,
+    "max": null
+   },
+   {
+    "name": "AITranslate",
+    "min": 1,
+    "max": null
+   },
+   {
+    "name": "Assert",
+    "min": 1,
+    "max": 2
+   },
+   {
+    "name": "Back",
+    "min": 0,
+    "max": 1
+   },
+   {
+    "name": "Choices",
+    "min": 1,
+    "max": 2
+   },
+   {
+    "name": "ClearData",
+    "min": 0,
+    "max": 1
+   },
+   {
+    "name": "Concurrent",
+    "min": 1,
+    "max": null
+   },
+   {
+    "name": "Confirm",
+    "min": 1,
+    "max": 2
+   },
+   {
+    "name": "Copy",
+    "min": 1,
+    "max": 1
+   },
+   {
+    "name": "DataSourceInfo",
+    "min": 2,
+    "max": 3
+   },
+   {
+    "name": "Decimal",
+    "min": 1,
+    "max": 2
+   },
+   {
+    "name": "Defaults",
+    "min": 1,
+    "max": 1
+   },
+   {
+    "name": "Disable",
+    "min": 1,
+    "max": 1
+   },
+   {
+    "name": "Distinct",
+    "min": 2,
+    "max": 2
+   },
+   {
+    "name": "Download",
+    "min": 1,
+    "max": 1
+   },
+   {
+    "name": "EditForm",
+    "min": 1,
+    "max": 1
+   },
+   {
+    "name": "Enable",
+    "min": 1,
+    "max": 1
+   },
+   {
+    "name": "Errors",
+    "min": 1,
+    "max": 2
+   },
+   {
+    "name": "Exit",
+    "min": 0,
+    "max": 1
+   },
+   {
+    "name": "Float",
+    "min": 1,
+    "max": 2
+   },
+   {
+    "name": "GroupBy",
+    "min": 3,
+    "max": null
+   },
+   {
+    "name": "HashTags",
+    "min": 1,
+    "max": 1
+   },
+   {
+    "name": "IsMatch",
+    "min": 2,
+    "max": 3
+   },
+   {
+    "name": "JSON",
+    "min": 1,
+    "max": 2
+   },
+   {
+    "name": "Launch",
+    "min": 1,
+    "max": null
+   },
+   {
+    "name": "LoadData",
+    "min": 2,
+    "max": 3
+   },
+   {
+    "name": "Match",
+    "min": 2,
+    "max": 3
+   },
+   {
+    "name": "MatchAll",
+    "min": 2,
+    "max": 3
+   },
+   {
+    "name": "Navigate",
+    "min": 1,
+    "max": 3
+   },
+   {
+    "name": "NewForm",
+    "min": 1,
+    "max": 1
+   },
+   {
+    "name": "Notify",
+    "min": 1,
+    "max": 3
+   },
+   {
+    "name": "PDF",
+    "min": 1,
+    "max": 2
+   },
+   {
+    "name": "Param",
+    "min": 1,
+    "max": 1
+   },
+   {
+    "name": "Print",
+    "min": 0,
+    "max": 0
+   },
+   {
+    "name": "ReadNFC",
+    "min": 0,
+    "max": 0
+   },
+   {
+    "name": "RecordInfo",
+    "min": 2,
+    "max": 2
+   },
+   {
+    "name": "RecordOf",
+    "min": 1,
+    "max": 1
+   },
+   {
+    "name": "Relate",
+    "min": 2,
+    "max": 2
+   },
+   {
+    "name": "RemoveIf",
+    "min": 2,
+    "max": null
+   },
+   {
+    "name": "RequestHide",
+    "min": 0,
+    "max": 0
+   },
+   {
+    "name": "Reset",
+    "min": 1,
+    "max": 1
+   },
+   {
+    "name": "ResetForm",
+    "min": 1,
+    "max": 1
+   },
+   {
+    "name": "Revert",
+    "min": 1,
+    "max": 2
+   },
+   {
+    "name": "SaveData",
+    "min": 2,
+    "max": 2
+   },
+   {
+    "name": "Select",
+    "min": 1,
+    "max": 3
+   },
+   {
+    "name": "SetFocus",
+    "min": 1,
+    "max": 1
+   },
+   {
+    "name": "SetProperty",
+    "min": 2,
+    "max": 2
+   },
+   {
+    "name": "ShowHostInfo",
+    "min": 0,
+    "max": null
+   },
+   {
+    "name": "SubmitForm",
+    "min": 1,
+    "max": 1
+   },
+   {
+    "name": "Type",
+    "min": 1,
+    "max": 1
+   },
+   {
+    "name": "Ungroup",
+    "min": 2,
+    "max": 2
+   },
+   {
+    "name": "Unrelate",
+    "min": 2,
+    "max": 2
+   },
+   {
+    "name": "Update",
+    "min": 3,
+    "max": 4
+   },
+   {
+    "name": "UpdateContext",
+    "min": 1,
+    "max": 1
+   },
+   {
+    "name": "UpdateIf",
+    "min": 3,
+    "max": null
+   },
+   {
+    "name": "User",
+    "min": 0,
+    "max": 0
+   },
+   {
+    "name": "Validate",
+    "min": 1,
+    "max": 3
+   },
+   {
+    "name": "ViewForm",
+    "min": 1,
+    "max": 1
+   }
+  ]
+ },
+ "behavior": [
+  "Back",
+  "Clear",
+  "ClearCollect",
+  "ClearData",
+  "Collect",
+  "Concurrent",
+  "Confirm",
+  "Copy",
+  "Disable",
+  "Download",
+  "EditForm",
+  "Enable",
+  "Exit",
+  "Launch",
+  "LoadData",
+  "Navigate",
+  "NewForm",
+  "Notify",
+  "PDF",
+  "Patch",
+  "Print",
+  "ReadNFC",
+  "Refresh",
+  "Relate",
+  "Remove",
+  "RemoveIf",
+  "RequestHide",
+  "Reset",
+  "ResetForm",
+  "Revert",
+  "SaveData",
+  "Select",
+  "Set",
+  "SetFocus",
+  "SetProperty",
+  "SubmitForm",
+  "Unrelate",
+  "Update",
+  "UpdateContext",
+  "UpdateIf",
+  "ViewForm"
+ ]
+}

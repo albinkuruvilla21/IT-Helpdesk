@@ -1,0 +1,21 @@
+# ************************************************************************************************
+# Warning: YAML source code for Canvas Apps should only be used to review changes made within Power Apps Studio and for minor edits (Preview).
+# Use the maker portal to create and edit your Power Apps.
+# 
+# The schema file for Canvas Apps is available at https://go.microsoft.com/fwlink/?linkid=2304907
+# 
+# For more information, visit https://go.microsoft.com/fwlink/?linkid=2292623
+# ************************************************************************************************
+App:
+  Properties:
+    OnStart: |-
+      =Set(varMyName, User().FullName);
+      Set(varIsTreasury, !IsBlank(LookUp(COI_TreasuryMembers, Lower(Title) = Lower(User().Email))));
+      Set(varEditing, false);
+      Set(varLang, "English");
+      Set(varWos, "Yes");
+      Set(varModal, "");
+      Set(varShowLib, false);
+      ClearCollect(colStatusFilter, {Value: "All"}, {Value: "Treasury Review"}, {Value: "Information Required"}, {Value: "Awaiting AON"}, {Value: "COI Received"}, {Value: "Awaiting AON Rectification"}, {Value: "Completed"});
+      ClearCollect(colCoverageNames, {N: "Commercial General Liability"}, {N: "Workers' Compensation"}, {N: "Commercial Auto Liability"}, {N: "Umbrella / Excess Liability"}, {N: "Commercial Property Coverage"}, {N: "Master Builders Risk"}, {N: "Professional Liability - Primary"}, {N: "Professional Liability - Excess"}, {N: "Pollution"}, {N: "Cargo - STP Primary"}, {N: "Cargo - STP 1st Excess"}, {N: "Cyber - Primary"}, {N: "Cyber - Excess"})
+    Theme: =PowerAppsTheme

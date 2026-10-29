@@ -1,0 +1,2120 @@
+# ************************************************************************************************
+# Warning: YAML source code for Canvas Apps should only be used to review changes made within Power Apps Studio and for minor edits (Preview).
+# Use the maker portal to create and edit your Power Apps.
+# 
+# The schema file for Canvas Apps is available at https://go.microsoft.com/fwlink/?linkid=2304907
+# 
+# For more information, visit https://go.microsoft.com/fwlink/?linkid=2292623
+# ************************************************************************************************
+Screens:
+  scrDetail:
+    Properties:
+      Fill: =RGBA(255, 255, 255, 1)
+      OnVisible: |-
+        =ClearCollect(colReqs, If(varIsTreasury, Filter(COI_Requests, Status <> "Draft"), Filter(COI_Requests, RequestorEmail = User().Email)));
+        ClearCollect(colHolders, {Value: "All"});
+        Collect(colHolders, Distinct(colReqs, CertificateHolder));
+        ClearCollect(colDocs, If(varIsTreasury, COI_Documents, FirstN(COI_Documents, 0)));
+        Set(varReq, LookUp(colReqs, ID = varReq.ID));
+        ClearCollect(colCovDetail, Filter(COI_Coverages, Title = varReq.Title));
+        ClearCollect(colActivity, Filter(COI_Activity, Title = varReq.Title));
+        Set(varShowLib, false);
+        Set(varModal, "")
+    Children:
+      - dtlHdr:
+          Control: Label@2.5.1
+          Properties:
+            Color: =RGBA(32, 31, 30, 1)
+            Fill: =RGBA(15, 42, 74, 1)
+            Font: =Font.'Segoe UI'
+            Height: =56
+            Size: =12
+            Text: =""
+            Width: =Parent.Width
+      - dtlHdrTitle:
+          Control: Label@2.5.1
+          Properties:
+            Color: =RGBA(255, 255, 255, 1)
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Semibold
+            Height: =28
+            Size: =18
+            Text: ="Certificate of Insurance"
+            Width: =500
+            X: =20
+            Y: =6
+      - dtlHdrSub:
+          Control: Label@2.5.1
+          Properties:
+            Color: =RGBA(255, 255, 255, 0.8)
+            Font: =Font.'Segoe UI'
+            Height: =18
+            Size: =11
+            Text: ="COI Request Management"
+            Width: =500
+            X: =20
+            Y: =32
+      - dtlHdrUser:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Right
+            Color: =RGBA(255, 255, 255, 1)
+            Font: =Font.'Segoe UI'
+            Height: =28
+            Size: =12
+            Text: =varMyName & "  |  " & If(varIsTreasury, "Treasury", "Requestor")
+            Width: =420
+            X: =Parent.Width - 440
+            Y: =14
+      - dtlNav:
+          Control: Label@2.5.1
+          Properties:
+            Color: =RGBA(32, 31, 30, 1)
+            Fill: =RGBA(243, 242, 241, 1)
+            Font: =Font.'Segoe UI'
+            Height: =44
+            Size: =12
+            Text: =""
+            Width: =Parent.Width
+            Y: =56
+      - dtlTabDash:
+          Control: Classic/Button@2.2.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderThickness: =1
+            Color: =RGBA(32, 31, 30, 1)
+            DisabledBorderColor: =RGBA(210, 208, 206, 1)
+            DisabledColor: =RGBA(161, 159, 157, 1)
+            DisabledFill: =RGBA(243, 242, 241, 1)
+            Fill: =RGBA(0, 0, 0, 0)
+            Font: =Font.'Segoe UI'
+            Height: =36
+            HoverBorderColor: =RGBA(0, 0, 0, 0)
+            HoverColor: =RGBA(32, 31, 30, 1)
+            HoverFill: =RGBA(0, 0, 0, 0.06)
+            OnSelect: =Navigate(scrDashboard, ScreenTransition.None)
+            PressedBorderColor: =RGBA(0, 0, 0, 0)
+            PressedColor: =RGBA(32, 31, 30, 1)
+            PressedFill: =RGBA(0, 0, 0, 0.12)
+            RadiusBottomLeft: =2
+            RadiusBottomRight: =2
+            RadiusTopLeft: =2
+            RadiusTopRight: =2
+            Size: =12
+            Text: ="Dashboard"
+            Width: =130
+            X: =20
+            Y: =60
+      - dtlTabDocs:
+          Control: Classic/Button@2.2.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderThickness: =1
+            Color: =RGBA(32, 31, 30, 1)
+            DisabledBorderColor: =RGBA(210, 208, 206, 1)
+            DisabledColor: =RGBA(161, 159, 157, 1)
+            DisabledFill: =RGBA(243, 242, 241, 1)
+            Fill: =RGBA(0, 0, 0, 0)
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Normal
+            Height: =36
+            HoverBorderColor: =RGBA(0, 0, 0, 0)
+            HoverColor: =RGBA(32, 31, 30, 1)
+            HoverFill: =RGBA(0, 0, 0, 0.06)
+            OnSelect: =Navigate(scrDocuments, ScreenTransition.None)
+            PressedBorderColor: =RGBA(0, 0, 0, 0)
+            PressedColor: =RGBA(32, 31, 30, 1)
+            PressedFill: =RGBA(0, 0, 0, 0.12)
+            RadiusBottomLeft: =2
+            RadiusBottomRight: =2
+            RadiusTopLeft: =2
+            RadiusTopRight: =2
+            Size: =12
+            Text: ="Documents"
+            Visible: =varIsTreasury
+            Width: =130
+            X: =156
+            Y: =60
+      - dtlTabLine:
+          Control: Label@2.5.1
+          Properties:
+            Color: =RGBA(32, 31, 30, 1)
+            Fill: =RGBA(15, 108, 189, 1)
+            Font: =Font.'Segoe UI'
+            Height: =3
+            Size: =12
+            Text: =""
+            Width: =130
+            X: =20
+            Y: =96
+      - dtlMain:
+          Control: GroupContainer@1.5.0
+          Variant: AutoLayout
+          Properties:
+            DropShadow: =DropShadow.None
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =Parent.Height - 100
+            LayoutAlignItems: =LayoutAlignItems.Stretch
+            LayoutDirection: =LayoutDirection.Vertical
+            LayoutGap: =12
+            LayoutOverflowY: =LayoutOverflow.Scroll
+            PaddingBottom: =24
+            PaddingLeft: =Max(20, (Parent.Width - 1150) / 4)
+            PaddingRight: =Max(20, (Parent.Width - 1150) / 4)
+            PaddingTop: =16
+            Width: =Parent.Width
+            Y: =100
+          Children:
+            - dtlTop:
+                Control: GroupContainer@1.5.0
+                Variant: AutoLayout
+                Properties:
+                  DropShadow: =DropShadow.None
+                  FillPortions: =0
+                  Height: =40
+                  LayoutAlignItems: =LayoutAlignItems.Center
+                  LayoutDirection: =LayoutDirection.Horizontal
+                  LayoutGap: =16
+                  LayoutMinHeight: =0
+                  LayoutMinWidth: =0
+                Children:
+                  - dtlBack:
+                      Control: Classic/Button@2.2.0
+                      Properties:
+                        AlignInContainer: =AlignInContainer.Center
+                        BorderColor: =RGBA(210, 208, 206, 1)
+                        BorderThickness: =1
+                        Color: =RGBA(32, 31, 30, 1)
+                        DisabledBorderColor: =RGBA(210, 208, 206, 1)
+                        DisabledColor: =RGBA(161, 159, 157, 1)
+                        DisabledFill: =RGBA(243, 242, 241, 1)
+                        Fill: =RGBA(255, 255, 255, 1)
+                        Font: =Font.'Segoe UI'
+                        Height: =36
+                        HoverBorderColor: =RGBA(210, 208, 206, 1)
+                        HoverColor: =RGBA(32, 31, 30, 1)
+                        HoverFill: =RGBA(243, 242, 241, 1)
+                        OnSelect: =Navigate(scrDashboard, ScreenTransition.None)
+                        PressedBorderColor: =RGBA(210, 208, 206, 1)
+                        PressedColor: =RGBA(32, 31, 30, 1)
+                        PressedFill: =RGBA(210, 208, 206, 1)
+                        RadiusBottomLeft: =2
+                        RadiusBottomRight: =2
+                        RadiusTopLeft: =2
+                        RadiusTopRight: =2
+                        Size: =12
+                        Text: =If(varIsTreasury, "← Back to Queue", "← Back")
+                        Width: =150
+                  - dtlId:
+                      Control: Label@2.5.1
+                      Properties:
+                        Color: =RGBA(32, 31, 30, 1)
+                        Font: =Font.'Segoe UI'
+                        FontWeight: =FontWeight.Semibold
+                        Size: =20
+                        Text: =varReq.Title
+                  - dtlBadge:
+                      Control: ModernText@1.0.0
+                      Properties:
+                        Align: =Align.Center
+                        AlignInContainer: =AlignInContainer.Center
+                        AutoHeight: =true
+                        Color: =RGBA(32, 31, 30, 1)
+                        Fill: =Switch(varReq.Status, "Completed", RGBA(199, 233, 192, 1), "Treasury Review", RGBA(188, 215, 242, 1), "COI Received", RGBA(188, 215, 242, 1), "Information Required", RGBA(254, 217, 168, 1), "Awaiting AON", RGBA(254, 217, 168, 1), "Awaiting AON Rectification", RGBA(244, 182, 182, 1), RGBA(221, 221, 221, 1))
+                        FontWeight: =FontWeight.Semibold
+                        Height: =24
+                        LayoutMinHeight: =16
+                        LayoutMinWidth: =16
+                        RadiusBottomLeft: =12
+                        RadiusBottomRight: =12
+                        RadiusTopLeft: =12
+                        RadiusTopRight: =12
+                        Size: =11
+                        Text: =varReq.Status
+                        Width: =210
+                  - dtlTopSp:
+                      Control: Label@2.5.1
+                      Properties:
+                        Color: =RGBA(32, 31, 30, 1)
+                        FillPortions: =1
+                        Font: =Font.'Segoe UI'
+                        Size: =12
+                        Text: =""
+            - dtlNote:
+                Control: Label@2.5.1
+                Properties:
+                  BorderColor: =RGBA(232, 201, 90, 1)
+                  BorderThickness: =1
+                  Color: =RGBA(32, 31, 30, 1)
+                  Fill: =RGBA(255, 244, 206, 1)
+                  Font: =Font.'Segoe UI'
+                  Height: =44
+                  PaddingLeft: =10
+                  Size: =12
+                  Text: |-
+                    ="Treasury Notes: " & varReq.TreasuryNotes
+                  Visible: =varReq.Status = "Information Required" && !varIsTreasury
+            - dtlEditRow:
+                Control: GroupContainer@1.5.0
+                Variant: AutoLayout
+                Properties:
+                  DropShadow: =DropShadow.None
+                  FillPortions: =0
+                  Height: =40
+                  LayoutAlignItems: =LayoutAlignItems.Stretch
+                  LayoutDirection: =LayoutDirection.Horizontal
+                  LayoutGap: =16
+                  LayoutMinHeight: =0
+                  LayoutMinWidth: =0
+                  Visible: =!varIsTreasury && (varReq.Status = "Information Required" || varReq.Status = "Draft")
+                Children:
+                  - dtlEdit:
+                      Control: Classic/Button@2.2.0
+                      Properties:
+                        BorderColor: =RGBA(15, 108, 189, 1)
+                        BorderThickness: =1
+                        Color: =RGBA(255, 255, 255, 1)
+                        DisabledBorderColor: =RGBA(210, 208, 206, 1)
+                        DisabledColor: =RGBA(161, 159, 157, 1)
+                        DisabledFill: =RGBA(243, 242, 241, 1)
+                        Fill: =RGBA(15, 108, 189, 1)
+                        Font: =Font.'Segoe UI'
+                        Height: =36
+                        HoverBorderColor: =RGBA(15, 108, 189, 1)
+                        HoverColor: =RGBA(255, 255, 255, 1)
+                        HoverFill: =RGBA(16, 94, 165, 1)
+                        OnSelect: |-
+                          =Set(varForm, varReq);
+                          Set(varEditing, true);
+                          Set(varLang, varReq.Language);
+                          Set(varWos, varReq.WaiverOfSubrogation);
+                          ClearCollect(colCov, ForAll(colCoverageNames As c, {CovName: c.N, Sel: !IsBlank(LookUp(COI_Coverages, Title = varReq.Title && CoverageName = c.N)), Occ: Coalesce(LookUp(COI_Coverages, Title = varReq.Title && CoverageName = c.N).OccurrenceLimit, ""), Agg: Coalesce(LookUp(COI_Coverages, Title = varReq.Title && CoverageName = c.N).AggregateLimit, "")}));
+                          Navigate(scrForm, ScreenTransition.None)
+                        PressedBorderColor: =RGBA(15, 108, 189, 1)
+                        PressedColor: =RGBA(255, 255, 255, 1)
+                        PressedFill: =RGBA(12, 76, 134, 1)
+                        RadiusBottomLeft: =2
+                        RadiusBottomRight: =2
+                        RadiusTopLeft: =2
+                        RadiusTopRight: =2
+                        Size: =12
+                        Text: ="Edit Request"
+            - dtlSec1:
+                Control: GroupContainer@1.5.0
+                Variant: AutoLayout
+                Properties:
+                  BorderColor: =RGBA(210, 208, 206, 1)
+                  BorderThickness: =1
+                  DropShadow: =DropShadow.Semilight
+                  Fill: =RGBA(243, 242, 241, 1)
+                  FillPortions: =0
+                  Height: =215
+                  LayoutAlignItems: =LayoutAlignItems.Stretch
+                  LayoutDirection: =LayoutDirection.Vertical
+                  LayoutGap: =8
+                  LayoutMinHeight: =0
+                  LayoutMinWidth: =0
+                  PaddingBottom: =12
+                  PaddingLeft: =12
+                  PaddingRight: =12
+                  PaddingTop: =12
+                Children:
+                  - lbldtlSec1Head:
+                      Control: Label@2.5.1
+                      Properties:
+                        Color: =RGBA(32, 31, 30, 1)
+                        Font: =Font.'Segoe UI'
+                        FontWeight: =FontWeight.Semibold
+                        Height: =24
+                        Size: =15
+                        Text: ="1. Request Information"
+                  - dtlK1:
+                      Control: GroupContainer@1.5.0
+                      Variant: AutoLayout
+                      Properties:
+                        DropShadow: =DropShadow.None
+                        FillPortions: =0
+                        Height: =46
+                        LayoutAlignItems: =LayoutAlignItems.Stretch
+                        LayoutDirection: =LayoutDirection.Horizontal
+                        LayoutGap: =16
+                        LayoutMinHeight: =0
+                        LayoutMinWidth: =0
+                      Children:
+                        - dtlKId:
+                            Control: GroupContainer@1.5.0
+                            Variant: AutoLayout
+                            Properties:
+                              DropShadow: =DropShadow.None
+                              LayoutAlignItems: =LayoutAlignItems.Stretch
+                              LayoutDirection: =LayoutDirection.Vertical
+                              LayoutGap: =2
+                              LayoutMinHeight: =0
+                              LayoutMinWidth: =0
+                            Children:
+                              - dtlKIdK:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    Color: =RGBA(96, 94, 92, 1)
+                                    Font: =Font.'Segoe UI'
+                                    Height: =18
+                                    Size: =10.5
+                                    Text: ="Request ID"
+                              - dtlKIdV:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    Color: =RGBA(32, 31, 30, 1)
+                                    Font: =Font.'Segoe UI'
+                                    FontWeight: =FontWeight.Semibold
+                                    Height: =24
+                                    Text: =varReq.Title
+                        - dtlKRq:
+                            Control: GroupContainer@1.5.0
+                            Variant: AutoLayout
+                            Properties:
+                              DropShadow: =DropShadow.None
+                              LayoutAlignItems: =LayoutAlignItems.Stretch
+                              LayoutDirection: =LayoutDirection.Vertical
+                              LayoutGap: =2
+                              LayoutMinHeight: =0
+                              LayoutMinWidth: =0
+                            Children:
+                              - dtlKRqK:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    Color: =RGBA(96, 94, 92, 1)
+                                    Font: =Font.'Segoe UI'
+                                    Height: =18
+                                    Size: =10.5
+                                    Text: ="Requestor"
+                              - dtlKRqV:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    Color: =RGBA(32, 31, 30, 1)
+                                    Font: =Font.'Segoe UI'
+                                    FontWeight: =FontWeight.Semibold
+                                    Height: =24
+                                    Text: =varReq.RequestorName
+                        - dtlKPr:
+                            Control: GroupContainer@1.5.0
+                            Variant: AutoLayout
+                            Properties:
+                              DropShadow: =DropShadow.None
+                              LayoutAlignItems: =LayoutAlignItems.Stretch
+                              LayoutDirection: =LayoutDirection.Vertical
+                              LayoutGap: =2
+                              LayoutMinHeight: =0
+                              LayoutMinWidth: =0
+                            Children:
+                              - dtlKPrK:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    Color: =RGBA(96, 94, 92, 1)
+                                    Font: =Font.'Segoe UI'
+                                    Height: =18
+                                    Size: =10.5
+                                    Text: ="Project"
+                              - dtlKPrV:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    Color: =RGBA(32, 31, 30, 1)
+                                    Font: =Font.'Segoe UI'
+                                    FontWeight: =FontWeight.Semibold
+                                    Height: =24
+                                    Text: =varReq.ProjectName
+                  - dtlK2:
+                      Control: GroupContainer@1.5.0
+                      Variant: AutoLayout
+                      Properties:
+                        DropShadow: =DropShadow.None
+                        FillPortions: =0
+                        Height: =46
+                        LayoutAlignItems: =LayoutAlignItems.Stretch
+                        LayoutDirection: =LayoutDirection.Horizontal
+                        LayoutGap: =16
+                        LayoutMinHeight: =0
+                        LayoutMinWidth: =0
+                      Children:
+                        - dtlKCu:
+                            Control: GroupContainer@1.5.0
+                            Variant: AutoLayout
+                            Properties:
+                              DropShadow: =DropShadow.None
+                              LayoutAlignItems: =LayoutAlignItems.Stretch
+                              LayoutDirection: =LayoutDirection.Vertical
+                              LayoutGap: =2
+                              LayoutMinHeight: =0
+                              LayoutMinWidth: =0
+                            Children:
+                              - dtlKCuK:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    Color: =RGBA(96, 94, 92, 1)
+                                    Font: =Font.'Segoe UI'
+                                    Height: =18
+                                    Size: =10.5
+                                    Text: ="Customer"
+                              - dtlKCuV:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    Color: =RGBA(32, 31, 30, 1)
+                                    Font: =Font.'Segoe UI'
+                                    FontWeight: =FontWeight.Semibold
+                                    Height: =24
+                                    Text: =varReq.CustomerName
+                        - dtlKCh:
+                            Control: GroupContainer@1.5.0
+                            Variant: AutoLayout
+                            Properties:
+                              DropShadow: =DropShadow.None
+                              LayoutAlignItems: =LayoutAlignItems.Stretch
+                              LayoutDirection: =LayoutDirection.Vertical
+                              LayoutGap: =2
+                              LayoutMinHeight: =0
+                              LayoutMinWidth: =0
+                            Children:
+                              - dtlKChK:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    Color: =RGBA(96, 94, 92, 1)
+                                    Font: =Font.'Segoe UI'
+                                    Height: =18
+                                    Size: =10.5
+                                    Text: ="Certificate Holder"
+                              - dtlKChV:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    Color: =RGBA(32, 31, 30, 1)
+                                    Font: =Font.'Segoe UI'
+                                    FontWeight: =FontWeight.Semibold
+                                    Height: =24
+                                    Text: =varReq.CertificateHolder
+                        - dtlKAd:
+                            Control: GroupContainer@1.5.0
+                            Variant: AutoLayout
+                            Properties:
+                              DropShadow: =DropShadow.None
+                              LayoutAlignItems: =LayoutAlignItems.Stretch
+                              LayoutDirection: =LayoutDirection.Vertical
+                              LayoutGap: =2
+                              LayoutMinHeight: =0
+                              LayoutMinWidth: =0
+                            Children:
+                              - dtlKAdK:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    Color: =RGBA(96, 94, 92, 1)
+                                    Font: =Font.'Segoe UI'
+                                    Height: =18
+                                    Size: =10.5
+                                    Text: ="Address"
+                              - dtlKAdV:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    Color: =RGBA(32, 31, 30, 1)
+                                    Font: =Font.'Segoe UI'
+                                    FontWeight: =FontWeight.Semibold
+                                    Height: =24
+                                    Text: =varReq.HolderAddress
+                  - dtlK3:
+                      Control: GroupContainer@1.5.0
+                      Variant: AutoLayout
+                      Properties:
+                        DropShadow: =DropShadow.None
+                        FillPortions: =0
+                        Height: =46
+                        LayoutAlignItems: =LayoutAlignItems.Stretch
+                        LayoutDirection: =LayoutDirection.Horizontal
+                        LayoutGap: =16
+                        LayoutMinHeight: =0
+                        LayoutMinWidth: =0
+                      Children:
+                        - dtlKLg:
+                            Control: GroupContainer@1.5.0
+                            Variant: AutoLayout
+                            Properties:
+                              DropShadow: =DropShadow.None
+                              LayoutAlignItems: =LayoutAlignItems.Stretch
+                              LayoutDirection: =LayoutDirection.Vertical
+                              LayoutGap: =2
+                              LayoutMinHeight: =0
+                              LayoutMinWidth: =0
+                            Children:
+                              - dtlKLgK:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    Color: =RGBA(96, 94, 92, 1)
+                                    Font: =Font.'Segoe UI'
+                                    Height: =18
+                                    Size: =10.5
+                                    Text: ="Language"
+                              - dtlKLgV:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    Color: =RGBA(32, 31, 30, 1)
+                                    Font: =Font.'Segoe UI'
+                                    FontWeight: =FontWeight.Semibold
+                                    Height: =24
+                                    Text: =varReq.Language
+                        - dtlKAi:
+                            Control: GroupContainer@1.5.0
+                            Variant: AutoLayout
+                            Properties:
+                              DropShadow: =DropShadow.None
+                              LayoutAlignItems: =LayoutAlignItems.Stretch
+                              LayoutDirection: =LayoutDirection.Vertical
+                              LayoutGap: =2
+                              LayoutMinHeight: =0
+                              LayoutMinWidth: =0
+                            Children:
+                              - dtlKAiK:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    Color: =RGBA(96, 94, 92, 1)
+                                    Font: =Font.'Segoe UI'
+                                    Height: =18
+                                    Size: =10.5
+                                    Text: ="Additional Insured"
+                              - dtlKAiV:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    Color: =RGBA(32, 31, 30, 1)
+                                    Font: =Font.'Segoe UI'
+                                    FontWeight: =FontWeight.Semibold
+                                    Height: =24
+                                    Text: =varReq.AdditionalInsured
+                        - dtlKWs:
+                            Control: GroupContainer@1.5.0
+                            Variant: AutoLayout
+                            Properties:
+                              DropShadow: =DropShadow.None
+                              LayoutAlignItems: =LayoutAlignItems.Stretch
+                              LayoutDirection: =LayoutDirection.Vertical
+                              LayoutGap: =2
+                              LayoutMinHeight: =0
+                              LayoutMinWidth: =0
+                            Children:
+                              - dtlKWsK:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    Color: =RGBA(96, 94, 92, 1)
+                                    Font: =Font.'Segoe UI'
+                                    Height: =18
+                                    Size: =10.5
+                                    Text: ="Waiver of Subrogation"
+                              - dtlKWsV:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    Color: =RGBA(32, 31, 30, 1)
+                                    Font: =Font.'Segoe UI'
+                                    FontWeight: =FontWeight.Semibold
+                                    Height: =24
+                                    Text: =varReq.WaiverOfSubrogation
+            - dtlSec2:
+                Control: GroupContainer@1.5.0
+                Variant: AutoLayout
+                Properties:
+                  BorderColor: =RGBA(210, 208, 206, 1)
+                  BorderThickness: =1
+                  DropShadow: =DropShadow.None
+                  Fill: =RGBA(243, 242, 241, 1)
+                  FillPortions: =0
+                  Height: =12 + 24 + 8 + 30 + Max(36, CountRows(colCovDetail) * 34) + 12 + 8
+                  LayoutAlignItems: =LayoutAlignItems.Stretch
+                  LayoutDirection: =LayoutDirection.Vertical
+                  LayoutGap: =8
+                  LayoutMinHeight: =0
+                  LayoutMinWidth: =0
+                  PaddingBottom: =12
+                  PaddingLeft: =12
+                  PaddingRight: =12
+                  PaddingTop: =12
+                Children:
+                  - lbldtlSec2Head:
+                      Control: Label@2.5.1
+                      Properties:
+                        Color: =RGBA(32, 31, 30, 1)
+                        Font: =Font.'Segoe UI'
+                        FontWeight: =FontWeight.Semibold
+                        Height: =24
+                        Size: =15
+                        Text: ="2. Coverage Requirements"
+                  - dtlCvHdr:
+                      Control: GroupContainer@1.5.0
+                      Variant: AutoLayout
+                      Properties:
+                        DropShadow: =DropShadow.None
+                        Fill: =RGBA(243, 242, 241, 1)
+                        FillPortions: =0
+                        Height: =30
+                        LayoutAlignItems: =LayoutAlignItems.Center
+                        LayoutDirection: =LayoutDirection.Horizontal
+                        LayoutGap: =8
+                        LayoutMinHeight: =0
+                        LayoutMinWidth: =0
+                        PaddingLeft: =8
+                        PaddingRight: =8
+                      Children:
+                        - dtlCvHdrH1:
+                            Control: Label@2.5.1
+                            Properties:
+                              Color: =RGBA(32, 31, 30, 1)
+                              FillPortions: =3
+                              Font: =Font.'Segoe UI'
+                              FontWeight: =FontWeight.Semibold
+                              Size: =11
+                              Text: ="Coverage"
+                        - dtlCvHdrH2:
+                            Control: Label@2.5.1
+                            Properties:
+                              Color: =RGBA(32, 31, 30, 1)
+                              FillPortions: =1.5
+                              Font: =Font.'Segoe UI'
+                              FontWeight: =FontWeight.Semibold
+                              Size: =11
+                              Text: ="Occurrence Limit"
+                        - dtlCvHdrH3:
+                            Control: Label@2.5.1
+                            Properties:
+                              Color: =RGBA(32, 31, 30, 1)
+                              FillPortions: =1.5
+                              Font: =Font.'Segoe UI'
+                              FontWeight: =FontWeight.Semibold
+                              Size: =11
+                              Text: ="Aggregate Limit"
+                  - galCovDetWrap:
+                      Control: GroupContainer@1.5.0
+                      Variant: ManualLayout
+                      Properties:
+                        DropShadow: =DropShadow.None
+                        FillPortions: =0
+                        Height: =Max(36, CountRows(colCovDetail) * 34)
+                        LayoutMaxHeight: =
+                        LayoutMaxWidth: =
+                      Children:
+                        - galCovDet:
+                            Control: Gallery@2.15.0
+                            Variant: BrowseLayout_Vertical_TwoTextOneImageVariant_ver5.0
+                            Properties:
+                              BorderColor: =RGBA(210, 208, 206, 1)
+                              Height: =Parent.Height
+                              Items: =colCovDetail
+                              TemplateSize: =34
+                              Width: =Parent.Width
+                            Children:
+                              - galCovDetRow:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.None
+                                    Fill: =RGBA(255, 255, 255, 1)
+                                    Height: =Parent.TemplateHeight
+                                    LayoutAlignItems: =LayoutAlignItems.Center
+                                    LayoutDirection: =LayoutDirection.Horizontal
+                                    LayoutGap: =8
+                                    PaddingLeft: =8
+                                    PaddingRight: =8
+                                    Width: =Parent.TemplateWidth
+                                  Children:
+                                    - dtlCvN:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          AlignInContainer: =AlignInContainer.Center
+                                          Color: =RGBA(32, 31, 30, 1)
+                                          FillPortions: =3
+                                          Font: =Font.'Segoe UI'
+                                          Size: =12
+                                          Text: =ThisItem.CoverageName
+                                    - dtlCvO:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          AlignInContainer: =AlignInContainer.Center
+                                          Color: =RGBA(32, 31, 30, 1)
+                                          FillPortions: =1.5
+                                          Font: =Font.'Segoe UI'
+                                          Size: =12
+                                          Text: ="$" & ThisItem.OccurrenceLimit
+                                    - dtlCvA:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          AlignInContainer: =AlignInContainer.Center
+                                          Color: =RGBA(32, 31, 30, 1)
+                                          FillPortions: =1.5
+                                          Font: =Font.'Segoe UI'
+                                          Size: =12
+                                          Text: ="$" & ThisItem.AggregateLimit
+                              - galCovDetSep:
+                                  Control: Rectangle@2.3.0
+                                  Properties:
+                                    BorderColor: =RGBA(0, 0, 0, 0)
+                                    Fill: =RGBA(210, 208, 206, 1)
+                                    Height: =1
+                                    Width: =Parent.TemplateWidth
+                                    Y: =Parent.TemplateHeight - Self.Height
+            - dtlSec3:
+                Control: GroupContainer@1.5.0
+                Variant: AutoLayout
+                Properties:
+                  BorderColor: =RGBA(210, 208, 206, 1)
+                  BorderThickness: =1
+                  DropShadow: =DropShadow.None
+                  Fill: =RGBA(243, 242, 241, 1)
+                  FillPortions: =0
+                  Height: =150
+                  LayoutAlignItems: =LayoutAlignItems.Stretch
+                  LayoutDirection: =LayoutDirection.Vertical
+                  LayoutGap: =8
+                  LayoutMinHeight: =0
+                  LayoutMinWidth: =0
+                  PaddingBottom: =12
+                  PaddingLeft: =12
+                  PaddingRight: =12
+                  PaddingTop: =12
+                  Visible: =varIsTreasury
+                Children:
+                  - lbldtlSec3Head:
+                      Control: Label@2.5.1
+                      Properties:
+                        Color: =RGBA(32, 31, 30, 1)
+                        Font: =Font.'Segoe UI'
+                        FontWeight: =FontWeight.Semibold
+                        Height: =24
+                        Size: =15
+                        Text: ="3. Treasury Notes"
+                  - dtlTnCap:
+                      Control: Label@2.5.1
+                      Properties:
+                        Color: =RGBA(32, 31, 30, 1)
+                        Font: =Font.'Segoe UI'
+                        FontWeight: =FontWeight.Semibold
+                        Height: =18
+                        Size: =11
+                        Text: ="Treasury Notes"
+                  - txtTN:
+                      Control: Classic/TextInput@2.3.2
+                      Properties:
+                        BorderColor: =RGBA(210, 208, 206, 1)
+                        BorderThickness: =1
+                        Color: =RGBA(32, 31, 30, 1)
+                        Default: =""
+                        DisplayMode: =If(varReq.Status = "Treasury Review" || varReq.Status = "COI Received", DisplayMode.Edit, DisplayMode.View)
+                        Font: =Font.'Segoe UI'
+                        Height: =70
+                        HintText: ="e.g. Please provide the complete certificate holder address."
+                        Mode: =TextMode.MultiLine
+                        PaddingLeft: =8
+                        RadiusBottomLeft: =2
+                        RadiusBottomRight: =2
+                        RadiusTopLeft: =2
+                        RadiusTopRight: =2
+                        Size: =12
+            - dtlSec4:
+                Control: GroupContainer@1.5.0
+                Variant: AutoLayout
+                Properties:
+                  BorderColor: =RGBA(210, 208, 206, 1)
+                  BorderThickness: =1
+                  DropShadow: =DropShadow.None
+                  Fill: =RGBA(243, 242, 241, 1)
+                  FillPortions: =0
+                  Height: =104
+                  LayoutAlignItems: =LayoutAlignItems.Stretch
+                  LayoutDirection: =LayoutDirection.Vertical
+                  LayoutGap: =8
+                  LayoutMinHeight: =0
+                  LayoutMinWidth: =0
+                  PaddingBottom: =12
+                  PaddingLeft: =12
+                  PaddingRight: =12
+                  PaddingTop: =12
+                  Visible: =varIsTreasury
+                Children:
+                  - lbldtlSec4Head:
+                      Control: Label@2.5.1
+                      Properties:
+                        Color: =RGBA(32, 31, 30, 1)
+                        Font: =Font.'Segoe UI'
+                        FontWeight: =FontWeight.Semibold
+                        Height: =24
+                        Size: =15
+                        Text: ="4. Actions"
+                  - dtlActRow:
+                      Control: GroupContainer@1.5.0
+                      Variant: AutoLayout
+                      Properties:
+                        DropShadow: =DropShadow.None
+                        FillPortions: =0
+                        Height: =44
+                        LayoutAlignItems: =LayoutAlignItems.Center
+                        LayoutDirection: =LayoutDirection.Horizontal
+                        LayoutGap: =16
+                        LayoutMinHeight: =0
+                        LayoutMinWidth: =0
+                      Children:
+                        - dtlBInfo:
+                            Control: Classic/Button@2.2.0
+                            Properties:
+                              BorderColor: =RGBA(15, 108, 189, 1)
+                              BorderThickness: =1
+                              Color: =RGBA(255, 255, 255, 1)
+                              DisabledBorderColor: =RGBA(210, 208, 206, 1)
+                              DisabledColor: =RGBA(161, 159, 157, 1)
+                              DisabledFill: =RGBA(243, 242, 241, 1)
+                              Fill: =RGBA(15, 108, 189, 1)
+                              Font: =Font.'Segoe UI'
+                              Height: =36
+                              HoverBorderColor: =RGBA(15, 108, 189, 1)
+                              HoverColor: =RGBA(255, 255, 255, 1)
+                              HoverFill: =RGBA(16, 94, 165, 1)
+                              OnSelect: |-
+                                =If(IsBlank(Trim(txtTN.Text)),
+                                    Notify("Enter Treasury Notes first.", NotificationType.Error),
+                                    Patch(COI_Requests, LookUp(COI_Requests, ID = varReq.ID), {Status: "Information Required", TreasuryNotes: Trim(txtTN.Text)});
+                                    Patch(COI_Activity, Defaults(COI_Activity), {Title: varReq.Title, Activity: "Treasury requested additional information", ActivityDate: Now(), ActionBy: User().FullName});
+                                    // HOOK: email the Treasury notes to the requestor (Power Automate flow)
+                                    Reset(txtTN);
+                                    ClearCollect(colReqs, If(varIsTreasury, Filter(COI_Requests, Status <> "Draft"), Filter(COI_Requests, RequestorEmail = User().Email)));
+                                ClearCollect(colHolders, {Value: "All"});
+                                Collect(colHolders, Distinct(colReqs, CertificateHolder));
+                                ClearCollect(colDocs, If(varIsTreasury, COI_Documents, FirstN(COI_Documents, 0)));
+                                    Set(varReq, LookUp(colReqs, ID = varReq.ID));
+                                ClearCollect(colCovDetail, Filter(COI_Coverages, Title = varReq.Title));
+                                ClearCollect(colActivity, Filter(COI_Activity, Title = varReq.Title));
+                                    Notify("Sent to requestor. Status: Information Required.", NotificationType.Success)
+                                )
+                              PressedBorderColor: =RGBA(15, 108, 189, 1)
+                              PressedColor: =RGBA(255, 255, 255, 1)
+                              PressedFill: =RGBA(12, 76, 134, 1)
+                              RadiusBottomLeft: =2
+                              RadiusBottomRight: =2
+                              RadiusTopLeft: =2
+                              RadiusTopRight: =2
+                              Size: =12
+                              Text: ="Request More Information"
+                              Visible: =varReq.Status = "Treasury Review"
+                              Width: =190
+                        - dtlBSearch:
+                            Control: Classic/Button@2.2.0
+                            Properties:
+                              BorderColor: =RGBA(210, 208, 206, 1)
+                              BorderThickness: =1
+                              Color: =RGBA(32, 31, 30, 1)
+                              DisabledBorderColor: =RGBA(210, 208, 206, 1)
+                              DisabledColor: =RGBA(161, 159, 157, 1)
+                              DisabledFill: =RGBA(243, 242, 241, 1)
+                              Fill: =RGBA(255, 255, 255, 1)
+                              Font: =Font.'Segoe UI'
+                              Height: =36
+                              HoverBorderColor: =RGBA(210, 208, 206, 1)
+                              HoverColor: =RGBA(32, 31, 30, 1)
+                              HoverFill: =RGBA(243, 242, 241, 1)
+                              OnSelect: =Set(varShowLib, true)
+                              PressedBorderColor: =RGBA(210, 208, 206, 1)
+                              PressedColor: =RGBA(32, 31, 30, 1)
+                              PressedFill: =RGBA(210, 208, 206, 1)
+                              RadiusBottomLeft: =2
+                              RadiusBottomRight: =2
+                              RadiusTopLeft: =2
+                              RadiusTopRight: =2
+                              Size: =12
+                              Text: ="Search Existing COI"
+                              Visible: =varReq.Status = "Treasury Review"
+                              Width: =170
+                        - dtlBNewAon:
+                            Control: Classic/Button@2.2.0
+                            Properties:
+                              BorderColor: =RGBA(210, 208, 206, 1)
+                              BorderThickness: =1
+                              Color: =RGBA(32, 31, 30, 1)
+                              DisabledBorderColor: =RGBA(210, 208, 206, 1)
+                              DisabledColor: =RGBA(161, 159, 157, 1)
+                              DisabledFill: =RGBA(243, 242, 241, 1)
+                              Fill: =RGBA(255, 255, 255, 1)
+                              Font: =Font.'Segoe UI'
+                              Height: =36
+                              HoverBorderColor: =RGBA(210, 208, 206, 1)
+                              HoverColor: =RGBA(32, 31, 30, 1)
+                              HoverFill: =RGBA(243, 242, 241, 1)
+                              OnSelect: =Set(varModal, "aon")
+                              PressedBorderColor: =RGBA(210, 208, 206, 1)
+                              PressedColor: =RGBA(32, 31, 30, 1)
+                              PressedFill: =RGBA(210, 208, 206, 1)
+                              RadiusBottomLeft: =2
+                              RadiusBottomRight: =2
+                              RadiusTopLeft: =2
+                              RadiusTopRight: =2
+                              Size: =12
+                              Text: ="Request New COI from AON"
+                              Visible: =varReq.Status = "Treasury Review"
+                              Width: =210
+                        - dtlBUpl:
+                            Control: Classic/Button@2.2.0
+                            Properties:
+                              BorderColor: =RGBA(15, 108, 189, 1)
+                              BorderThickness: =1
+                              Color: =RGBA(255, 255, 255, 1)
+                              DisabledBorderColor: =RGBA(210, 208, 206, 1)
+                              DisabledColor: =RGBA(161, 159, 157, 1)
+                              DisabledFill: =RGBA(243, 242, 241, 1)
+                              Fill: =RGBA(15, 108, 189, 1)
+                              Font: =Font.'Segoe UI'
+                              Height: =36
+                              HoverBorderColor: =RGBA(15, 108, 189, 1)
+                              HoverColor: =RGBA(255, 255, 255, 1)
+                              HoverFill: =RGBA(16, 94, 165, 1)
+                              OnSelect: =Set(varModal, "upl")
+                              PressedBorderColor: =RGBA(15, 108, 189, 1)
+                              PressedColor: =RGBA(255, 255, 255, 1)
+                              PressedFill: =RGBA(12, 76, 134, 1)
+                              RadiusBottomLeft: =2
+                              RadiusBottomRight: =2
+                              RadiusTopLeft: =2
+                              RadiusTopRight: =2
+                              Size: =12
+                              Text: ="Upload AON COI"
+                              Visible: =varReq.Status = "Awaiting AON"
+                        - dtlBView:
+                            Control: Classic/Button@2.2.0
+                            Properties:
+                              BorderColor: =RGBA(210, 208, 206, 1)
+                              BorderThickness: =1
+                              Color: =RGBA(32, 31, 30, 1)
+                              DisabledBorderColor: =RGBA(210, 208, 206, 1)
+                              DisabledColor: =RGBA(161, 159, 157, 1)
+                              DisabledFill: =RGBA(243, 242, 241, 1)
+                              Fill: =RGBA(255, 255, 255, 1)
+                              Font: =Font.'Segoe UI'
+                              Height: =36
+                              HoverBorderColor: =RGBA(210, 208, 206, 1)
+                              HoverColor: =RGBA(32, 31, 30, 1)
+                              HoverFill: =RGBA(243, 242, 241, 1)
+                              OnSelect: |-
+                                =Notify("HOOK: open " & First(Sort(Filter(colDocs, RequestID = varReq.Title && DocumentType = "AON COI" && DocStatus = "Active"), Version, SortOrder.Descending)).Title & " from the SharePoint COI document library.", NotificationType.Information)
+                              PressedBorderColor: =RGBA(210, 208, 206, 1)
+                              PressedColor: =RGBA(32, 31, 30, 1)
+                              PressedFill: =RGBA(210, 208, 206, 1)
+                              RadiusBottomLeft: =2
+                              RadiusBottomRight: =2
+                              RadiusTopLeft: =2
+                              RadiusTopRight: =2
+                              Size: =12
+                              Text: ="View COI"
+                              Visible: =varReq.Status = "COI Received" || varReq.Status = "Awaiting AON Rectification"
+                              Width: =110
+                        - dtlBRect:
+                            Control: Classic/Button@2.2.0
+                            Properties:
+                              BorderColor: =RGBA(210, 208, 206, 1)
+                              BorderThickness: =1
+                              Color: =RGBA(32, 31, 30, 1)
+                              DisabledBorderColor: =RGBA(210, 208, 206, 1)
+                              DisabledColor: =RGBA(161, 159, 157, 1)
+                              DisabledFill: =RGBA(243, 242, 241, 1)
+                              Fill: =RGBA(255, 255, 255, 1)
+                              Font: =Font.'Segoe UI'
+                              Height: =36
+                              HoverBorderColor: =RGBA(210, 208, 206, 1)
+                              HoverColor: =RGBA(32, 31, 30, 1)
+                              HoverFill: =RGBA(243, 242, 241, 1)
+                              OnSelect: =Set(varModal, "rect")
+                              PressedBorderColor: =RGBA(210, 208, 206, 1)
+                              PressedColor: =RGBA(32, 31, 30, 1)
+                              PressedFill: =RGBA(210, 208, 206, 1)
+                              RadiusBottomLeft: =2
+                              RadiusBottomRight: =2
+                              RadiusTopLeft: =2
+                              RadiusTopRight: =2
+                              Size: =12
+                              Text: ="Request Rectification"
+                              Visible: =varReq.Status = "COI Received"
+                              Width: =180
+                        - dtlBSend:
+                            Control: Classic/Button@2.2.0
+                            Properties:
+                              BorderColor: =RGBA(15, 108, 189, 1)
+                              BorderThickness: =1
+                              Color: =RGBA(255, 255, 255, 1)
+                              DisabledBorderColor: =RGBA(210, 208, 206, 1)
+                              DisabledColor: =RGBA(161, 159, 157, 1)
+                              DisabledFill: =RGBA(243, 242, 241, 1)
+                              Fill: =RGBA(15, 108, 189, 1)
+                              Font: =Font.'Segoe UI'
+                              Height: =36
+                              HoverBorderColor: =RGBA(15, 108, 189, 1)
+                              HoverColor: =RGBA(255, 255, 255, 1)
+                              HoverFill: =RGBA(16, 94, 165, 1)
+                              OnSelect: |-
+                                =Patch(COI_Requests, LookUp(COI_Requests, ID = varReq.ID), {Status: "Completed", FinalCOIFile: First(Sort(Filter(colDocs, RequestID = varReq.Title && DocumentType = "AON COI" && DocStatus = "Active"), Version, SortOrder.Descending)).Title});
+                                Patch(COI_Activity, Defaults(COI_Activity), {Title: varReq.Title, Activity: "COI sent to requestor", ActivityDate: Now(), ActionBy: User().FullName});
+                                Patch(COI_Activity, Defaults(COI_Activity), {Title: varReq.Title, Activity: "Request completed", ActivityDate: Now(), ActionBy: User().FullName});
+                                // HOOK: run flow - get SharePoint document, email it as attachment to the requestor
+                                ClearCollect(colReqs, If(varIsTreasury, Filter(COI_Requests, Status <> "Draft"), Filter(COI_Requests, RequestorEmail = User().Email)));
+                                ClearCollect(colHolders, {Value: "All"});
+                                Collect(colHolders, Distinct(colReqs, CertificateHolder));
+                                ClearCollect(colDocs, If(varIsTreasury, COI_Documents, FirstN(COI_Documents, 0)));
+                                Set(varReq, LookUp(colReqs, ID = varReq.ID));
+                                ClearCollect(colCovDetail, Filter(COI_Coverages, Title = varReq.Title));
+                                ClearCollect(colActivity, Filter(COI_Activity, Title = varReq.Title));
+                                Notify(varReq.Title & " completed. COI emailed to requestor.", NotificationType.Success)
+                              PressedBorderColor: =RGBA(15, 108, 189, 1)
+                              PressedColor: =RGBA(255, 255, 255, 1)
+                              PressedFill: =RGBA(12, 76, 134, 1)
+                              RadiusBottomLeft: =2
+                              RadiusBottomRight: =2
+                              RadiusTopLeft: =2
+                              RadiusTopRight: =2
+                              Size: =12
+                              Text: ="Send COI to Requestor"
+                              Visible: =varReq.Status = "COI Received"
+                              Width: =190
+                        - dtlBSim:
+                            Control: Classic/Button@2.2.0
+                            Properties:
+                              BorderColor: =RGBA(15, 108, 189, 1)
+                              BorderThickness: =1
+                              Color: =RGBA(255, 255, 255, 1)
+                              DisabledBorderColor: =RGBA(210, 208, 206, 1)
+                              DisabledColor: =RGBA(161, 159, 157, 1)
+                              DisabledFill: =RGBA(243, 242, 241, 1)
+                              Fill: =RGBA(15, 108, 189, 1)
+                              Font: =Font.'Segoe UI'
+                              Height: =36
+                              HoverBorderColor: =RGBA(15, 108, 189, 1)
+                              HoverColor: =RGBA(255, 255, 255, 1)
+                              HoverFill: =RGBA(16, 94, 165, 1)
+                              OnSelect: |-
+                                =With({n: CountRows(Filter(colDocs, RequestID = varReq.Title && DocumentType = "AON COI")) + 1},
+                                    UpdateIf(COI_Documents, RequestID = varReq.Title && DocumentType = "AON COI", {DocStatus: "Superseded"});
+                                    Patch(COI_Documents, Defaults(COI_Documents), {Title: varReq.Title & "_AON_COI_v" & n & ".pdf", CertificateHolder: varReq.CertificateHolder, RequestID: varReq.Title, DocumentType: "AON COI", Version: n, DocStatus: "Active"})
+                                );
+                                Patch(COI_Requests, LookUp(COI_Requests, ID = varReq.ID), {Status: "COI Received"});
+                                Patch(COI_Activity, Defaults(COI_Activity), {Title: varReq.Title, Activity: "Revised COI received", ActivityDate: Now(), ActionBy: User().FullName});
+                                // HOOK: replaced by AON email / upload in production
+                                ClearCollect(colReqs, If(varIsTreasury, Filter(COI_Requests, Status <> "Draft"), Filter(COI_Requests, RequestorEmail = User().Email)));
+                                ClearCollect(colHolders, {Value: "All"});
+                                Collect(colHolders, Distinct(colReqs, CertificateHolder));
+                                ClearCollect(colDocs, If(varIsTreasury, COI_Documents, FirstN(COI_Documents, 0)));
+                                Set(varReq, LookUp(colReqs, ID = varReq.ID));
+                                ClearCollect(colCovDetail, Filter(COI_Coverages, Title = varReq.Title));
+                                ClearCollect(colActivity, Filter(COI_Activity, Title = varReq.Title));
+                                Notify("Revised COI created. Status: COI Received.", NotificationType.Success)
+                              PressedBorderColor: =RGBA(15, 108, 189, 1)
+                              PressedColor: =RGBA(255, 255, 255, 1)
+                              PressedFill: =RGBA(12, 76, 134, 1)
+                              RadiusBottomLeft: =2
+                              RadiusBottomRight: =2
+                              RadiusTopLeft: =2
+                              RadiusTopRight: =2
+                              Size: =12
+                              Text: ="Mark Revised COI Received"
+                              Visible: =varReq.Status = "Awaiting AON Rectification"
+                              Width: =220
+                        - dtlMsgWait:
+                            Control: Label@2.5.1
+                            Properties:
+                              AlignInContainer: =AlignInContainer.Center
+                              Color: =RGBA(32, 31, 30, 1)
+                              FillPortions: =1
+                              Font: =Font.'Segoe UI'
+                              Size: =12
+                              Text: ="Waiting for the requestor to update and resubmit."
+                              Visible: =varReq.Status = "Information Required"
+                        - dtlMsgDone:
+                            Control: Label@2.5.1
+                            Properties:
+                              AlignInContainer: =AlignInContainer.Center
+                              Color: =RGBA(32, 31, 30, 1)
+                              FillPortions: =1
+                              Font: =Font.'Segoe UI'
+                              Size: =12
+                              Text: |-
+                                ="Sent to requestor: " & varReq.FinalCOIFile
+                              Visible: =varReq.Status = "Completed"
+            - dtlSecLib:
+                Control: GroupContainer@1.5.0
+                Variant: AutoLayout
+                Properties:
+                  BorderColor: =RGBA(210, 208, 206, 1)
+                  BorderThickness: =1
+                  DropShadow: =DropShadow.None
+                  Fill: =RGBA(243, 242, 241, 1)
+                  FillPortions: =0
+                  Height: =12 + 24 + 8 + 30 + Max(44, CountRows(Filter(colDocs, DocumentType = "Existing COI" && CertificateHolder = varReq.CertificateHolder)) * 46) + 12 + 8
+                  LayoutAlignItems: =LayoutAlignItems.Stretch
+                  LayoutDirection: =LayoutDirection.Vertical
+                  LayoutGap: =8
+                  LayoutMinHeight: =0
+                  LayoutMinWidth: =0
+                  PaddingBottom: =12
+                  PaddingLeft: =12
+                  PaddingRight: =12
+                  PaddingTop: =12
+                  Visible: =varIsTreasury && varShowLib && varReq.Status = "Treasury Review"
+                Children:
+                  - lbldtlSecLibHead:
+                      Control: Label@2.5.1
+                      Properties:
+                        Color: =RGBA(32, 31, 30, 1)
+                        Font: =Font.'Segoe UI'
+                        FontWeight: =FontWeight.Semibold
+                        Height: =24
+                        Size: =15
+                        Text: ="Existing COI Library - " & varReq.CertificateHolder
+                  - dtlLibHdr:
+                      Control: GroupContainer@1.5.0
+                      Variant: AutoLayout
+                      Properties:
+                        DropShadow: =DropShadow.None
+                        Fill: =RGBA(243, 242, 241, 1)
+                        FillPortions: =0
+                        Height: =30
+                        LayoutAlignItems: =LayoutAlignItems.Center
+                        LayoutDirection: =LayoutDirection.Horizontal
+                        LayoutGap: =8
+                        LayoutMinHeight: =0
+                        LayoutMinWidth: =0
+                        PaddingLeft: =8
+                        PaddingRight: =8
+                      Children:
+                        - dtlLibHdrH1:
+                            Control: Label@2.5.1
+                            Properties:
+                              Color: =RGBA(32, 31, 30, 1)
+                              FillPortions: =3
+                              Font: =Font.'Segoe UI'
+                              FontWeight: =FontWeight.Semibold
+                              Size: =11
+                              Text: ="File"
+                        - dtlLibHdrH2:
+                            Control: Label@2.5.1
+                            Properties:
+                              Color: =RGBA(32, 31, 30, 1)
+                              FillPortions: =0.6
+                              Font: =Font.'Segoe UI'
+                              FontWeight: =FontWeight.Semibold
+                              Size: =11
+                              Text: =""
+                        - dtlLibHdrH3:
+                            Control: Label@2.5.1
+                            Properties:
+                              Color: =RGBA(32, 31, 30, 1)
+                              FillPortions: =1
+                              Font: =Font.'Segoe UI'
+                              FontWeight: =FontWeight.Semibold
+                              Size: =11
+                              Text: =""
+                        - dtlLibHdrH4:
+                            Control: Label@2.5.1
+                            Properties:
+                              Color: =RGBA(32, 31, 30, 1)
+                              FillPortions: =1.3
+                              Font: =Font.'Segoe UI'
+                              FontWeight: =FontWeight.Semibold
+                              Size: =11
+                              Text: =""
+                  - galLibWrap:
+                      Control: GroupContainer@1.5.0
+                      Variant: ManualLayout
+                      Properties:
+                        DropShadow: =DropShadow.None
+                        FillPortions: =0
+                        Height: =Max(44, CountRows(Filter(colDocs, DocumentType = "Existing COI" && CertificateHolder = varReq.CertificateHolder)) * 46)
+                        LayoutMaxHeight: =
+                        LayoutMaxWidth: =
+                      Children:
+                        - galLib:
+                            Control: Gallery@2.15.0
+                            Variant: BrowseLayout_Vertical_TwoTextOneImageVariant_ver5.0
+                            Properties:
+                              BorderColor: =RGBA(210, 208, 206, 1)
+                              Height: =Parent.Height
+                              Items: =Filter(colDocs, DocumentType = "Existing COI" && CertificateHolder = varReq.CertificateHolder)
+                              TemplateSize: =46
+                              Width: =Parent.Width
+                            Children:
+                              - galLibRow:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.None
+                                    Fill: =RGBA(255, 255, 255, 1)
+                                    Height: =Parent.TemplateHeight
+                                    LayoutAlignItems: =LayoutAlignItems.Center
+                                    LayoutDirection: =LayoutDirection.Horizontal
+                                    LayoutGap: =8
+                                    PaddingLeft: =8
+                                    PaddingRight: =8
+                                    Width: =Parent.TemplateWidth
+                                  Children:
+                                    - dtlLibF:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          AlignInContainer: =AlignInContainer.Center
+                                          Color: =RGBA(32, 31, 30, 1)
+                                          FillPortions: =3
+                                          Font: =Font.'Segoe UI'
+                                          Size: =12
+                                          Text: =ThisItem.Title
+                                    - dtlLibView:
+                                        Control: Classic/Button@2.2.0
+                                        Properties:
+                                          AlignInContainer: =AlignInContainer.Center
+                                          BorderColor: =RGBA(210, 208, 206, 1)
+                                          BorderThickness: =1
+                                          Color: =RGBA(32, 31, 30, 1)
+                                          DisabledBorderColor: =RGBA(210, 208, 206, 1)
+                                          DisabledColor: =RGBA(161, 159, 157, 1)
+                                          DisabledFill: =RGBA(243, 242, 241, 1)
+                                          Fill: =RGBA(255, 255, 255, 1)
+                                          FillPortions: =0.6
+                                          Font: =Font.'Segoe UI'
+                                          Height: =28
+                                          HoverBorderColor: =RGBA(210, 208, 206, 1)
+                                          HoverColor: =RGBA(32, 31, 30, 1)
+                                          HoverFill: =RGBA(243, 242, 241, 1)
+                                          OnSelect: |-
+                                            =Notify("HOOK: open " & ThisItem.Title & " from the SharePoint COI document library.", NotificationType.Information)
+                                          PressedBorderColor: =RGBA(210, 208, 206, 1)
+                                          PressedColor: =RGBA(32, 31, 30, 1)
+                                          PressedFill: =RGBA(210, 208, 206, 1)
+                                          RadiusBottomLeft: =2
+                                          RadiusBottomRight: =2
+                                          RadiusTopLeft: =2
+                                          RadiusTopRight: =2
+                                          Size: =12
+                                          Text: ="View"
+                                    - dtlLibSend:
+                                        Control: Classic/Button@2.2.0
+                                        Properties:
+                                          AlignInContainer: =AlignInContainer.Center
+                                          BorderColor: =RGBA(15, 108, 189, 1)
+                                          BorderThickness: =1
+                                          Color: =RGBA(255, 255, 255, 1)
+                                          DisabledBorderColor: =RGBA(210, 208, 206, 1)
+                                          DisabledColor: =RGBA(161, 159, 157, 1)
+                                          DisabledFill: =RGBA(243, 242, 241, 1)
+                                          Fill: =RGBA(15, 108, 189, 1)
+                                          FillPortions: =1
+                                          Font: =Font.'Segoe UI'
+                                          Height: =28
+                                          HoverBorderColor: =RGBA(15, 108, 189, 1)
+                                          HoverColor: =RGBA(255, 255, 255, 1)
+                                          HoverFill: =RGBA(16, 94, 165, 1)
+                                          OnSelect: |-
+                                            =Patch(COI_Requests, LookUp(COI_Requests, ID = varReq.ID), {Status: "Completed", FinalCOIFile: ThisItem.Title});
+                                            Patch(COI_Activity, Defaults(COI_Activity), {Title: varReq.Title, Activity: "COI sent to requestor", ActivityDate: Now(), ActionBy: User().FullName});
+                                            Patch(COI_Activity, Defaults(COI_Activity), {Title: varReq.Title, Activity: "Request completed", ActivityDate: Now(), ActionBy: User().FullName});
+                                            // HOOK: run flow - get SharePoint document, email it as attachment to the requestor
+                                            ClearCollect(colReqs, If(varIsTreasury, Filter(COI_Requests, Status <> "Draft"), Filter(COI_Requests, RequestorEmail = User().Email)));
+                                            ClearCollect(colHolders, {Value: "All"});
+                                            Collect(colHolders, Distinct(colReqs, CertificateHolder));
+                                            ClearCollect(colDocs, If(varIsTreasury, COI_Documents, FirstN(COI_Documents, 0)));
+                                            Set(varReq, LookUp(colReqs, ID = varReq.ID));
+                                            ClearCollect(colCovDetail, Filter(COI_Coverages, Title = varReq.Title));
+                                            ClearCollect(colActivity, Filter(COI_Activity, Title = varReq.Title));
+                                            Notify(varReq.Title & " completed. COI emailed to requestor.", NotificationType.Success);
+                                            Set(varShowLib, false)
+                                          PressedBorderColor: =RGBA(15, 108, 189, 1)
+                                          PressedColor: =RGBA(255, 255, 255, 1)
+                                          PressedFill: =RGBA(12, 76, 134, 1)
+                                          RadiusBottomLeft: =2
+                                          RadiusBottomRight: =2
+                                          RadiusTopLeft: =2
+                                          RadiusTopRight: =2
+                                          Size: =12
+                                          Text: ="Send to Requestor"
+                                    - dtlLibChg:
+                                        Control: Classic/Button@2.2.0
+                                        Properties:
+                                          AlignInContainer: =AlignInContainer.Center
+                                          BorderColor: =RGBA(210, 208, 206, 1)
+                                          BorderThickness: =1
+                                          Color: =RGBA(32, 31, 30, 1)
+                                          DisabledBorderColor: =RGBA(210, 208, 206, 1)
+                                          DisabledColor: =RGBA(161, 159, 157, 1)
+                                          DisabledFill: =RGBA(243, 242, 241, 1)
+                                          Fill: =RGBA(255, 255, 255, 1)
+                                          FillPortions: =1.3
+                                          Font: =Font.'Segoe UI'
+                                          Height: =28
+                                          HoverBorderColor: =RGBA(210, 208, 206, 1)
+                                          HoverColor: =RGBA(32, 31, 30, 1)
+                                          HoverFill: =RGBA(243, 242, 241, 1)
+                                          OnSelect: =Set(varModalFile, ThisItem.Title); Set(varModal, "aonChg")
+                                          PressedBorderColor: =RGBA(210, 208, 206, 1)
+                                          PressedColor: =RGBA(32, 31, 30, 1)
+                                          PressedFill: =RGBA(210, 208, 206, 1)
+                                          RadiusBottomLeft: =2
+                                          RadiusBottomRight: =2
+                                          RadiusTopLeft: =2
+                                          RadiusTopRight: =2
+                                          Size: =12
+                                          Text: ="Send to AON for Changes"
+                              - galLibSep:
+                                  Control: Rectangle@2.3.0
+                                  Properties:
+                                    BorderColor: =RGBA(0, 0, 0, 0)
+                                    Fill: =RGBA(210, 208, 206, 1)
+                                    Height: =1
+                                    Width: =Parent.TemplateWidth
+                                    Y: =Parent.TemplateHeight - Self.Height
+            - dtlSecDoc:
+                Control: GroupContainer@1.5.0
+                Variant: AutoLayout
+                Properties:
+                  BorderColor: =RGBA(210, 208, 206, 1)
+                  BorderThickness: =1
+                  DropShadow: =DropShadow.None
+                  Fill: =RGBA(243, 242, 241, 1)
+                  FillPortions: =0
+                  Height: =12 + 24 + 8 + If(varIsTreasury, 30 + Max(36, CountRows(Filter(colDocs, RequestID = varReq.Title)) * 34), 30) + 12 + 8
+                  LayoutAlignItems: =LayoutAlignItems.Stretch
+                  LayoutDirection: =LayoutDirection.Vertical
+                  LayoutGap: =8
+                  LayoutMinHeight: =0
+                  LayoutMinWidth: =0
+                  PaddingBottom: =12
+                  PaddingLeft: =12
+                  PaddingRight: =12
+                  PaddingTop: =12
+                Children:
+                  - lbldtlSecDocHead:
+                      Control: Label@2.5.1
+                      Properties:
+                        Color: =RGBA(32, 31, 30, 1)
+                        Font: =Font.'Segoe UI'
+                        FontWeight: =FontWeight.Semibold
+                        Height: =24
+                        Size: =15
+                        Text: ="Documents"
+                  - dtlDocReq:
+                      Control: Label@2.5.1
+                      Properties:
+                        Color: =RGBA(32, 31, 30, 1)
+                        Font: =Font.'Segoe UI'
+                        Height: =30
+                        Size: =12
+                        Text: |-
+                          =If(IsBlank(varReq.FinalCOIFile), "No documents yet.", "COI sent by Treasury: " & varReq.FinalCOIFile)
+                        Visible: =!varIsTreasury
+                  - dtlDocHdr:
+                      Control: GroupContainer@1.5.0
+                      Variant: AutoLayout
+                      Properties:
+                        DropShadow: =DropShadow.None
+                        Fill: =RGBA(243, 242, 241, 1)
+                        FillPortions: =0
+                        Height: =30
+                        LayoutAlignItems: =LayoutAlignItems.Center
+                        LayoutDirection: =LayoutDirection.Horizontal
+                        LayoutGap: =8
+                        LayoutMinHeight: =0
+                        LayoutMinWidth: =0
+                        PaddingLeft: =8
+                        PaddingRight: =8
+                        Visible: =varIsTreasury
+                      Children:
+                        - dtlDocHdrH1:
+                            Control: Label@2.5.1
+                            Properties:
+                              Color: =RGBA(32, 31, 30, 1)
+                              FillPortions: =3
+                              Font: =Font.'Segoe UI'
+                              FontWeight: =FontWeight.Semibold
+                              Size: =11
+                              Text: ="File Name"
+                        - dtlDocHdrH2:
+                            Control: Label@2.5.1
+                            Properties:
+                              Color: =RGBA(32, 31, 30, 1)
+                              FillPortions: =2
+                              Font: =Font.'Segoe UI'
+                              FontWeight: =FontWeight.Semibold
+                              Size: =11
+                              Text: ="Certificate Holder"
+                        - dtlDocHdrH3:
+                            Control: Label@2.5.1
+                            Properties:
+                              Color: =RGBA(32, 31, 30, 1)
+                              FillPortions: =1.3
+                              Font: =Font.'Segoe UI'
+                              FontWeight: =FontWeight.Semibold
+                              Size: =11
+                              Text: ="Document Type"
+                        - dtlDocHdrH4:
+                            Control: Label@2.5.1
+                            Properties:
+                              Color: =RGBA(32, 31, 30, 1)
+                              FillPortions: =0.8
+                              Font: =Font.'Segoe UI'
+                              FontWeight: =FontWeight.Semibold
+                              Size: =11
+                              Text: ="Version"
+                        - dtlDocHdrH5:
+                            Control: Label@2.5.1
+                            Properties:
+                              Color: =RGBA(32, 31, 30, 1)
+                              FillPortions: =1
+                              Font: =Font.'Segoe UI'
+                              FontWeight: =FontWeight.Semibold
+                              Size: =11
+                              Text: ="Status"
+                  - galDocsWrap:
+                      Control: GroupContainer@1.5.0
+                      Variant: ManualLayout
+                      Properties:
+                        DropShadow: =DropShadow.None
+                        FillPortions: =0
+                        Height: =Max(36, CountRows(Filter(colDocs, RequestID = varReq.Title)) * 34)
+                        LayoutMaxHeight: =
+                        LayoutMaxWidth: =
+                        Visible: =varIsTreasury
+                      Children:
+                        - galDocs:
+                            Control: Gallery@2.15.0
+                            Variant: BrowseLayout_Vertical_TwoTextOneImageVariant_ver5.0
+                            Properties:
+                              BorderColor: =RGBA(210, 208, 206, 1)
+                              Height: =Parent.Height
+                              Items: =Filter(colDocs, RequestID = varReq.Title)
+                              TemplateSize: =34
+                              Width: =Parent.Width
+                            Children:
+                              - galDocsRow:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.None
+                                    Fill: =RGBA(255, 255, 255, 1)
+                                    Height: =Parent.TemplateHeight
+                                    LayoutAlignItems: =LayoutAlignItems.Center
+                                    LayoutDirection: =LayoutDirection.Horizontal
+                                    LayoutGap: =8
+                                    PaddingLeft: =8
+                                    PaddingRight: =8
+                                    Width: =Parent.TemplateWidth
+                                  Children:
+                                    - dtlDcF:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          AlignInContainer: =AlignInContainer.Center
+                                          Color: =RGBA(32, 31, 30, 1)
+                                          FillPortions: =3
+                                          Font: =Font.'Segoe UI'
+                                          Size: =12
+                                          Text: =ThisItem.Title
+                                    - dtlDcH:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          AlignInContainer: =AlignInContainer.Center
+                                          Color: =RGBA(32, 31, 30, 1)
+                                          FillPortions: =2
+                                          Font: =Font.'Segoe UI'
+                                          Size: =12
+                                          Text: =ThisItem.CertificateHolder
+                                    - dtlDcT:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          AlignInContainer: =AlignInContainer.Center
+                                          Color: =RGBA(32, 31, 30, 1)
+                                          FillPortions: =1.3
+                                          Font: =Font.'Segoe UI'
+                                          Size: =12
+                                          Text: =ThisItem.DocumentType
+                                    - dtlDcV:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          AlignInContainer: =AlignInContainer.Center
+                                          Color: =RGBA(32, 31, 30, 1)
+                                          FillPortions: =0.8
+                                          Font: =Font.'Segoe UI'
+                                          Size: =12
+                                          Text: =//ThisItem.Version
+                                    - dtlDcS:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          AlignInContainer: =AlignInContainer.Center
+                                          Color: =RGBA(32, 31, 30, 1)
+                                          FillPortions: =1
+                                          Font: =Font.'Segoe UI'
+                                          Size: =12
+                                          Text: =ThisItem.DocStatus
+                              - galDocsSep:
+                                  Control: Rectangle@2.3.0
+                                  Properties:
+                                    BorderColor: =RGBA(0, 0, 0, 0)
+                                    Fill: =RGBA(210, 208, 206, 1)
+                                    Height: =1
+                                    Width: =Parent.TemplateWidth
+                                    Y: =Parent.TemplateHeight - Self.Height
+            - dtlSecAct:
+                Control: GroupContainer@1.5.0
+                Variant: AutoLayout
+                Properties:
+                  BorderColor: =RGBA(210, 208, 206, 1)
+                  BorderThickness: =1
+                  DropShadow: =DropShadow.None
+                  Fill: =RGBA(243, 242, 241, 1)
+                  FillPortions: =0
+                  Height: =12 + 24 + 8 + Max(36, CountRows(colActivity) * 32) + 12 + 8
+                  LayoutAlignItems: =LayoutAlignItems.Stretch
+                  LayoutDirection: =LayoutDirection.Vertical
+                  LayoutGap: =8
+                  LayoutMinHeight: =0
+                  LayoutMinWidth: =0
+                  PaddingBottom: =12
+                  PaddingLeft: =12
+                  PaddingRight: =12
+                  PaddingTop: =12
+                Children:
+                  - lbldtlSecActHead:
+                      Control: Label@2.5.1
+                      Properties:
+                        Color: =RGBA(32, 31, 30, 1)
+                        Font: =Font.'Segoe UI'
+                        FontWeight: =FontWeight.Semibold
+                        Height: =24
+                        Size: =15
+                        Text: ="Activity"
+                  - galActWrap:
+                      Control: GroupContainer@1.5.0
+                      Variant: ManualLayout
+                      Properties:
+                        DropShadow: =DropShadow.None
+                        FillPortions: =0
+                        Height: =Max(36, CountRows(colActivity) * 32)
+                        LayoutMaxHeight: =
+                        LayoutMaxWidth: =
+                      Children:
+                        - galAct:
+                            Control: Gallery@2.15.0
+                            Variant: BrowseLayout_Vertical_TwoTextOneImageVariant_ver5.0
+                            Properties:
+                              BorderColor: =RGBA(210, 208, 206, 1)
+                              Height: =Parent.Height
+                              Items: =SortByColumns(colActivity, "ActivityDate", SortOrder.Descending)
+                              TemplateSize: =32
+                              Width: =Parent.Width
+                            Children:
+                              - galActRow:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.None
+                                    Fill: =RGBA(255, 255, 255, 1)
+                                    Height: =Parent.TemplateHeight
+                                    LayoutAlignItems: =LayoutAlignItems.Center
+                                    LayoutDirection: =LayoutDirection.Horizontal
+                                    LayoutGap: =8
+                                    PaddingLeft: =8
+                                    PaddingRight: =8
+                                    Width: =Parent.TemplateWidth
+                                  Children:
+                                    - dtlAcD:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          AlignInContainer: =AlignInContainer.Center
+                                          Color: =RGBA(32, 31, 30, 1)
+                                          FillPortions: =1.2
+                                          Font: =Font.'Segoe UI'
+                                          Size: =12
+                                          Text: =Text(ThisItem.ActivityDate, "dd-mmm-yyyy hh:mm")
+                                    - dtlAcT:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          AlignInContainer: =AlignInContainer.Center
+                                          Color: =RGBA(32, 31, 30, 1)
+                                          FillPortions: =3
+                                          Font: =Font.'Segoe UI'
+                                          Size: =12
+                                          Text: =ThisItem.Activity
+                                    - dtlAcB:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          AlignInContainer: =AlignInContainer.Center
+                                          Color: =RGBA(32, 31, 30, 1)
+                                          FillPortions: =1.5
+                                          Font: =Font.'Segoe UI'
+                                          Size: =12
+                                          Text: =ThisItem.ActionBy
+                              - galActSep:
+                                  Control: Rectangle@2.3.0
+                                  Properties:
+                                    BorderColor: =RGBA(0, 0, 0, 0)
+                                    Fill: =RGBA(210, 208, 206, 1)
+                                    Height: =1
+                                    Width: =Parent.TemplateWidth
+                                    Y: =Parent.TemplateHeight - Self.Height
+      - dtlOverlay:
+          Control: Label@2.5.1
+          Properties:
+            Color: =RGBA(32, 31, 30, 1)
+            Fill: =RGBA(0, 0, 0, 0.45)
+            Font: =Font.'Segoe UI'
+            Height: =Parent.Height
+            OnSelect: =
+            Size: =12
+            Text: =""
+            Visible: =varModal <> ""
+            Width: =Parent.Width
+      - recModalPanel:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(210, 208, 206, 1)
+            BorderThickness: =1
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =Switch(varModal, "aon", 330, "aonChg", 330, "upl", 230, "rect", 300, 300)
+            Visible: =varModal <> ""
+            Width: =560
+            X: =(Parent.Width - 560) / 2
+            Y: =110
+      - mAonT:
+          Control: Label@2.5.1
+          Properties:
+            Color: =RGBA(32, 31, 30, 1)
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Semibold
+            Height: =28
+            Size: =16
+            Text: ="Request a new COI from AON?"
+            Visible: =varModal = "aon"
+            Width: =520
+            X: =recModalPanel.X + 20
+            Y: =recModalPanel.Y + 16
+      - mAonB:
+          Control: Label@2.5.1
+          Properties:
+            Color: =RGBA(32, 31, 30, 1)
+            Font: =Font.'Segoe UI'
+            Height: =200
+            Size: =12
+            Text: |-
+              ="Request: " & varReq.Title & Char(10) & "Certificate Holder: " & varReq.CertificateHolder & Char(10) & "Project: " & varReq.ProjectName & Char(10) & "Additional Insured: " & varReq.AdditionalInsured & Char(10) & "Waiver of Subrogation: " & varReq.WaiverOfSubrogation & Char(10) & "Coverage: " & Concat(colCovDetail, CoverageName, ", ")
+            VerticalAlign: =VerticalAlign.Top
+            Visible: =varModal = "aon"
+            Width: =520
+            X: =recModalPanel.X + 20
+            Y: =recModalPanel.Y + 52
+      - mAonCancel:
+          Control: Classic/Button@2.2.0
+          Properties:
+            BorderColor: =RGBA(210, 208, 206, 1)
+            BorderThickness: =1
+            Color: =RGBA(32, 31, 30, 1)
+            DisabledBorderColor: =RGBA(210, 208, 206, 1)
+            DisabledColor: =RGBA(161, 159, 157, 1)
+            DisabledFill: =RGBA(243, 242, 241, 1)
+            Fill: =RGBA(255, 255, 255, 1)
+            Font: =Font.'Segoe UI'
+            Height: =36
+            HoverBorderColor: =RGBA(210, 208, 206, 1)
+            HoverColor: =RGBA(32, 31, 30, 1)
+            HoverFill: =RGBA(243, 242, 241, 1)
+            OnSelect: =Set(varModal, "")
+            PressedBorderColor: =RGBA(210, 208, 206, 1)
+            PressedColor: =RGBA(32, 31, 30, 1)
+            PressedFill: =RGBA(210, 208, 206, 1)
+            RadiusBottomLeft: =2
+            RadiusBottomRight: =2
+            RadiusTopLeft: =2
+            RadiusTopRight: =2
+            Size: =12
+            Text: ="Cancel"
+            Visible: =varModal = "aon"
+            Width: =110
+            X: =recModalPanel.X + 20
+            Y: =recModalPanel.Y + recModalPanel.Height - 56
+      - mAonSend:
+          Control: Classic/Button@2.2.0
+          Properties:
+            BorderColor: =RGBA(15, 108, 189, 1)
+            BorderThickness: =1
+            Color: =RGBA(255, 255, 255, 1)
+            DisabledBorderColor: =RGBA(210, 208, 206, 1)
+            DisabledColor: =RGBA(161, 159, 157, 1)
+            DisabledFill: =RGBA(243, 242, 241, 1)
+            Fill: =RGBA(15, 108, 189, 1)
+            Font: =Font.'Segoe UI'
+            Height: =36
+            HoverBorderColor: =RGBA(15, 108, 189, 1)
+            HoverColor: =RGBA(255, 255, 255, 1)
+            HoverFill: =RGBA(16, 94, 165, 1)
+            OnSelect: |-
+              =Patch(COI_Requests, LookUp(COI_Requests, ID = varReq.ID), {Status: "Awaiting AON"});
+              Patch(COI_Activity, Defaults(COI_Activity), {Title: varReq.Title, Activity: "Treasury reviewed request", ActivityDate: Now(), ActionBy: User().FullName});
+              Patch(COI_Activity, Defaults(COI_Activity), {Title: varReq.Title, Activity: "New COI requested from AON", ActivityDate: Now(), ActionBy: User().FullName});
+              // HOOK: email AON with the request details (Power Automate flow)
+              Set(varModal, "");
+              Set(varShowLib, false);
+              ClearCollect(colReqs, If(varIsTreasury, Filter(COI_Requests, Status <> "Draft"), Filter(COI_Requests, RequestorEmail = User().Email)));
+              ClearCollect(colHolders, {Value: "All"});
+              Collect(colHolders, Distinct(colReqs, CertificateHolder));
+              ClearCollect(colDocs, If(varIsTreasury, COI_Documents, FirstN(COI_Documents, 0)));
+              Set(varReq, LookUp(colReqs, ID = varReq.ID));
+              ClearCollect(colCovDetail, Filter(COI_Coverages, Title = varReq.Title));
+              ClearCollect(colActivity, Filter(COI_Activity, Title = varReq.Title));
+              Notify("Request sent to AON.", NotificationType.Success)
+            PressedBorderColor: =RGBA(15, 108, 189, 1)
+            PressedColor: =RGBA(255, 255, 255, 1)
+            PressedFill: =RGBA(12, 76, 134, 1)
+            RadiusBottomLeft: =2
+            RadiusBottomRight: =2
+            RadiusTopLeft: =2
+            RadiusTopRight: =2
+            Size: =12
+            Text: ="Send Request to AON"
+            Visible: =varModal = "aon"
+            Width: =200
+            X: =recModalPanel.X + 340
+            Y: =recModalPanel.Y + recModalPanel.Height - 56
+      - mChgT:
+          Control: Label@2.5.1
+          Properties:
+            Color: =RGBA(32, 31, 30, 1)
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Semibold
+            Height: =28
+            Size: =16
+            Text: ="Send existing COI to AON for changes"
+            Visible: =varModal = "aonChg"
+            Width: =520
+            X: =recModalPanel.X + 20
+            Y: =recModalPanel.Y + 16
+      - mChgF:
+          Control: Label@2.5.1
+          Properties:
+            Color: =RGBA(32, 31, 30, 1)
+            Font: =Font.'Segoe UI'
+            Height: =24
+            Size: =12
+            Text: |-
+              ="Attachment: " & varModalFile
+            Visible: =varModal = "aonChg"
+            Width: =520
+            X: =recModalPanel.X + 20
+            Y: =recModalPanel.Y + 52
+      - mChgC:
+          Control: Label@2.5.1
+          Properties:
+            Color: =RGBA(32, 31, 30, 1)
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Semibold
+            Height: =20
+            Size: =11
+            Text: ="Notes for AON (changes required)"
+            Visible: =varModal = "aonChg"
+            Width: =520
+            X: =recModalPanel.X + 20
+            Y: =recModalPanel.Y + 84
+      - txtAonChg:
+          Control: Classic/TextInput@2.3.2
+          Properties:
+            BorderColor: =RGBA(210, 208, 206, 1)
+            BorderThickness: =1
+            Color: =RGBA(32, 31, 30, 1)
+            Default: =""
+            Font: =Font.'Segoe UI'
+            Height: =110
+            HintText: ="e.g. Please update additional insured and add waiver of subrogation."
+            Mode: =TextMode.MultiLine
+            PaddingLeft: =8
+            RadiusBottomLeft: =2
+            RadiusBottomRight: =2
+            RadiusTopLeft: =2
+            RadiusTopRight: =2
+            Size: =12
+            Visible: =varModal = "aonChg"
+            Width: =520
+            X: =recModalPanel.X + 20
+            Y: =recModalPanel.Y + 106
+      - mChgCancel:
+          Control: Classic/Button@2.2.0
+          Properties:
+            BorderColor: =RGBA(210, 208, 206, 1)
+            BorderThickness: =1
+            Color: =RGBA(32, 31, 30, 1)
+            DisabledBorderColor: =RGBA(210, 208, 206, 1)
+            DisabledColor: =RGBA(161, 159, 157, 1)
+            DisabledFill: =RGBA(243, 242, 241, 1)
+            Fill: =RGBA(255, 255, 255, 1)
+            Font: =Font.'Segoe UI'
+            Height: =36
+            HoverBorderColor: =RGBA(210, 208, 206, 1)
+            HoverColor: =RGBA(32, 31, 30, 1)
+            HoverFill: =RGBA(243, 242, 241, 1)
+            OnSelect: =Set(varModal, "")
+            PressedBorderColor: =RGBA(210, 208, 206, 1)
+            PressedColor: =RGBA(32, 31, 30, 1)
+            PressedFill: =RGBA(210, 208, 206, 1)
+            RadiusBottomLeft: =2
+            RadiusBottomRight: =2
+            RadiusTopLeft: =2
+            RadiusTopRight: =2
+            Size: =12
+            Text: ="Cancel"
+            Visible: =varModal = "aonChg"
+            Width: =110
+            X: =recModalPanel.X + 20
+            Y: =recModalPanel.Y + recModalPanel.Height - 56
+      - mChgSend:
+          Control: Classic/Button@2.2.0
+          Properties:
+            BorderColor: =RGBA(15, 108, 189, 1)
+            BorderThickness: =1
+            Color: =RGBA(255, 255, 255, 1)
+            DisabledBorderColor: =RGBA(210, 208, 206, 1)
+            DisabledColor: =RGBA(161, 159, 157, 1)
+            DisabledFill: =RGBA(243, 242, 241, 1)
+            Fill: =RGBA(15, 108, 189, 1)
+            Font: =Font.'Segoe UI'
+            Height: =36
+            HoverBorderColor: =RGBA(15, 108, 189, 1)
+            HoverColor: =RGBA(255, 255, 255, 1)
+            HoverFill: =RGBA(16, 94, 165, 1)
+            OnSelect: |-
+              =If(IsBlank(Trim(txtAonChg.Text)),
+                  Notify("Enter notes describing the changes required.", NotificationType.Error),
+                  Patch(COI_Requests, LookUp(COI_Requests, ID = varReq.ID), {Status: "Awaiting AON", SelectedCOIFile: ""});
+                  Patch(COI_Activity, Defaults(COI_Activity), {Title: varReq.Title, Activity: "Treasury reviewed request", ActivityDate: Now(), ActionBy: User().FullName});
+                  Patch(COI_Activity, Defaults(COI_Activity), {Title: varReq.Title, Activity: "Existing COI sent to AON for changes", ActivityDate: Now(), ActionBy: User().FullName});
+                  // HOOK: email AON with varModalFile attached + notes (Power Automate flow)
+                  Reset(txtAonChg);
+                  Set(varModal, "");
+                  Set(varShowLib, false);
+                  ClearCollect(colReqs, If(varIsTreasury, Filter(COI_Requests, Status <> "Draft"), Filter(COI_Requests, RequestorEmail = User().Email)));
+              ClearCollect(colHolders, {Value: "All"});
+              Collect(colHolders, Distinct(colReqs, CertificateHolder));
+              ClearCollect(colDocs, If(varIsTreasury, COI_Documents, FirstN(COI_Documents, 0)));
+                  Set(varReq, LookUp(colReqs, ID = varReq.ID));
+              ClearCollect(colCovDetail, Filter(COI_Coverages, Title = varReq.Title));
+              ClearCollect(colActivity, Filter(COI_Activity, Title = varReq.Title));
+                  Notify("Existing COI sent to AON. Status: Awaiting AON.", NotificationType.Success)
+              )
+            PressedBorderColor: =RGBA(15, 108, 189, 1)
+            PressedColor: =RGBA(255, 255, 255, 1)
+            PressedFill: =RGBA(12, 76, 134, 1)
+            RadiusBottomLeft: =2
+            RadiusBottomRight: =2
+            RadiusTopLeft: =2
+            RadiusTopRight: =2
+            Size: =12
+            Text: ="Send to AON"
+            Visible: =varModal = "aonChg"
+            X: =recModalPanel.X + 380
+            Y: =recModalPanel.Y + recModalPanel.Height - 56
+      - mUplT:
+          Control: Label@2.5.1
+          Properties:
+            Color: =RGBA(32, 31, 30, 1)
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Semibold
+            Height: =28
+            Size: =16
+            Text: ="Upload AON COI"
+            Visible: =varModal = "upl"
+            Width: =520
+            X: =recModalPanel.X + 20
+            Y: =recModalPanel.Y + 16
+      - mUplB:
+          Control: Label@2.5.1
+          Properties:
+            Color: =RGBA(32, 31, 30, 1)
+            Font: =Font.'Segoe UI'
+            Height: =110
+            Size: =12
+            Text: |-
+              ="Treasury downloads the PDF from the AON email, then uploads it here so it is stored in SharePoint. HOOK: replace this step with your upload flow or an Attachments control. For now this creates the document record (next AON COI version) and sets the status to COI Received."
+            VerticalAlign: =VerticalAlign.Top
+            Visible: =varModal = "upl"
+            Width: =520
+            X: =recModalPanel.X + 20
+            Y: =recModalPanel.Y + 52
+      - mUplCancel:
+          Control: Classic/Button@2.2.0
+          Properties:
+            BorderColor: =RGBA(210, 208, 206, 1)
+            BorderThickness: =1
+            Color: =RGBA(32, 31, 30, 1)
+            DisabledBorderColor: =RGBA(210, 208, 206, 1)
+            DisabledColor: =RGBA(161, 159, 157, 1)
+            DisabledFill: =RGBA(243, 242, 241, 1)
+            Fill: =RGBA(255, 255, 255, 1)
+            Font: =Font.'Segoe UI'
+            Height: =36
+            HoverBorderColor: =RGBA(210, 208, 206, 1)
+            HoverColor: =RGBA(32, 31, 30, 1)
+            HoverFill: =RGBA(243, 242, 241, 1)
+            OnSelect: =Set(varModal, "")
+            PressedBorderColor: =RGBA(210, 208, 206, 1)
+            PressedColor: =RGBA(32, 31, 30, 1)
+            PressedFill: =RGBA(210, 208, 206, 1)
+            RadiusBottomLeft: =2
+            RadiusBottomRight: =2
+            RadiusTopLeft: =2
+            RadiusTopRight: =2
+            Size: =12
+            Text: ="Cancel"
+            Visible: =varModal = "upl"
+            Width: =110
+            X: =recModalPanel.X + 20
+            Y: =recModalPanel.Y + recModalPanel.Height - 56
+      - mUplGo:
+          Control: Classic/Button@2.2.0
+          Properties:
+            BorderColor: =RGBA(15, 108, 189, 1)
+            BorderThickness: =1
+            Color: =RGBA(255, 255, 255, 1)
+            DisabledBorderColor: =RGBA(210, 208, 206, 1)
+            DisabledColor: =RGBA(161, 159, 157, 1)
+            DisabledFill: =RGBA(243, 242, 241, 1)
+            Fill: =RGBA(15, 108, 189, 1)
+            Font: =Font.'Segoe UI'
+            Height: =36
+            HoverBorderColor: =RGBA(15, 108, 189, 1)
+            HoverColor: =RGBA(255, 255, 255, 1)
+            HoverFill: =RGBA(16, 94, 165, 1)
+            OnSelect: |-
+              =With({n: CountRows(Filter(colDocs, RequestID = varReq.Title && DocumentType = "AON COI")) + 1},
+                  UpdateIf(COI_Documents, RequestID = varReq.Title && DocumentType = "AON COI", {DocStatus: "Superseded"});
+                  Patch(COI_Documents, Defaults(COI_Documents), {Title: varReq.Title & "_AON_COI_v" & n & ".pdf", CertificateHolder: varReq.CertificateHolder, RequestID: varReq.Title, DocumentType: "AON COI", Version: n, DocStatus: "Active"})
+              );
+              Patch(COI_Requests, LookUp(COI_Requests, ID = varReq.ID), {Status: "COI Received"});
+              Patch(COI_Activity, Defaults(COI_Activity), {Title: varReq.Title, Activity: "COI received from AON", ActivityDate: Now(), ActionBy: User().FullName});
+              Set(varModal, "");
+              ClearCollect(colReqs, If(varIsTreasury, Filter(COI_Requests, Status <> "Draft"), Filter(COI_Requests, RequestorEmail = User().Email)));
+              ClearCollect(colHolders, {Value: "All"});
+              Collect(colHolders, Distinct(colReqs, CertificateHolder));
+              ClearCollect(colDocs, If(varIsTreasury, COI_Documents, FirstN(COI_Documents, 0)));
+              Set(varReq, LookUp(colReqs, ID = varReq.ID));
+              ClearCollect(colCovDetail, Filter(COI_Coverages, Title = varReq.Title));
+              ClearCollect(colActivity, Filter(COI_Activity, Title = varReq.Title));
+              Notify("AON COI recorded in COI_Documents. Status: COI Received.", NotificationType.Success)
+            PressedBorderColor: =RGBA(15, 108, 189, 1)
+            PressedColor: =RGBA(255, 255, 255, 1)
+            PressedFill: =RGBA(12, 76, 134, 1)
+            RadiusBottomLeft: =2
+            RadiusBottomRight: =2
+            RadiusTopLeft: =2
+            RadiusTopRight: =2
+            Size: =12
+            Text: ="Upload"
+            Visible: =varModal = "upl"
+            Width: =140
+            X: =recModalPanel.X + 400
+            Y: =recModalPanel.Y + recModalPanel.Height - 56
+      - mRectT:
+          Control: Label@2.5.1
+          Properties:
+            Color: =RGBA(32, 31, 30, 1)
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Semibold
+            Height: =28
+            Size: =16
+            Text: ="Request Rectification"
+            Visible: =varModal = "rect"
+            Width: =520
+            X: =recModalPanel.X + 20
+            Y: =recModalPanel.Y + 16
+      - mRectC:
+          Control: Label@2.5.1
+          Properties:
+            Color: =RGBA(32, 31, 30, 1)
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Semibold
+            Height: =20
+            Size: =11
+            Text: ="Rectification notes"
+            Visible: =varModal = "rect"
+            Width: =520
+            X: =recModalPanel.X + 20
+            Y: =recModalPanel.Y + 52
+      - txtRect:
+          Control: Classic/TextInput@2.3.2
+          Properties:
+            BorderColor: =RGBA(210, 208, 206, 1)
+            BorderThickness: =1
+            Color: =RGBA(32, 31, 30, 1)
+            Default: ="Additional insured name is incorrect. Please update to " & varReq.CertificateHolder & " Holdings Ltd."
+            Font: =Font.'Segoe UI'
+            Height: =110
+            Mode: =TextMode.MultiLine
+            PaddingLeft: =8
+            RadiusBottomLeft: =2
+            RadiusBottomRight: =2
+            RadiusTopLeft: =2
+            RadiusTopRight: =2
+            Size: =12
+            Visible: =varModal = "rect"
+            Width: =520
+            X: =recModalPanel.X + 20
+            Y: =recModalPanel.Y + 74
+      - mRectCancel:
+          Control: Classic/Button@2.2.0
+          Properties:
+            BorderColor: =RGBA(210, 208, 206, 1)
+            BorderThickness: =1
+            Color: =RGBA(32, 31, 30, 1)
+            DisabledBorderColor: =RGBA(210, 208, 206, 1)
+            DisabledColor: =RGBA(161, 159, 157, 1)
+            DisabledFill: =RGBA(243, 242, 241, 1)
+            Fill: =RGBA(255, 255, 255, 1)
+            Font: =Font.'Segoe UI'
+            Height: =36
+            HoverBorderColor: =RGBA(210, 208, 206, 1)
+            HoverColor: =RGBA(32, 31, 30, 1)
+            HoverFill: =RGBA(243, 242, 241, 1)
+            OnSelect: =Set(varModal, "")
+            PressedBorderColor: =RGBA(210, 208, 206, 1)
+            PressedColor: =RGBA(32, 31, 30, 1)
+            PressedFill: =RGBA(210, 208, 206, 1)
+            RadiusBottomLeft: =2
+            RadiusBottomRight: =2
+            RadiusTopLeft: =2
+            RadiusTopRight: =2
+            Size: =12
+            Text: ="Cancel"
+            Visible: =varModal = "rect"
+            Width: =110
+            X: =recModalPanel.X + 20
+            Y: =recModalPanel.Y + recModalPanel.Height - 56
+      - mRectSend:
+          Control: Classic/Button@2.2.0
+          Properties:
+            BorderColor: =RGBA(196, 49, 75, 1)
+            BorderThickness: =1
+            Color: =RGBA(255, 255, 255, 1)
+            DisabledBorderColor: =RGBA(210, 208, 206, 1)
+            DisabledColor: =RGBA(161, 159, 157, 1)
+            DisabledFill: =RGBA(243, 242, 241, 1)
+            Fill: =RGBA(196, 49, 75, 1)
+            Font: =Font.'Segoe UI'
+            Height: =36
+            HoverBorderColor: =RGBA(196, 49, 75, 1)
+            HoverColor: =RGBA(255, 255, 255, 1)
+            HoverFill: =RGBA(170, 40, 62, 1)
+            OnSelect: |-
+              =Patch(COI_Requests, LookUp(COI_Requests, ID = varReq.ID), {Status: "Awaiting AON Rectification", RectificationNotes: txtRect.Text});
+              Patch(COI_Activity, Defaults(COI_Activity), {Title: varReq.Title, Activity: "Rectification requested", ActivityDate: Now(), ActionBy: User().FullName});
+              // HOOK: email AON the rectification notes (Power Automate flow)
+              Set(varModal, "");
+              ClearCollect(colReqs, If(varIsTreasury, Filter(COI_Requests, Status <> "Draft"), Filter(COI_Requests, RequestorEmail = User().Email)));
+              ClearCollect(colHolders, {Value: "All"});
+              Collect(colHolders, Distinct(colReqs, CertificateHolder));
+              ClearCollect(colDocs, If(varIsTreasury, COI_Documents, FirstN(COI_Documents, 0)));
+              Set(varReq, LookUp(colReqs, ID = varReq.ID));
+              ClearCollect(colCovDetail, Filter(COI_Coverages, Title = varReq.Title));
+              ClearCollect(colActivity, Filter(COI_Activity, Title = varReq.Title));
+              Notify("Rectification sent to AON.", NotificationType.Success)
+            PressedBorderColor: =RGBA(196, 49, 75, 1)
+            PressedColor: =RGBA(255, 255, 255, 1)
+            PressedFill: =RGBA(140, 30, 50, 1)
+            RadiusBottomLeft: =2
+            RadiusBottomRight: =2
+            RadiusTopLeft: =2
+            RadiusTopRight: =2
+            Size: =12
+            Text: ="Send Rectification"
+            Visible: =varModal = "rect"
+            Width: =180
+            X: =recModalPanel.X + 360
+            Y: =recModalPanel.Y + recModalPanel.Height - 56

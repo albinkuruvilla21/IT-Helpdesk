@@ -1,0 +1,24 @@
+# The Python helpers in tools/ that the pipeline's skills call. Not shipped, not a package.
+#   uv run tools/<tool>.py …        uv installs Python (.python-version) and these, pinned by uv.lock
+#   pip install --group tools       fallback without uv (pip 25.1+, Python 3.10+)
+# pac and PowerShell 7 are not Python packages: install them separately (README, Prerequisites).
+# Licences checked 2026-10-28 — see CHANGELOG.md.
+
+[project]
+name = "acies-powerapps-tools"
+version = "1.9.0"
+description = "Python helpers for the Acies Power Apps delivery pipeline (tools/)"
+requires-python = ">=3.10"
+
+[dependency-groups]
+tools = [
+    "openpyxl>=3.1,<4",                           # MIT: reads/writes the acceptance criteria workbook
+    "markitdown[docx,xlsx,xls,pdf,pptx]>=0.1,<1",  # MIT, Microsoft: converts BRD/transcript/branding files to Markdown
+    "pyyaml>=6,<7",                               # MIT: pp.py build parses every .pa.yaml in full (PA1001, PA-T25)
+    "playwright>=1.47,<2",                        # Apache-2.0, Microsoft: renders the prototype for visual_compare.py
+    "pillow>=10,<13",                             # MIT-CMU: compares the prototype with Studio screenshots
+]
+
+[tool.uv]
+package = false
+default-groups = ["tools"]

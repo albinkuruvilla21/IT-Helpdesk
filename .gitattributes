@@ -1,0 +1,9 @@
+# SolutionPackager writes CRLF and a UTF-8 BOM. Keep the bytes as they are, so an export that
+# changes nothing shows no diff on any platform or core.autocrlf setting.
+solution/src/** -text
+canvas/** -text
+
+# Binary
+*.msapr binary
+*.msapp binary
+*_BackgroundImageUri binary

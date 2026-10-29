@@ -1,0 +1,37 @@
+App:
+  Properties:
+    Formulas: |-
+      =// Design tokens. The client's brand lives here and only here: screens use these names, never RGBA literals (D11).
+      // Replace the values from specs/design-spec.md; never rename a token (tools/canvas_ui.py and the build check rely on the names).
+      ColorPrimary = RGBA(15, 108, 189, 1);
+      ColorPrimaryHover = RGBA(16, 94, 165, 1);
+      ColorPrimaryPressed = RGBA(12, 76, 134, 1);
+      ColorOnPrimary = RGBA(255, 255, 255, 1);
+      ColorSecondary = RGBA(15, 42, 74, 1);
+      ColorOnSecondary = RGBA(255, 255, 255, 1);
+      ColorOnSecondaryMuted = RGBA(255, 255, 255, 0.8);
+      ColorText = RGBA(32, 31, 30, 1);
+      ColorTextMuted = RGBA(96, 94, 92, 1);
+      ColorBorder = RGBA(138, 136, 134, 1);
+      ColorDivider = RGBA(210, 208, 206, 1);
+      ColorBackground = RGBA(255, 255, 255, 1);
+      ColorSurface = RGBA(243, 242, 241, 1);
+      ColorDisabled = RGBA(161, 159, 157, 1);
+      ColorTransparent = RGBA(0, 0, 0, 0);
+      ColorHoverOverlay = RGBA(0, 0, 0, 0.06);
+      ColorPressedOverlay = RGBA(0, 0, 0, 0.12);
+      ColorOverlay = RGBA(0, 0, 0, 0.45);
+      ColorSuccessFill = RGBA(199, 233, 192, 1);
+      ColorWarningFill = RGBA(254, 217, 168, 1);
+      ColorErrorFill = RGBA(244, 182, 182, 1);
+      ColorInfoFill = RGBA(188, 215, 242, 1);
+      ColorNeutralFill = RGBA(221, 221, 221, 1);
+      ColorError = RGBA(196, 49, 75, 1);
+      ColorErrorHover = RGBA(170, 40, 62, 1);
+      ColorErrorPressed = RGBA(140, 30, 50, 1);
+      ColorNoteFill = RGBA(255, 244, 206, 1);
+      ColorNoteBorder = RGBA(232, 201, 90, 1);
+      FontBody = Font.'Segoe UI';
+      AppTitle = "Starter App";
+      AppSubtitle = "Replace with the app subtitle";
+    Theme: =PowerAppsTheme

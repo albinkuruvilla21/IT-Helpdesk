@@ -1,0 +1,335 @@
+{
+  "project": {
+    "name": "Contoso Site Requests — Phase 1",
+    "client": "Contoso (fictional)",
+    "code": "CON",
+    "version": "1.0",
+    "preparedBy": "Claude Code (/acceptance-criteria), reviewed by BA",
+    "preparedOn": "2026-10-20",
+    "approvedBy": "Product Owner (name)",
+    "approvedOn": "2026-10-22"
+  },
+  "acceptanceCriteria": [
+    {
+      "id": "AC-CON-01",
+      "screenSection": "Home screen — header",
+      "userRole": "All Users",
+      "feature": "App header",
+      "description": "Every screen opens with a header bar carrying the app's name, so users always know which app they are in.",
+      "checks": [
+        "The header shows the app's name, \"Site Requests\", in the brand colour band at the top of the screen.",
+        "A screen reader announces the app's name as the screen's first heading.",
+        "The header spans the full width of the screen at every supported width."
+      ],
+      "component": "StarterApp: scrHome",
+      "data": "None",
+      "type": "UI",
+      "priority": "Must",
+      "source": "BRD: Screens!R3; Design: home-v2.png header",
+      "clientInput": "",
+      "openQuestions": "",
+      "status": "Approved",
+      "alterations": ""
+    },
+    {
+      "id": "AC-CON-02",
+      "screenSection": "Home screen — welcome",
+      "userRole": "All Users",
+      "feature": "Personal welcome",
+      "description": "The home screen greets the signed-in user by name and offers the main action.",
+      "checks": [
+        "Below the header, the screen shows \"Welcome, <the user's full name>\" using the signed-in account.",
+        "A primary button below the welcome shows a short success message when selected (Phase 1 placeholder for \"New request\", per Q-01)."
+      ],
+      "component": "StarterApp: scrHome",
+      "data": "None",
+      "type": "UI",
+      "priority": "Should",
+      "source": "Transcript 00:03:10; Design: home-v2.png; PO decision 2026-10-22 (Q-01)",
+      "clientInput": "",
+      "openQuestions": "",
+      "status": "Approved",
+      "alterations": "2026-10-22 · Contoso PO · Q-01 answered: Phase 1 keeps the button as a placeholder; it opens New request once AC-CON-03 is built."
+    },
+    {
+      "id": "AC-CON-03",
+      "screenSection": "New request screen",
+      "userRole": "Requester (any employee)",
+      "feature": "Submit a site request",
+      "description": "An employee asks for a new SharePoint site by filling in a short form.",
+      "checks": [
+        "The form asks for: site name (required), site type (Team / Communication, required) and business justification (required, multi-line).",
+        "Submitting with a required field empty keeps the user on the form and names each missing field next to it.",
+        "On success the request is saved with status \"Submitted\" and the user sees a confirmation with the request's number.",
+        "The requester's name and email are taken from their sign-in; they cannot type them."
+      ],
+      "component": "SiteRequests: scrNewRequest",
+      "data": "CON_SiteRequest: Title, SiteType, BusinessJustification, RequestStatus, RequesterEmail, RequesterName",
+      "type": "Functional",
+      "priority": "Must",
+      "source": "BRD: Requests!R4-R7; Transcript 00:05:42; Design: new-request-v2.png",
+      "clientInput": "",
+      "openQuestions": "",
+      "status": "Approved",
+      "alterations": ""
+    },
+    {
+      "id": "AC-CON-04",
+      "screenSection": "My requests screen",
+      "userRole": "Requester (any employee)",
+      "feature": "My requests",
+      "description": "A requester sees the requests they have submitted and where each one stands.",
+      "checks": [
+        "The screen lists only the signed-in user's requests, newest first.",
+        "Each row shows the site name, the date submitted and the status.",
+        "With no requests, the screen says so and offers \"New request\"."
+      ],
+      "component": "SiteRequests: scrMyRequests",
+      "data": "CON_SiteRequest: Title, RequestStatus, RequesterEmail, Created",
+      "type": "Functional",
+      "priority": "Must",
+      "source": "BRD: Requests!R9; Design: my-requests-v2.png",
+      "clientInput": "",
+      "openQuestions": "",
+      "status": "Approved",
+      "alterations": ""
+    },
+    {
+      "id": "AC-CON-05",
+      "screenSection": "Approvals screen",
+      "userRole": "Site approver",
+      "feature": "Approve or reject a request",
+      "description": "An approver works through submitted requests and approves or rejects each with a reason.",
+      "checks": [
+        "The screen lists requests with status \"Submitted\", oldest first.",
+        "Approving sets the status to \"Approved\"; rejecting requires a reason and sets \"Rejected\".",
+        "Only members of the approvers group can change a request's status; for anyone else the save is refused by the list (STD-PERM).",
+        "Who the approvers are is maintained by Contoso IT in the approvers SharePoint group; no admin screen is built."
+      ],
+      "component": "SiteRequests: scrApprovals",
+      "data": "CON_SiteRequest: RequestStatus, DecisionReason, DecidedBy, DecidedOn",
+      "type": "Functional",
+      "priority": "Must",
+      "source": "BRD: Approvals!R3-R5; Transcript 00:11:20",
+      "clientInput": "IN-02",
+      "openQuestions": "",
+      "status": "Approved",
+      "alterations": ""
+    },
+    {
+      "id": "AC-CON-06",
+      "screenSection": "Background — email notification",
+      "userRole": "Support team",
+      "feature": "New request notification",
+      "description": "The support mailbox is told by email whenever a new request arrives.",
+      "checks": [
+        "Within 5 minutes of a request being created, an email goes to the support address held in the app's settings.",
+        "The email's subject carries the request's title and its body links to the item.",
+        "Changing the support address needs no change to the app or flow (an environment variable)."
+      ],
+      "component": "Flow: Sample - Notify on new item",
+      "data": "CON_SiteRequest: Title",
+      "type": "Integration",
+      "priority": "Should",
+      "source": "Transcript 00:14:05 (\"support should get an email, within a few minutes is fine\")",
+      "clientInput": "IN-01",
+      "openQuestions": "",
+      "status": "Approved",
+      "alterations": ""
+    },
+    {
+      "id": "AC-CON-07",
+      "screenSection": "New request screen",
+      "userRole": "Requester (any employee)",
+      "feature": "Attach supporting documents",
+      "description": "The BRD lists attachments on a request. Neither the design nor the walkthrough shows them.",
+      "checks": [
+        "Promote into scope, or leave out? Baseline: not built."
+      ],
+      "component": "SiteRequests: scrNewRequest",
+      "data": "None",
+      "type": "Functional",
+      "priority": "Could",
+      "source": "BRD: Requests!R8",
+      "clientInput": "",
+      "openQuestions": "Q-02",
+      "status": "Candidate",
+      "alterations": ""
+    }
+  ],
+  "standards": [
+    {
+      "id": "STD-A11Y",
+      "standard": "Accessibility (WCAG 2.1 AA)",
+      "appliesTo": "All",
+      "checks": [
+        "Every interactive control is reachable and operable by keyboard alone, in reading order, with a visible focus indicator.",
+        "Every interactive control has an accessible name: its text, or AccessibleLabel where the control has one (icons, inputs, galleries).",
+        "Text meets 4.5:1 contrast (3:1 for large text and control boundaries) against its background.",
+        "Each screen's title is a heading (Role: Heading1); images have meaningful alternative text or are marked decorative.",
+        "Errors and confirmations are announced to screen readers, never shown by colour alone."
+      ],
+      "basis": "Acies default D9. Not negotiable scope: the PO signs the criteria, not this."
+    },
+    {
+      "id": "STD-STATES",
+      "standard": "Loading, empty, error and no-permission states",
+      "appliesTo": "Every screen that shows list data",
+      "checks": [
+        "While data loads, the screen shows a loading indicator in the area that will hold it.",
+        "With no data, the screen says what is missing and offers the next step if there is one.",
+        "If loading or saving fails, the user sees what failed in plain words and can try again; nothing fails silently.",
+        "If the user has no access to the data, the screen says so plainly."
+      ],
+      "basis": "Acies design standard §5."
+    },
+    {
+      "id": "STD-PERM",
+      "standard": "Permissions by list permissions",
+      "appliesTo": "Every list",
+      "checks": [
+        "What a user can read or change is decided by the SharePoint list's permissions, not by which buttons the app shows.",
+        "A user without edit rights who reaches a save action gets a refusal from SharePoint, which the app reports as \"You don't have access\"."
+      ],
+      "basis": "Acies default D6."
+    }
+  ],
+  "questions": [
+    {
+      "id": "Q-01",
+      "acIds": "AC-CON-02",
+      "area": "Home",
+      "question": "Should the home screen's main button open the new-request form directly, or a choice of actions?",
+      "whyItMatters": "A choice of actions needs another screen and its design.",
+      "currentBaseline": "Opens the new-request form (AC-CON-03).",
+      "owner": "Contoso PO",
+      "status": "Answered",
+      "answer": "Phase 1 placeholder; opens New request once AC-CON-03 is built · 2026-10-22"
+    },
+    {
+      "id": "Q-02",
+      "acIds": "AC-CON-07",
+      "area": "New request",
+      "question": "The BRD lists attachments on a request; the design and walkthrough don't. In scope for Phase 1?",
+      "whyItMatters": "Attachments change the form, the list and the approval screen.",
+      "currentBaseline": "Not built.",
+      "owner": "Contoso PO",
+      "status": "Open",
+      "answer": ""
+    }
+  ],
+  "clientInputs": [
+    {
+      "id": "IN-01",
+      "acId": "AC-CON-06",
+      "item": "Support mailbox address (per environment)",
+      "value": "",
+      "providedBy": "Contoso IT",
+      "status": "Awaiting",
+      "notes": "Goes into deployment/settings.<env>.json, not the app."
+    },
+    {
+      "id": "IN-02",
+      "acId": "AC-CON-05",
+      "item": "Name of the SharePoint group holding site approvers",
+      "value": "",
+      "providedBy": "Contoso IT",
+      "status": "Awaiting",
+      "notes": ""
+    }
+  ],
+  "testCases": [
+    {
+      "id": "TC-HOME-001",
+      "acId": "AC-CON-01",
+      "check": 1,
+      "scenario": "The header shows the app's name",
+      "type": "Positive",
+      "preconditions": "The app is published and shared with the tester.",
+      "steps": "1. Open the app.\n2. Look at the top of the home screen.",
+      "expected": "A brand-coloured band across the top shows \"Site Requests\".",
+      "iteration": 1,
+      "status": "Not Run",
+      "comments": "",
+      "bugRef": ""
+    },
+    {
+      "id": "TC-HOME-002",
+      "acId": "AC-CON-02",
+      "check": 1,
+      "scenario": "The welcome uses the signed-in user's name",
+      "type": "Positive",
+      "preconditions": "Tester signed in as a user whose full name is known.",
+      "steps": "1. Open the app.\n2. Read the line below the header.",
+      "expected": "It reads \"Welcome, <tester's full name>\".",
+      "iteration": 1,
+      "status": "Not Run",
+      "comments": "",
+      "bugRef": ""
+    },
+    {
+      "id": "TC-REQ-001",
+      "acId": "AC-CON-03",
+      "check": 2,
+      "scenario": "Submitting with the justification empty is refused",
+      "type": "Negative",
+      "preconditions": "Tester can open the new-request screen.",
+      "steps": "1. Open New request.\n2. Enter a site name and choose a site type.\n3. Leave the justification empty.\n4. Select Submit.",
+      "expected": "The form stays open and says the business justification is required, next to that field. No request is created.",
+      "iteration": 1,
+      "status": "Not Run",
+      "comments": "",
+      "bugRef": ""
+    },
+    {
+      "id": "TC-NOTIFY-001",
+      "acId": "AC-CON-06",
+      "check": 1,
+      "scenario": "A new request emails the support mailbox",
+      "type": "Positive",
+      "preconditions": "The flow is on; the support address variable holds a mailbox the tester can read (IN-01).",
+      "steps": "1. Submit a new request titled \"TC-NOTIFY-001\".\n2. Wait up to 5 minutes.\n3. Check the support mailbox.",
+      "expected": "An email with \"TC-NOTIFY-001\" in the subject has arrived, linking to the new item.",
+      "iteration": 1,
+      "status": "Not Run",
+      "comments": "Blocked until IN-01 is received.",
+      "bugRef": ""
+    },
+    {
+      "id": "TC-A11Y-001",
+      "acId": "STD-A11Y",
+      "check": 1,
+      "scenario": "Keyboard-only pass of the home screen",
+      "type": "Accessibility",
+      "preconditions": "",
+      "steps": "1. Open the app.\n2. Using Tab, Shift+Tab, Enter and Space only, operate every control on the home screen.",
+      "expected": "Every control is reachable in reading order with a visible focus indicator; nothing traps focus.",
+      "iteration": 1,
+      "status": "Not Run",
+      "comments": "",
+      "bugRef": ""
+    }
+  ],
+  "references": [
+    {
+      "name": "BRD",
+      "location": "inputs/brd/Contoso_SiteRequests_BRD_v2.xlsx",
+      "notes": "Signed-off version."
+    },
+    {
+      "name": "PO walkthrough",
+      "location": "inputs/transcripts/2026-10-16-po-walkthrough.vtt",
+      "notes": ""
+    },
+    {
+      "name": "Accepted design",
+      "location": "inputs/design/",
+      "notes": "v2 PNGs, accepted 2026-10-17."
+    },
+    {
+      "name": "Brand guidelines",
+      "location": "inputs/branding/Contoso_Brand_2026.pdf",
+      "notes": ""
+    }
+  ]
+}

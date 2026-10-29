@@ -1,0 +1,52 @@
+{
+  "solutionSource": "solution/src",
+  "dist": "dist",
+  "buildManaged": true,
+  "canvasApps": [
+    {
+      "name": "acies_starterapp_4cf77",
+      "source": "canvas/StarterApp"
+    }
+  ],
+  "environments": {
+    "dev": {
+      "url": "",
+      "settings": "deployment/settings.dev.json",
+      "managed": false
+    },
+    "test": {
+      "url": "",
+      "settings": "deployment/settings.test.json",
+      "managed": true
+    },
+    "prod": {
+      "url": "",
+      "settings": "deployment/settings.prod.json",
+      "managed": true,
+      "confirm": true
+    }
+  },
+  "allowedConnectors": [
+    "shared_sharepointonline",
+    "shared_office365",
+    "shared_office365users",
+    "shared_office365groups",
+    "shared_teams",
+    "shared_approvals",
+    "shared_onedriveforbusiness",
+    "shared_excelonlinebusiness",
+    "shared_planner",
+    "shared_todo",
+    "shared_microsoftforms",
+    "shared_flowpush",
+    "shared_logicflows",
+    "shared_powerappsnotification",
+    "shared_powerappsnotificationv2"
+  ],
+  "allowedRequestTriggerKinds": [
+    "Button",
+    "PowerApp",
+    "PowerAppV2"
+  ],
+  "checkerGeo": ""
+}

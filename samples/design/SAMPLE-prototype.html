@@ -1,0 +1,46 @@
+<!doctype html>
+<!-- A fictional prototype for tools/visual_compare.py's sample and tests. Copy the shape of SAMPLE-visual-map.json, not this page. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Site Requests (sample prototype)</title>
+<style>
+  :root { --bg: #F4F6FA; --surface: #FFFFFF; --text: #1B2430; --muted: #5B6675; --accent: #0F6CBD; }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #11161D; --surface: #1C232D; --text: #E8EDF3; --muted: #A3AEBB; --accent: #4CA3F0; }
+  }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 14px/20px "Segoe UI", Arial, sans-serif; }
+  #app { width: 1366px; min-height: 768px; box-sizing: border-box; padding: 24px 32px; }
+  header { display: flex; justify-content: space-between; align-items: center; padding: 16px 24px;
+           background: var(--surface); border-radius: 16px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); }
+  header h1 { margin: 0; font-size: 24px; line-height: 32px; font-weight: 600; }
+  #today { color: var(--muted); }
+  nav { margin: 24px 0 16px; display: flex; gap: 8px; }
+  nav button { font: inherit; padding: 8px 16px; border: 0; border-radius: 999px; background: transparent; color: var(--muted); }
+  nav button.on { background: var(--accent); color: #FFFFFF; }
+  .card { background: var(--surface); border-radius: 12px; padding: 20px 24px; border: 1px solid rgba(0, 0, 0, 0.06); }
+  .card h2 { margin: 0 0 8px; font-size: 18px; line-height: 24px; }
+  .empty { color: var(--muted); }
+</style>
+</head>
+<body>
+<div id="app">
+  <header><h1>Site Requests</h1><span id="today"></span></header>
+  <nav><button id="tabHome" class="on" onclick="showView('home')">Home</button>
+       <button id="tabRequests" onclick="showView('requests')">My requests</button></nav>
+  <section id="view-home" class="card"><h2>Welcome</h2><p>Ask for a new SharePoint site, and follow it here.</p></section>
+  <section id="view-requests" class="card" hidden><h2>My requests</h2><p class="empty">You haven't asked for a site yet.</p></section>
+</div>
+<script>
+  // The date the header shows comes from the clock: visual_compare.py freezes it with the map's "clock".
+  document.getElementById('today').textContent =
+    new Date().toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+  function showView(name) {
+    for (const v of ['home', 'requests']) {
+      document.getElementById('view-' + v).hidden = v !== name;
+      document.getElementById('tab' + v[0].toUpperCase() + v.slice(1)).classList.toggle('on', v === name);
+    }
+  }
+</script>
+</body>
+</html>

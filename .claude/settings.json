@@ -1,0 +1,38 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(uv run tools/ingest.py:*)",
+      "Bash(uv run tools/ac_workbook.py:*)",
+      "Bash(uv run tools/catalogue.py:*)",
+      "Bash(uv run tools/check_schemas.py:*)",
+      "Bash(uv run tools/figma_pull.py:*)",
+      "Bash(uv run tools/prototype_design.py:*)",
+      "Bash(uv run tools/pp.py doctor:*)",
+      "Bash(uv run tools/pp.py fx:*)",
+      "Bash(uv run tools/pp.py build:*)",
+      "Bash(uv run tools/pp.py validate:*)",
+      "Bash(uv run tools/pp.py settings:*)",
+      "Bash(uv run tools/powerfx.py --selftest)",
+      "Bash(uv run tools/canvas_ui.py --selftest)",
+      "Bash(uv run tools/schema_builder.py --selftest)",
+      "Bash(uv run tools/flow_builder.py --selftest)",
+      "Bash(uv run python -m unittest:*)",
+      "Bash(uv sync:*)",
+      "Bash(uv --version)",
+      "Bash(pac --version)",
+      "Bash(pwsh --version)",
+      "Bash(git status:*)",
+      "Bash(git log:*)",
+      "Bash(git diff:*)"
+    ],
+    "ask": [
+      "Bash(uv run tools/pp.py import:*)",
+      "Bash(uv run tools/pp.py export:*)",
+      "Bash(uv run tools/pp.py check:*)",
+      "Bash(uv run tools/pp.py setup:*)",
+      "Bash(uv run tools/reset_template.py:*)",
+      "Bash(pac solution import:*)",
+      "Bash(pac solution export:*)"
+    ]
+  }
+}

@@ -1,0 +1,32 @@
+# Build output: solution ZIPs, staging folder, exports, checker results
+dist/
+
+# A .msapp never lives in solution source: pp.py build packs it from canvas/
+solution/src/CanvasApps/*.msapp
+
+# Local-only settings variants (e.g. settings.dev.local.json)
+deployment/*.local.json
+
+# Working files written by skills and tools — regenerated, never the record
+specs/**/_working/
+.venv/
+__pycache__/
+*.pyc
+
+# The reuse catalogue (references/_catalogue/, tools/catalogue.py fetch) and the source repositories
+# /build-plan clones to read reusable code. Read, never committed
+references/
+
+# Office lock files
+~$*
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Client documents: committed by default (see README "Client documents in the repository").
+# If the client's contract forbids it, uncomment:
+# inputs/*/*
+# !inputs/*/.gitkeep

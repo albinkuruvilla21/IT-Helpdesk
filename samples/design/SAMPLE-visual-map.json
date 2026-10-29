@@ -1,0 +1,36 @@
+{
+  "width": 1366,
+  "height": 768,
+  "scale": 1.0,
+  "clock": "2026-10-28T09:00:00",
+  "tolerance": 0.08,
+  "settleMs": 300,
+  "screens": [
+    {
+      "screen": "scrHome",
+      "state": "ready",
+      "scheme": "light",
+      "design": "samples/design/SAMPLE-prototype.html",
+      "region": "#app",
+      "screenshot": "specs/screenshots/scrHome-ready-light.png"
+    },
+    {
+      "screen": "scrHome",
+      "state": "ready",
+      "scheme": "dark",
+      "design": "samples/design/SAMPLE-prototype.html",
+      "region": "#app",
+      "screenshot": "specs/screenshots/scrHome-ready-dark.png"
+    },
+    {
+      "screen": "scrMyRequests",
+      "state": "empty",
+      "scheme": "light",
+      "design": "samples/design/SAMPLE-prototype.html",
+      "region": "#app",
+      "setup": "showView('requests')",
+      "screenshot": "specs/screenshots/scrMyRequests-empty-light.png",
+      "accepted": "design-spec §9 DEV-01: the pill tabs are a ModernTabList, whose labels render in Segoe UI Semibold"
+    }
+  ]
+}

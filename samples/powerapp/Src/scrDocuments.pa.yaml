@@ -1,0 +1,375 @@
+# ************************************************************************************************
+# Warning: YAML source code for Canvas Apps should only be used to review changes made within Power Apps Studio and for minor edits (Preview).
+# Use the maker portal to create and edit your Power Apps.
+# 
+# The schema file for Canvas Apps is available at https://go.microsoft.com/fwlink/?linkid=2304907
+# 
+# For more information, visit https://go.microsoft.com/fwlink/?linkid=2292623
+# ************************************************************************************************
+Screens:
+  scrDocuments:
+    Properties:
+      Fill: =RGBA(255, 255, 255, 1)
+      OnVisible: |-
+        =If(!varIsTreasury, Navigate(scrDashboard, ScreenTransition.None));
+        ClearCollect(colReqs, If(varIsTreasury, Filter(COI_Requests, Status <> "Draft"), Filter(COI_Requests, RequestorEmail = User().Email)));
+        ClearCollect(colHolders, {Value: "All"});
+        Collect(colHolders, Distinct(colReqs, CertificateHolder));
+        ClearCollect(colDocs, If(varIsTreasury, COI_Documents, FirstN(COI_Documents, 0)))
+    Children:
+      - docHdr:
+          Control: Label@2.5.1
+          Properties:
+            Color: =RGBA(32, 31, 30, 1)
+            Fill: =RGBA(15, 42, 74, 1)
+            Font: =Font.'Segoe UI'
+            Height: =56
+            Size: =12
+            Text: =""
+            Width: =Parent.Width
+      - docHdrTitle:
+          Control: Label@2.5.1
+          Properties:
+            Color: =RGBA(255, 255, 255, 1)
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Semibold
+            Height: =28
+            Size: =18
+            Text: ="Certificate of Insurance"
+            Width: =500
+            X: =20
+            Y: =6
+      - docHdrSub:
+          Control: Label@2.5.1
+          Properties:
+            Color: =RGBA(255, 255, 255, 0.8)
+            Font: =Font.'Segoe UI'
+            Height: =18
+            Size: =11
+            Text: ="COI Request Management"
+            Width: =500
+            X: =20
+            Y: =32
+      - docHdrUser:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Right
+            Color: =RGBA(255, 255, 255, 1)
+            Font: =Font.'Segoe UI'
+            Height: =28
+            Size: =12
+            Text: =varMyName & "  |  " & If(varIsTreasury, "Treasury", "Requestor")
+            Width: =420
+            X: =Parent.Width - 440
+            Y: =14
+      - docNav:
+          Control: Label@2.5.1
+          Properties:
+            Color: =RGBA(32, 31, 30, 1)
+            Fill: =RGBA(243, 242, 241, 1)
+            Font: =Font.'Segoe UI'
+            Height: =44
+            Size: =12
+            Text: =""
+            Width: =Parent.Width
+            Y: =56
+      - docTabDash:
+          Control: Classic/Button@2.2.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderThickness: =1
+            Color: =RGBA(32, 31, 30, 1)
+            DisabledBorderColor: =RGBA(210, 208, 206, 1)
+            DisabledColor: =RGBA(161, 159, 157, 1)
+            DisabledFill: =RGBA(243, 242, 241, 1)
+            Fill: =RGBA(0, 0, 0, 0)
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Normal
+            Height: =36
+            HoverBorderColor: =RGBA(0, 0, 0, 0)
+            HoverColor: =RGBA(32, 31, 30, 1)
+            HoverFill: =RGBA(0, 0, 0, 0.06)
+            OnSelect: =Navigate(scrDashboard, ScreenTransition.None)
+            PressedBorderColor: =RGBA(0, 0, 0, 0)
+            PressedColor: =RGBA(32, 31, 30, 1)
+            PressedFill: =RGBA(0, 0, 0, 0.12)
+            RadiusBottomLeft: =2
+            RadiusBottomRight: =2
+            RadiusTopLeft: =2
+            RadiusTopRight: =2
+            Size: =12
+            Text: ="Dashboard"
+            Width: =130
+            X: =20
+            Y: =60
+      - docTabDocs:
+          Control: Classic/Button@2.2.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderThickness: =1
+            Color: =RGBA(32, 31, 30, 1)
+            DisabledBorderColor: =RGBA(210, 208, 206, 1)
+            DisabledColor: =RGBA(161, 159, 157, 1)
+            DisabledFill: =RGBA(243, 242, 241, 1)
+            Fill: =RGBA(0, 0, 0, 0)
+            Font: =Font.'Segoe UI'
+            Height: =36
+            HoverBorderColor: =RGBA(0, 0, 0, 0)
+            HoverColor: =RGBA(32, 31, 30, 1)
+            HoverFill: =RGBA(0, 0, 0, 0.06)
+            OnSelect: =Navigate(scrDocuments, ScreenTransition.None)
+            PressedBorderColor: =RGBA(0, 0, 0, 0)
+            PressedColor: =RGBA(32, 31, 30, 1)
+            PressedFill: =RGBA(0, 0, 0, 0.12)
+            RadiusBottomLeft: =2
+            RadiusBottomRight: =2
+            RadiusTopLeft: =2
+            RadiusTopRight: =2
+            Size: =12
+            Text: ="Documents"
+            Visible: =varIsTreasury
+            Width: =130
+            X: =156
+            Y: =60
+      - docTabLine:
+          Control: Label@2.5.1
+          Properties:
+            Color: =RGBA(32, 31, 30, 1)
+            Fill: =RGBA(15, 108, 189, 1)
+            Font: =Font.'Segoe UI'
+            Height: =3
+            Size: =12
+            Text: =""
+            Width: =130
+            X: =156
+            Y: =96
+      - docMain:
+          Control: GroupContainer@1.5.0
+          Variant: AutoLayout
+          Properties:
+            DropShadow: =DropShadow.None
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =Parent.Height - 100
+            LayoutAlignItems: =LayoutAlignItems.Stretch
+            LayoutDirection: =LayoutDirection.Vertical
+            LayoutGap: =12
+            LayoutOverflowY: =LayoutOverflow.Scroll
+            PaddingBottom: =24
+            PaddingLeft: =Max(20, (Parent.Width - 1150) / 2)
+            PaddingRight: =Max(20, (Parent.Width - 1150) / 2)
+            PaddingTop: =16
+            Width: =Parent.Width
+            Y: =100
+          Children:
+            - docTitle:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =RGBA(32, 31, 30, 1)
+                  Font: =Font.'Segoe UI'
+                  FontWeight: =FontWeight.Semibold
+                  Height: =36
+                  Size: =20
+                  Text: ="Documents (SharePoint Library)"
+            - docTblHdr:
+                Control: GroupContainer@1.5.0
+                Variant: AutoLayout
+                Properties:
+                  DropShadow: =DropShadow.None
+                  Fill: =RGBA(243, 242, 241, 1)
+                  FillPortions: =0
+                  Height: =30
+                  LayoutAlignItems: =LayoutAlignItems.Center
+                  LayoutDirection: =LayoutDirection.Horizontal
+                  LayoutGap: =8
+                  LayoutMinHeight: =0
+                  LayoutMinWidth: =0
+                  PaddingLeft: =8
+                  PaddingRight: =8
+                Children:
+                  - docTblHdrH1:
+                      Control: Label@2.5.1
+                      Properties:
+                        Color: =RGBA(32, 31, 30, 1)
+                        FillPortions: =3
+                        Font: =Font.'Segoe UI'
+                        FontWeight: =FontWeight.Semibold
+                        Size: =11
+                        Text: ="File Name"
+                  - docTblHdrH2:
+                      Control: Label@2.5.1
+                      Properties:
+                        Color: =RGBA(32, 31, 30, 1)
+                        FillPortions: =2
+                        Font: =Font.'Segoe UI'
+                        FontWeight: =FontWeight.Semibold
+                        Size: =11
+                        Text: ="Certificate Holder"
+                  - docTblHdrH3:
+                      Control: Label@2.5.1
+                      Properties:
+                        Color: =RGBA(32, 31, 30, 1)
+                        FillPortions: =1
+                        Font: =Font.'Segoe UI'
+                        FontWeight: =FontWeight.Semibold
+                        Size: =11
+                        Text: ="Request ID"
+                  - docTblHdrH4:
+                      Control: Label@2.5.1
+                      Properties:
+                        Color: =RGBA(32, 31, 30, 1)
+                        FillPortions: =1.3
+                        Font: =Font.'Segoe UI'
+                        FontWeight: =FontWeight.Semibold
+                        Size: =11
+                        Text: ="Document Type"
+                  - docTblHdrH5:
+                      Control: Label@2.5.1
+                      Properties:
+                        Color: =RGBA(32, 31, 30, 1)
+                        FillPortions: =0.8
+                        Font: =Font.'Segoe UI'
+                        FontWeight: =FontWeight.Semibold
+                        Size: =11
+                        Text: ="Version"
+                  - docTblHdrH6:
+                      Control: Label@2.5.1
+                      Properties:
+                        Color: =RGBA(32, 31, 30, 1)
+                        FillPortions: =1
+                        Font: =Font.'Segoe UI'
+                        FontWeight: =FontWeight.Semibold
+                        Size: =11
+                        Text: ="Status"
+                  - docTblHdrH7:
+                      Control: Label@2.5.1
+                      Properties:
+                        Color: =RGBA(32, 31, 30, 1)
+                        FillPortions: =0.7
+                        Font: =Font.'Segoe UI'
+                        FontWeight: =FontWeight.Semibold
+                        Size: =11
+                        Text: =""
+            - galAllDocsWrap:
+                Control: GroupContainer@1.5.0
+                Variant: ManualLayout
+                Properties:
+                  DropShadow: =DropShadow.None
+                  FillPortions: =0
+                  Height: =520
+                  LayoutMaxHeight: =
+                  LayoutMaxWidth: =
+                Children:
+                  - galAllDocs:
+                      Control: Gallery@2.15.0
+                      Variant: BrowseLayout_Vertical_TwoTextOneImageVariant_ver5.0
+                      Properties:
+                        BorderColor: =RGBA(210, 208, 206, 1)
+                        Height: =Parent.Height
+                        Items: =SortByColumns(colDocs, "ID", SortOrder.Descending)
+                        TemplateSize: =40
+                        Width: =Parent.Width
+                      Children:
+                        - galAllDocsRow:
+                            Control: GroupContainer@1.5.0
+                            Variant: AutoLayout
+                            Properties:
+                              DropShadow: =DropShadow.None
+                              Fill: =RGBA(255, 255, 255, 1)
+                              Height: =Parent.TemplateHeight
+                              LayoutAlignItems: =LayoutAlignItems.Center
+                              LayoutDirection: =LayoutDirection.Horizontal
+                              LayoutGap: =8
+                              PaddingLeft: =8
+                              PaddingRight: =8
+                              Width: =Parent.TemplateWidth
+                            Children:
+                              - docF:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    AlignInContainer: =AlignInContainer.Center
+                                    Color: =RGBA(32, 31, 30, 1)
+                                    FillPortions: =3
+                                    Font: =Font.'Segoe UI'
+                                    Size: =12
+                                    Text: =ThisItem.Title
+                              - docH:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    AlignInContainer: =AlignInContainer.Center
+                                    Color: =RGBA(32, 31, 30, 1)
+                                    FillPortions: =2
+                                    Font: =Font.'Segoe UI'
+                                    Size: =12
+                                    Text: =ThisItem.CertificateHolder
+                              - docR:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    AlignInContainer: =AlignInContainer.Center
+                                    Color: =RGBA(32, 31, 30, 1)
+                                    FillPortions: =1
+                                    Font: =Font.'Segoe UI'
+                                    Size: =12
+                                    Text: =ThisItem.RequestID
+                              - docT:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    AlignInContainer: =AlignInContainer.Center
+                                    Color: =RGBA(32, 31, 30, 1)
+                                    FillPortions: =1.3
+                                    Font: =Font.'Segoe UI'
+                                    Size: =12
+                                    Text: =ThisItem.DocumentType
+                              - docV:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    AlignInContainer: =AlignInContainer.Center
+                                    Color: =RGBA(32, 31, 30, 1)
+                                    FillPortions: =0.8
+                                    Font: =Font.'Segoe UI'
+                                    Size: =12
+                                    Text: =ThisItem.Version
+                              - docS:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    AlignInContainer: =AlignInContainer.Center
+                                    Color: =RGBA(32, 31, 30, 1)
+                                    FillPortions: =1
+                                    Font: =Font.'Segoe UI'
+                                    Size: =12
+                                    Text: =ThisItem.DocStatus
+                              - docView:
+                                  Control: Classic/Button@2.2.0
+                                  Properties:
+                                    AlignInContainer: =AlignInContainer.Center
+                                    BorderColor: =RGBA(210, 208, 206, 1)
+                                    BorderThickness: =1
+                                    Color: =RGBA(32, 31, 30, 1)
+                                    DisabledBorderColor: =RGBA(210, 208, 206, 1)
+                                    DisabledColor: =RGBA(161, 159, 157, 1)
+                                    DisabledFill: =RGBA(243, 242, 241, 1)
+                                    Fill: =RGBA(255, 255, 255, 1)
+                                    FillPortions: =0.7
+                                    Font: =Font.'Segoe UI'
+                                    Height: =28
+                                    HoverBorderColor: =RGBA(210, 208, 206, 1)
+                                    HoverColor: =RGBA(32, 31, 30, 1)
+                                    HoverFill: =RGBA(243, 242, 241, 1)
+                                    OnSelect: |-
+                                      =Notify("HOOK: open " & ThisItem.Title & " from the SharePoint COI document library.", NotificationType.Information)
+                                    PressedBorderColor: =RGBA(210, 208, 206, 1)
+                                    PressedColor: =RGBA(32, 31, 30, 1)
+                                    PressedFill: =RGBA(210, 208, 206, 1)
+                                    RadiusBottomLeft: =2
+                                    RadiusBottomRight: =2
+                                    RadiusTopLeft: =2
+                                    RadiusTopRight: =2
+                                    Size: =12
+                                    Text: ="View"
+                        - galAllDocsSep:
+                            Control: Rectangle@2.3.0
+                            Properties:
+                              BorderColor: =RGBA(0, 0, 0, 0)
+                              Fill: =RGBA(210, 208, 206, 1)
+                              Height: =1
+                              Width: =Parent.TemplateWidth
+                              Y: =Parent.TemplateHeight - Self.Height
