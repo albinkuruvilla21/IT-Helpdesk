@@ -1,15 +1,51 @@
 {
   "EnvironmentVariables": [
     {
-      "SchemaName": "ith_SampleList",
-      "Value": ""
-    },
-    {
       "SchemaName": "ith_SharePointSite",
       "Value": ""
     },
     {
-      "SchemaName": "ith_SupportEmail",
+      "SchemaName": "ith_TicketList",
+      "Value": ""
+    },
+    {
+      "SchemaName": "ith_TicketCommentList",
+      "Value": ""
+    },
+    {
+      "SchemaName": "ith_TicketActivityList",
+      "Value": ""
+    },
+    {
+      "SchemaName": "ith_ArticleList",
+      "Value": ""
+    },
+    {
+      "SchemaName": "ith_TechnicianList",
+      "Value": ""
+    },
+    {
+      "SchemaName": "ith_CategoryList",
+      "Value": ""
+    },
+    {
+      "SchemaName": "ith_PriorityList",
+      "Value": ""
+    },
+    {
+      "SchemaName": "ith_StatusList",
+      "Value": ""
+    },
+    {
+      "SchemaName": "ith_UserRoleList",
+      "Value": ""
+    },
+    {
+      "SchemaName": "ith_NotificationMailbox",
+      "Value": ""
+    },
+    {
+      "SchemaName": "ith_AppLink",
       "Value": ""
     }
   ],

@@ -51,7 +51,7 @@ carries it, and a component can never move to another publisher (PA-T1).
 | **G2** | **Acceptance criteria: Client PO sign-off** | `specs/acceptance-criteria/<CODE>_AcceptanceCriteria.xlsx` | `/acceptance-criteria` | G1 | Approved |
 | G3 | Design spec | `specs/design-spec.md`, tokens in `App.Formulas` | `/deliver` | G2 | Done |
 | G4 | Build plan | `specs/build-plan.md` | `/deliver` | G3 | Done |
-| G5 | List schemas | `schemas/*.csv`, `specs/data-model.md`, list environment variables | `/deliver` | G4 | Not started |
+| G5 | List schemas | `schemas/*.csv`, `specs/data-model.md`, list environment variables | `/deliver` | G4 | Done |
 | G6 | Scaffold | `canvas/` screens, solution components wired, samples removed | `/deliver` | G5 | Not started |
 | G7 | UI | Screens against sample data | `/deliver` | G6 | Not started |
 | G8 | Functionality | Formulas against real lists | `/deliver` | G7 | Not started |
@@ -105,6 +105,8 @@ asks.
 | Q-20 | 2026-10-29 | May a requester close or reopen their own ticket (AC-ITH-29, 39)? Baseline: no | /acceptance-criteria | Client PO | 🔶 |
 | Q-21 | 2026-10-29 | May requesters raise a ticket on someone else's behalf, and comment on their own tickets (AC-ITH-20, 27)? Baseline: only staff change the requester; requesters may comment | /acceptance-criteria | Client PO | 🔶 |
 | Q-22 | 2026-10-29 | May the dark/light choice be remembered per user (needs a small list)? Baseline: not remembered, starts Light each session (design-spec DEV-02) | /design-spec | Client PO | 🔶 |
+| Q-23 | 2026-10-29 | Comments and activity must be readable by the requester of a ticket, so their lists cannot hide other people's items. Accept list-wide read (app filters), or ask for per-item permissions (a flow, out of scope)? Baseline: list-wide read | /list-schemas | Client PO | 🔶 |
+| Q-24 | 2026-10-29 | A ticket staff raise for someone else is created by staff, so that requester cannot read it through list permissions (item-level own-items follows the creator). Accept? Baseline: accepted | /list-schemas | Client PO | 🔶 |
 
 ## 5. Tenant facts
 
@@ -143,8 +145,17 @@ the portal's import wizard (or, for scripted imports, in `deployment/settings.<e
 | Schema name | Type | Holds | Dev | Test | Prod |
 |---|---|---|---|---|---|
 | `ith_SharePointSite` | Data source (SharePoint site) | The site holding the app's lists | 🔶 | 🔶 | 🔶 |
-| `ith_SampleList` | Data source (list, child of the site) | The starter's sample list | 🔶 | 🔶 | 🔶 |
-| `ith_SupportEmail` | Text | Where the starter flow sends its notification | 🔶 | 🔶 | 🔶 |
+| `ith_TicketList` | Data source (list, child of the site) | `ITH_Ticket`: Tickets | 🔶 | 🔶 | 🔶 |
+| `ith_TicketCommentList` | Data source (list, child of the site) | `ITH_TicketComment`: Comments on tickets | 🔶 | 🔶 | 🔶 |
+| `ith_TicketActivityList` | Data source (list, child of the site) | `ITH_TicketActivity`: Activity timeline and flow trigger | 🔶 | 🔶 | 🔶 |
+| `ith_ArticleList` | Data source (list, child of the site) | `ITH_Article`: Knowledge base articles | 🔶 | 🔶 | 🔶 |
+| `ith_TechnicianList` | Data source (list, child of the site) | `ITH_Technician`: Technicians for assignment | 🔶 | 🔶 | 🔶 |
+| `ith_CategoryList` | Data source (list, child of the site) | `ITH_Category`: Ticket categories | 🔶 | 🔶 | 🔶 |
+| `ith_PriorityList` | Data source (list, child of the site) | `ITH_Priority`: Priorities and definitions | 🔶 | 🔶 | 🔶 |
+| `ith_StatusList` | Data source (list, child of the site) | `ITH_Status`: Statuses and definitions | 🔶 | 🔶 | 🔶 |
+| `ith_UserRoleList` | Data source (list, child of the site) | `ITH_UserRole`: Employee roles (D-03) | 🔶 | 🔶 | 🔶 |
+| `ith_NotificationMailbox` | Text | Mailbox the notification emails go from (IN-04, Q-15) | 🔶 | 🔶 | 🔶 |
+| `ith_AppLink` | Text | The app's link, for emails (AC-ITH-32) | 🔶 | 🔶 | 🔶 |
 
 ### 6.3 Connection references
 

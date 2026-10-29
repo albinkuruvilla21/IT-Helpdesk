@@ -80,7 +80,6 @@
       </Addresses>
     </Publisher>
     <RootComponents>
-      <RootComponent type="29" id="{a4bc973b-c387-4eae-82d8-72b0d2a03766}" behavior="0" />
       <RootComponent type="300" schemaName="ith_ithelp_572fd" behavior="0" />
     </RootComponents>
     <MissingDependencies />
