@@ -1060,6 +1060,28 @@ class Analyzer:
             file, line, owner, prop = f.file, (f.line_at(pos) if pos is not None else (f.scalar.line if f.scalar else 0)), f.owner, f.prop
         self.r.findings.append(Finding(severity, code, file or "", line or 0, owner or "", prop or "", message))
 
+    # -- structure checks (each one cost a round in Studio on a delivered project)
+    def _structure_checks(self, f: Formula) -> None:
+        src = f.src or ""
+        # FX-OVERLAY: a control placed from an overlay's panel (X or Y names the panel's X, Y, Width or Height) must be shown by that overlay's variable too.
+        # Without its own Visible it is drawn on every screen state, over the content (PA-T41).
+        if f.kind == "control" and f.prop in ("X", "Y") and f.screen:
+            me = self.controls.get(f.owner)
+            if me is not None and "Visible" not in me["props"]:
+                for m in re.finditer(r"\b([A-Za-z_][A-Za-z0-9_]*)\.(?:X|Y|Width|Height)\b", src):
+                    ref = self.controls.get(m.group(1))
+                    if ref is not None and ref["screen"] == f.screen and m.group(1) != f.owner and "Visible" in ref["props"]:
+                        self.add("error", "FX-OVERLAY", f"'{f.owner}' is placed from '{m.group(1)}', which is shown and hidden, but has no Visible of its own: it would show "
+                                 f"on top of every screen state. Give it the same Visible as '{m.group(1)}' (PA-T41)", f=f)
+                        break
+        # FX-SVG: Text(x, "0.##") leaves a trailing separator ("30."), which is not an SVG number: the shape is not drawn (PA-T40)
+        if "<svg" in src and re.search(r'Text\([^()]*(?:\([^()]*\))?[^()]*,\s*"[0#]*\.#+"\s*\)', src):
+            self.add("error", "FX-SVG", "an SVG built with Text(x, \"0.##\"): a whole number comes out as \"30.\", which is not an SVG number, so the shape is not drawn. "
+                     "Use Substitute(Text(Round(x, 2)), \",\", \".\") (PA-T40)", f=f)
+        # FX-NAME: the table behind a SharePoint item's Attachments has the columns Id, DisplayName, Value and AbsoluteUri, not Name (PA-T42)
+        if re.search(r"\.Attachments\s*,\s*\{[^{}]*:\s*(?:ThisRecord\.)?Name\s*[,}]", src):
+            self.add("error", "FX-NAME", "'Name' isn't a column of an Attachments table: its columns are Id, DisplayName, Value and AbsoluteUri (PA-T42)", f=f)
+
     # -- driver
     def run(self) -> Result:
         formulas, self.controls, self.screens, problems = extract(self.yaml_texts)
@@ -1067,6 +1089,8 @@ class Analyzer:
             self.add("error", code, msg, file=file, line=line, owner=owner, prop="")
         self.formulas = formulas
         self.r.stats["formulas"] = len(formulas)
+        for f in formulas:
+            self._structure_checks(f)
         self.has_onerror = any(f.kind == "app" and f.prop == "OnError" and f.src.strip() for f in formulas)
         self._parse_all()
         for f in formulas:

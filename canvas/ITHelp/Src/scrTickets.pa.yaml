@@ -349,6 +349,8 @@ Screens:
                               Align: =Align.Left
                               PaddingLeft: =0
                               PaddingRight: =0
+                              LayoutMinWidth: =0
+                              LayoutMinHeight: =0
                         - tkTh2:
                             Control: Classic/Button@2.2.0
                             Properties:
@@ -379,6 +381,8 @@ Screens:
                               Align: =Align.Left
                               PaddingLeft: =0
                               PaddingRight: =0
+                              LayoutMinWidth: =0
+                              LayoutMinHeight: =0
                         - tkTh3:
                             Control: Classic/Button@2.2.0
                             Properties:
@@ -409,6 +413,8 @@ Screens:
                               Align: =Align.Left
                               PaddingLeft: =0
                               PaddingRight: =0
+                              LayoutMinWidth: =0
+                              LayoutMinHeight: =0
                         - tkTh4:
                             Control: Classic/Button@2.2.0
                             Properties:
@@ -439,6 +445,8 @@ Screens:
                               Align: =Align.Left
                               PaddingLeft: =0
                               PaddingRight: =0
+                              LayoutMinWidth: =0
+                              LayoutMinHeight: =0
                         - tkTh5:
                             Control: Classic/Button@2.2.0
                             Properties:
@@ -465,10 +473,13 @@ Screens:
                               RadiusTopRight: =0
                               Size: =9.5
                               Text: ="Priority" & If(varSort = "PrioIdx", If(varDesc, " ▼", " ▲"), "")
-                              FillPortions: =1.1
+                              Width: =76
+                              FillPortions: =0
                               Align: =Align.Left
                               PaddingLeft: =0
                               PaddingRight: =0
+                              LayoutMinWidth: =0
+                              LayoutMinHeight: =0
                         - tkTh6:
                             Control: Classic/Button@2.2.0
                             Properties:
@@ -499,6 +510,8 @@ Screens:
                               Align: =Align.Left
                               PaddingLeft: =0
                               PaddingRight: =0
+                              LayoutMinWidth: =0
+                              LayoutMinHeight: =0
                         - tkTh7:
                             Control: Classic/Button@2.2.0
                             Properties:
@@ -525,10 +538,13 @@ Screens:
                               RadiusTopRight: =0
                               Size: =9.5
                               Text: ="Status" & If(varSort = "StatIdx", If(varDesc, " ▼", " ▲"), "")
-                              FillPortions: =1.3
+                              Width: =96
+                              FillPortions: =0
                               Align: =Align.Left
                               PaddingLeft: =0
                               PaddingRight: =0
+                              LayoutMinWidth: =0
+                              LayoutMinHeight: =0
                         - tkTh8:
                             Control: Classic/Button@2.2.0
                             Properties:
@@ -559,6 +575,8 @@ Screens:
                               Align: =Align.Left
                               PaddingLeft: =0
                               PaddingRight: =0
+                              LayoutMinWidth: =0
+                              LayoutMinHeight: =0
                         - tkThAct:
                             Control: Label@2.5.1
                             Properties:
@@ -567,7 +585,8 @@ Screens:
                               Height: =38
                               Size: =9.5
                               Text: ="Actions"
-                              FillPortions: =0.9
+                              Width: =64
+                              FillPortions: =0
                               VerticalAlign: =VerticalAlign.Middle
                               Wrap: =false
                   - tkTblWrap:
@@ -595,7 +614,7 @@ Screens:
                                 IfError(
                                     ClearCollect(colComments, ForAll(SortByColumns(Filter(ITH_TicketComment, TicketId = varTicket.ID), "ID", SortOrder.Ascending), {Author: AuthorName, AtText: Text(Created, "dd mmm yyyy, hh:mm", "en-GB"), Body: Coalesce(CommentText, "")}));
                                     ClearCollect(colTActivity, ForAll(SortByColumns(Filter(ITH_TicketActivity, TicketId = varTicket.ID), "ID", SortOrder.Descending), {Text: Title, AtText: Text(Created, "dd mmm yyyy, hh:mm", "en-GB")}));
-                                    ClearCollect(colAttach, ForAll(LookUp(ITH_Ticket, ID = varTicket.ID).Attachments, {Name: Name}));
+                                    ClearCollect(colAttach, ForAll(LookUp(ITH_Ticket, ID = varTicket.ID).Attachments, {Name: DisplayName}));
                                     true,
                                     Notify("The ticket details could not be loaded. " & FirstError.Message, NotificationType.Error)) // AC-ITH-24.1
                             Children:
@@ -654,41 +673,29 @@ Screens:
                                           Text: =ThisItem.Category
                                           FillPortions: =1.2
                                           Wrap: =false
-                                    - tkRPrC:
-                                        Control: GroupContainer@1.5.0
-                                        Variant: AutoLayout
+                                    - tkRPr:
+                                        Control: ModernText@1.0.0
                                         Properties:
-                                          DropShadow: =DropShadow.None
-                                          FillPortions: =1.1
-                                          LayoutAlignItems: =LayoutAlignItems.Center
-                                          LayoutDirection: =LayoutDirection.Horizontal
-                                          LayoutGap: =0
-                                          LayoutMinHeight: =0
-                                          LayoutMinWidth: =0
-                                        Children:
-                                          - tkRPr:
-                                              Control: ModernText@1.0.0
-                                              Properties:
-                                                Align: =Align.Center
-                                                AlignInContainer: =AlignInContainer.Center
-                                                Color: =Switch(ThisItem.Priority, "Low", ColorNeutralText, "Medium", ColorInfo, "High", ColorHigh, "Critical", ColorError, ColorNeutralText)
-                                                Fill: =Switch(ThisItem.Priority, "Low", ColorNeutralFill, "Medium", ColorInfoFill, "High", ColorHighFill, "Critical", ColorErrorFill, ColorNeutralFill)
-                                                FontWeight: =FontWeight.Semibold
-                                                Height: =21
-                                                LayoutMinHeight: =16
-                                                LayoutMinWidth: =16
-                                                RadiusBottomLeft: =12
-                                                RadiusBottomRight: =12
-                                                RadiusTopLeft: =12
-                                                RadiusTopRight: =12
-                                                Size: =9.5
-                                                Text: =ThisItem.Priority
-                                                Width: =76
-                                                AutoHeight: =false
-                                                PaddingTop: =0
-                                                PaddingBottom: =0
-                                                PaddingLeft: =0
-                                                PaddingRight: =0
+                                          Align: =Align.Center
+                                          AlignInContainer: =AlignInContainer.Center
+                                          Color: =Switch(ThisItem.Priority, "Low", ColorNeutralText, "Medium", ColorInfo, "High", ColorHigh, "Critical", ColorError, ColorNeutralText)
+                                          Fill: =Switch(ThisItem.Priority, "Low", ColorNeutralFill, "Medium", ColorInfoFill, "High", ColorHighFill, "Critical", ColorErrorFill, ColorNeutralFill)
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =21
+                                          LayoutMinHeight: =16
+                                          LayoutMinWidth: =16
+                                          RadiusBottomLeft: =12
+                                          RadiusBottomRight: =12
+                                          RadiusTopLeft: =12
+                                          RadiusTopRight: =12
+                                          Size: =9.5
+                                          Text: =ThisItem.Priority
+                                          Width: =76
+                                          AutoHeight: =false
+                                          PaddingTop: =0
+                                          PaddingBottom: =0
+                                          PaddingLeft: =0
+                                          PaddingRight: =0
                                     - tkRAs:
                                         Control: Label@2.5.1
                                         Properties:
@@ -699,41 +706,29 @@ Screens:
                                           Text: =If(IsBlank(ThisItem.AssignedToName), "Unassigned", ThisItem.AssignedToName)
                                           FillPortions: =1.6
                                           Wrap: =false
-                                    - tkRStC:
-                                        Control: GroupContainer@1.5.0
-                                        Variant: AutoLayout
+                                    - tkRSt:
+                                        Control: ModernText@1.0.0
                                         Properties:
-                                          DropShadow: =DropShadow.None
-                                          FillPortions: =1.3
-                                          LayoutAlignItems: =LayoutAlignItems.Center
-                                          LayoutDirection: =LayoutDirection.Horizontal
-                                          LayoutGap: =0
-                                          LayoutMinHeight: =0
-                                          LayoutMinWidth: =0
-                                        Children:
-                                          - tkRSt:
-                                              Control: ModernText@1.0.0
-                                              Properties:
-                                                Align: =Align.Center
-                                                AlignInContainer: =AlignInContainer.Center
-                                                Color: =Switch(ThisItem.TicketStatus, "Open", ColorInfo, "In Progress", ColorWarning, "On Hold", ColorNeutralText, "Resolved", ColorSuccess, "Closed", ColorClosed, ColorNeutralText)
-                                                Fill: =Switch(ThisItem.TicketStatus, "Open", ColorInfoFill, "In Progress", ColorWarningFill, "On Hold", ColorNeutralFill, "Resolved", ColorSuccessFill, "Closed", ColorClosedFill, ColorNeutralFill)
-                                                FontWeight: =FontWeight.Semibold
-                                                Height: =21
-                                                LayoutMinHeight: =16
-                                                LayoutMinWidth: =16
-                                                RadiusBottomLeft: =12
-                                                RadiusBottomRight: =12
-                                                RadiusTopLeft: =12
-                                                RadiusTopRight: =12
-                                                Size: =9.5
-                                                Text: =ThisItem.TicketStatus
-                                                Width: =96
-                                                AutoHeight: =false
-                                                PaddingTop: =0
-                                                PaddingBottom: =0
-                                                PaddingLeft: =0
-                                                PaddingRight: =0
+                                          Align: =Align.Center
+                                          AlignInContainer: =AlignInContainer.Center
+                                          Color: =Switch(ThisItem.TicketStatus, "Open", ColorInfo, "In Progress", ColorWarning, "On Hold", ColorNeutralText, "Resolved", ColorSuccess, "Closed", ColorClosed, ColorNeutralText)
+                                          Fill: =Switch(ThisItem.TicketStatus, "Open", ColorInfoFill, "In Progress", ColorWarningFill, "On Hold", ColorNeutralFill, "Resolved", ColorSuccessFill, "Closed", ColorClosedFill, ColorNeutralFill)
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =21
+                                          LayoutMinHeight: =16
+                                          LayoutMinWidth: =16
+                                          RadiusBottomLeft: =12
+                                          RadiusBottomRight: =12
+                                          RadiusTopLeft: =12
+                                          RadiusTopRight: =12
+                                          Size: =9.5
+                                          Text: =ThisItem.TicketStatus
+                                          Width: =96
+                                          AutoHeight: =false
+                                          PaddingTop: =0
+                                          PaddingBottom: =0
+                                          PaddingLeft: =0
+                                          PaddingRight: =0
                                     - tkRCr:
                                         Control: Label@2.5.1
                                         Properties:
@@ -766,7 +761,7 @@ Screens:
                                             IfError(
                                                 ClearCollect(colComments, ForAll(SortByColumns(Filter(ITH_TicketComment, TicketId = varTicket.ID), "ID", SortOrder.Ascending), {Author: AuthorName, AtText: Text(Created, "dd mmm yyyy, hh:mm", "en-GB"), Body: Coalesce(CommentText, "")}));
                                                 ClearCollect(colTActivity, ForAll(SortByColumns(Filter(ITH_TicketActivity, TicketId = varTicket.ID), "ID", SortOrder.Descending), {Text: Title, AtText: Text(Created, "dd mmm yyyy, hh:mm", "en-GB")}));
-                                                ClearCollect(colAttach, ForAll(LookUp(ITH_Ticket, ID = varTicket.ID).Attachments, {Name: Name}));
+                                                ClearCollect(colAttach, ForAll(LookUp(ITH_Ticket, ID = varTicket.ID).Attachments, {Name: DisplayName}));
                                                 true,
                                                 Notify("The ticket details could not be loaded. " & FirstError.Message, NotificationType.Error)); Set(varFormMode, "edit"); Set(varErrSubject, false); Set(varErrDesc, false); Set(varErrEmail, false); Set(varMenu, ""); Set(varModal, "form"); Set(varFormKey, varFormKey + 1) // AC-ITH-24.1
                                           PressedBorderColor: =ColorTransparent
@@ -778,8 +773,9 @@ Screens:
                                           RadiusTopRight: =6
                                           Size: =9.5
                                           Text: ="Edit"
+                                          Width: =64
                                           Visible: =IsStaff
-                                          FillPortions: =0.9
+                                          FillPortions: =0
                               - tkTblSep:
                                   Control: Rectangle@2.3.0
                                   Properties:
@@ -822,7 +818,7 @@ Screens:
                               Height: =21
                               Size: =10.5
                               Text: ="Rows"
-                              Width: =40
+                              Width: =52
                               FillPortions: =0
                               Wrap: =false
                         - tkFSize:
@@ -840,34 +836,21 @@ Screens:
                               AlignInContainer: =AlignInContainer.Center
                               OnChange: =Set(varPageSize, tkFSize.Selected.Value); Set(varPage, 1) // AC-ITH-17.5
                         - tkPrev:
-                            Control: Classic/Button@2.2.0
+                            Control: Image@2.2.3
                             Properties:
-                              AlignInContainer: =AlignInContainer.Center
-                              BorderColor: =ColorBorder
-                              BorderThickness: =1
-                              Color: =ColorText
-                              DisabledBorderColor: =ColorDivider
-                              DisabledColor: =ColorDisabled
-                              DisabledFill: =ColorSurface
-                              Fill: =ColorSurface
-                              Font: =FontBody
-                              Height: =29
-                              HoverBorderColor: =ColorBorder
-                              HoverColor: =ColorText
-                              HoverFill: =ColorSurface
+                              AccessibleLabel: ="Previous page"
+                              BorderColor: =ColorTransparent
+                              Height: =18
+                              Image: ="data:image/svg+xml;utf8," & EncodeUrl("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='" & HexText & "' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'><path d='M15 6l-6 6 6 6'/></svg>")
+                              ImagePosition: =ImagePosition.Fill
+                              Width: =18
                               OnSelect: =Set(varPage, varPage - 1) // AC-ITH-17.4
-                              PressedBorderColor: =ColorBorder
-                              PressedColor: =ColorText
-                              PressedFill: =ColorDivider
-                              RadiusBottomLeft: =6
-                              RadiusBottomRight: =6
-                              RadiusTopLeft: =6
-                              RadiusTopRight: =6
-                              Size: =9
-                              Text: ="Previous page"
-                              Width: =34
-                              FillPortions: =0
+                              TabIndex: =0
                               DisplayMode: =If(varPage < 2, DisplayMode.Disabled, DisplayMode.Edit)
+                              AlignInContainer: =AlignInContainer.Center
+                              FillPortions: =0
+                              Transparency: =If(varPage < 2, 0.6, 0)
+                              HoverFill: =ColorHover
                         - tkFPage:
                             Control: Label@2.5.1
                             Properties:
@@ -881,34 +864,21 @@ Screens:
                               Align: =Align.Center
                               Wrap: =false
                         - tkNext:
-                            Control: Classic/Button@2.2.0
+                            Control: Image@2.2.3
                             Properties:
-                              AlignInContainer: =AlignInContainer.Center
-                              BorderColor: =ColorBorder
-                              BorderThickness: =1
-                              Color: =ColorText
-                              DisabledBorderColor: =ColorDivider
-                              DisabledColor: =ColorDisabled
-                              DisabledFill: =ColorSurface
-                              Fill: =ColorSurface
-                              Font: =FontBody
-                              Height: =29
-                              HoverBorderColor: =ColorBorder
-                              HoverColor: =ColorText
-                              HoverFill: =ColorSurface
+                              AccessibleLabel: ="Next page"
+                              BorderColor: =ColorTransparent
+                              Height: =18
+                              Image: ="data:image/svg+xml;utf8," & EncodeUrl("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='" & HexText & "' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'><path d='M9 6l6 6-6 6'/></svg>")
+                              ImagePosition: =ImagePosition.Fill
+                              Width: =18
                               OnSelect: =Set(varPage, varPage + 1) // AC-ITH-17.4
-                              PressedBorderColor: =ColorBorder
-                              PressedColor: =ColorText
-                              PressedFill: =ColorDivider
-                              RadiusBottomLeft: =6
-                              RadiusBottomRight: =6
-                              RadiusTopLeft: =6
-                              RadiusTopRight: =6
-                              Size: =9
-                              Text: ="Next page"
-                              Width: =34
-                              FillPortions: =0
+                              TabIndex: =0
                               DisplayMode: =If(varPage >= PageCount, DisplayMode.Disabled, DisplayMode.Edit)
+                              AlignInContainer: =AlignInContainer.Center
+                              FillPortions: =0
+                              Transparency: =If(varPage >= PageCount, 0.6, 0)
+                              HoverFill: =ColorHover
                   - tkEmpty:
                       Control: GroupContainer@1.5.0
                       Variant: AutoLayout
@@ -947,6 +917,8 @@ Screens:
                               Size: =10.5
                               Text: =If(!IsBlank(Trim(varSearch)) || varFStatus <> "" || varFPriority <> "" || varFCategory <> "", "No tickets match your filters", "No tickets here yet")
                               Align: =Align.Center
+                              Width: =420
+                              AlignInContainer: =AlignInContainer.Center
                         - tkEmptyT:
                             Control: Label@2.5.1
                             Properties:
@@ -956,6 +928,8 @@ Screens:
                               Size: =10.5
                               Text: =If(!IsBlank(Trim(varSearch)) || varFStatus <> "" || varFPriority <> "" || varFCategory <> "", "Try a different search or clear the filters.", "Create a ticket to get started.")
                               Align: =Align.Center
+                              Width: =420
+                              AlignInContainer: =AlignInContainer.Center
                         - tkEmptyB:
                             Control: Classic/Button@2.2.0
                             Properties:
@@ -1833,7 +1807,7 @@ Screens:
                     IfError(
                         ClearCollect(colComments, ForAll(SortByColumns(Filter(ITH_TicketComment, TicketId = varTicket.ID), "ID", SortOrder.Ascending), {Author: AuthorName, AtText: Text(Created, "dd mmm yyyy, hh:mm", "en-GB"), Body: Coalesce(CommentText, "")}));
                         ClearCollect(colTActivity, ForAll(SortByColumns(Filter(ITH_TicketActivity, TicketId = varTicket.ID), "ID", SortOrder.Descending), {Text: Title, AtText: Text(Created, "dd mmm yyyy, hh:mm", "en-GB")}));
-                        ClearCollect(colAttach, ForAll(LookUp(ITH_Ticket, ID = varTicket.ID).Attachments, {Name: Name}));
+                        ClearCollect(colAttach, ForAll(LookUp(ITH_Ticket, ID = varTicket.ID).Attachments, {Name: DisplayName}));
                         true,
                         Notify("The ticket details could not be loaded. " & FirstError.Message, NotificationType.Error)); Set(varMenu, "") // AC-ITH-24.1
                 Children:
@@ -2926,7 +2900,7 @@ Screens:
                               IfError(
                                   ClearCollect(colComments, ForAll(SortByColumns(Filter(ITH_TicketComment, TicketId = varTicket.ID), "ID", SortOrder.Ascending), {Author: AuthorName, AtText: Text(Created, "dd mmm yyyy, hh:mm", "en-GB"), Body: Coalesce(CommentText, "")}));
                                   ClearCollect(colTActivity, ForAll(SortByColumns(Filter(ITH_TicketActivity, TicketId = varTicket.ID), "ID", SortOrder.Descending), {Text: Title, AtText: Text(Created, "dd mmm yyyy, hh:mm", "en-GB")}));
-                                  ClearCollect(colAttach, ForAll(LookUp(ITH_Ticket, ID = varTicket.ID).Attachments, {Name: Name}));
+                                  ClearCollect(colAttach, ForAll(LookUp(ITH_Ticket, ID = varTicket.ID).Attachments, {Name: DisplayName}));
                                   true,
                                   Notify("The ticket details could not be loaded. " & FirstError.Message, NotificationType.Error));
                               Set(varLoading, true); // fx-ignore FX-DELEG lists under 2,000 items by design, data row limit 2,000 (S-DELEG), baseline Q-07 agreed by Albin 2026-10-29
@@ -3018,7 +2992,7 @@ Screens:
                                           AccessibleLabel: =Round(Min(100, Max(0, 0)), 0) & " percent"
                                           BorderColor: =ColorTransparent
                                           Height: =8
-                                          Image: ="data:image/svg+xml;utf8," & EncodeUrl("<svg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 8 8'><rect width='8' height='8' rx='4.0' fill='" & HexAccentText & "'/><rect width='" & Text(Min(100, Max(0, 0)) * 8 / 100, "0.##") & "' height='8' rx='4.0' fill='" & HexAccentText & "'/></svg>")
+                                          Image: ="data:image/svg+xml;utf8," & EncodeUrl("<svg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 8 8'><rect width='8' height='8' rx='4.0' fill='" & HexAccentText & "'/><rect width='" & Substitute(Text(Round(Min(100, Max(0, 0)) * 8 / 100, 1)), ",", ".") & "' height='8' rx='4.0' fill='" & HexAccentText & "'/></svg>")
                                           ImagePosition: =ImagePosition.Fill
                                           Width: =8
                                           AlignInContainer: =AlignInContainer.Start
@@ -3281,6 +3255,7 @@ Screens:
             Width: =254
             X: =tkPnForm.X + 20
             Y: =tkPnForm.Y + 268 + If(varErrSubject, 18, 0) + If(varErrDesc, 18, 0) + 25
+            Visible: =varModal = "form"
       - tkFmPriCap:
           Control: Label@2.5.1
           Properties:
@@ -3309,6 +3284,7 @@ Screens:
             Width: =254
             X: =tkPnForm.X + 286
             Y: =tkPnForm.Y + 268 + If(varErrSubject, 18, 0) + If(varErrDesc, 18, 0) + 25
+            Visible: =varModal = "form"
       - tkFmReqNameCap:
           Control: Label@2.5.1
           Properties:
@@ -3426,6 +3402,7 @@ Screens:
             Width: =520
             X: =tkPnForm.X + 20
             Y: =tkPnForm.Y + 268 + If(varErrSubject, 18, 0) + If(varErrDesc, 18, 0) + 71 + 71 + If(varErrEmail, 18, 0) + 25
+            Visible: =varModal = "form"
       - tkFmCancel:
           Control: Classic/Button@2.2.0
           Properties:

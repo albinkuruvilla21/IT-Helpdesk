@@ -468,7 +468,7 @@ def svg_ring(name, pct_expr, size, stroke, track_hex, from_hex, to_hex, text_hex
            f"<stop offset='1' stop-color='{q} & {to_hex} & {q}'/></linearGradient></defs>"
            f"<circle cx='{size / 2}' cy='{size / 2}' r='{r}' fill='none' stroke='{q} & {track_hex} & {q}' stroke-width='{stroke}'/>"
            f"<circle cx='{size / 2}' cy='{size / 2}' r='{r}' fill='none' stroke='url(#rg)' stroke-width='{stroke}' stroke-linecap='round' "
-           f"stroke-dasharray='{q} & Text({pct} * {c} / 100, {q}0.##{q}) & {q} {c}' transform='rotate(-90 {size / 2} {size / 2})'/>"
+           f"stroke-dasharray='{q} & Substitute(Text(Round({pct} * {c} / 100, 2)), {q},{q}, {q}.{q}) & {q} {c}' transform='rotate(-90 {size / 2} {size / 2})'/>"
            f"<text x='50%' y='50%' dominant-baseline='central' text-anchor='middle' font-family='Segoe UI' font-weight='600' font-size='{fpx}' "
            f"fill='{q} & {text_hex} & {q}'>{q} & Round({pct}, 0) & {q}%</text></svg>\"").replace(q, '"')
     node = svg_image(name, svg, size, size, x=x, y=y, align_in=align_in)
@@ -570,7 +570,8 @@ def svg_bar(name, pct_expr, w, h, track_hex, fill_hex, x=None, y=None, align_in=
     r = h / 2
     svg = (f"\"<svg xmlns='http://www.w3.org/2000/svg' width='{w}' height='{h}' viewBox='0 0 {w} {h}'>"
            f"<rect width='{w}' height='{h}' rx='{r}' fill='\" & {track_hex} & \"'/>"
-           f"<rect width='\" & Text({pct} * {w} / 100, \"0.##\") & \"' height='{h}' rx='{r}' fill='\" & {fill_hex} & \"'/></svg>\"")
+           # not Text(x, "0.##"): that leaves a trailing separator ("30."), which is not an SVG number, so the fill is not drawn (PA-T40)
+           f"<rect width='\" & Substitute(Text(Round({pct} * {w} / 100, 1)), \",\", \".\") & \"' height='{h}' rx='{r}' fill='\" & {fill_hex} & \"'/></svg>\"")
     node = svg_image(name, svg, w, h, x=x, y=y, align_in=align_in)
     node.props["AccessibleLabel"] = f'Round({pct}, 0) & " percent"'
     return node

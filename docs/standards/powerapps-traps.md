@@ -42,6 +42,15 @@ validate` catches the ones marked ✔. Add a trap when a project finds a new one
 | PA-T35 | One bad formula in `App.OnStart` (or a named formula) makes dozens of unrelated errors on every screen that reads what it sets | Read the **first** error of App.OnStart before any other; fix it and re-open |
 | PA-T36 | A card (section) is cut off: the last field, the table's rows or the buttons are missing, and the next card starts too early | ✔ (`section()` docstring, ui-patterns §7; no static check) |
 | PA-T37 | The app title in the header wraps to two lines and is clipped | Header title width 250, tabs from 290 (`canvas_ui.topbar`) |
+| PA-T40 | An SVG bar, ring or icon built by a formula draws nothing (a progress bar's fill is missing), with no error | ✔ (`FX-SVG`; `canvas_ui.svg_bar` and `svg_ring` use `Substitute(Text(Round(x, 2)), ",", ".")`) |
+| PA-T41 | A dialog's dropdowns, inputs or buttons show on **every** screen state, over the content (the form's fields on the Overview) | ✔ (`FX-OVERLAY`) |
+| PA-T42 | Studio: "Name isn't valid. 'Name' isn't recognized" on `ForAll(<item>.Attachments, {Name: Name})` | ✔ (`FX-NAME` on `Attachments`): the columns are `Id`, `DisplayName`, `Value`, `AbsoluteUri` |
+| PA-T43 | A table header row built of buttons runs past its card: the columns do not line up with the rows and the last ones are missing | `LayoutMinWidth: 0` on each header button (`ith_ui.py`) |
+| PA-T44 | A status or priority pill inside a wrapper container disappears in a table row, so every later column in the row shifts left | Pill columns are fixed-width, the same in the header and in every row, and the pill sits directly in the row |
+| PA-T45 | A pager or icon button of 34 px with text ("Previous page") shows "ious pag" | Use the prototype's icon as an Image with `OnSelect`, `AccessibleLabel`, `TabIndex: 0` and `DisplayMode` |
+| PA-T46 | Text is cut off in a card or an empty state: a label with no width wraps in a centred column; a title that takes two lines in a one-line label | Give the label a `Width` and a height for the **longest** value's lines; check with the longest sample row |
+| PA-T47 | A `// AC-…` comment inside a piece of formula that another formula includes hides everything after it on that line (a closing parenthesis, the next statement) | Compose with the comment last (`open_ticket(rec, tail)`); `pp.py fx` shows `Eof where ParenClose is expected` |
+| PA-T48 | `pp.py build` says "not valid YAML ... tag:yaml.org,2002:value" on `LayoutMaxHeight: =` that Studio itself wrote | Fixed in `pp.py` (`_lint_yaml_syntax` constructs the bare `=`) |
 
 SharePoint list and flow traps from the Acies SPFx template keep their `T-` numbers (end of this file),
 because the list standard and dev-standards cite them.
@@ -363,3 +372,60 @@ Studio showed `Name isn't valid. 'Result' isn't recognized` and then `The functi
 **Cause:** a `ModernText` has default padding, so a short fixed height is too small for its text. And `AlignInContainer.Start` in a horizontal container is the **top**, not the left.
 **Fix:** `PaddingTop/Bottom/Left/Right: 0`, `AutoHeight: true`, `AlignInContainer: AlignInContainer.Center`. For left alignment in a column, wrap the pill in a container sized by `FillPortions`.
 **Guard:** `canvas_ui.Screen.yaml()` fails a `ModernText` under 24 high without `PaddingTop: 0`; `badge_cell` in the project generator keeps columns aligned.
+
+### PA-T40 · An SVG built by a formula draws nothing
+
+**Symptom (Studio):** a progress bar shows its track but no fill; a ring shows no arc. No error anywhere.
+**Cause:** `Text(x, "0.##")` leaves the decimal separator after a whole number (`"30."`), which is not an SVG number, so the browser ignores the shape. In a comma locale `Text(1.5)` is `"1,5"`.
+**Fix:** `Substitute(Text(Round(x, 2)), ",", ".")`. Never a `Text` format for a number that goes into markup.
+**Guard:** `FX-SVG` fails a formula that holds `<svg` and a `Text(…, "0.##")`; `canvas_ui.svg_bar` and `svg_ring` use the safe form.
+
+### PA-T41 · A dialog's controls show on every screen state
+
+**Symptom (Studio):** the form's dropdowns ("Software", "Medium", "Unassigned") float over the Overview, the ticket list and every other screen.
+**Cause:** controls of a dialog are placed from its panel (`X: =pnForm.X + 20`), and each needs the **same `Visible`** as the panel. A helper that builds dropdowns had no `Visible` parameter, so those three controls were always on. Text inputs and labels had it, so the screen looked almost right.
+**Fix:** `Visible` on every control placed from an overlay's panel.
+**Guard:** `FX-OVERLAY` fails a control whose `X` or `Y` names a panel that has a `Visible`, when the control has none.
+
+### PA-T42 · The Attachments table has no `Name` column
+
+**Symptom (Studio):** "Name isn't valid. 'Name' isn't recognized" on `ForAll(LookUp(<List>, ID = x).Attachments, {Name: Name})`.
+**Cause:** a SharePoint item's `Attachments` table has the columns `Id`, `DisplayName`, `Value` (the content) and `AbsoluteUri`.
+**Fix:** `{Name: DisplayName}`. There is no size column: a size cannot be shown without another source.
+**Guard:** `FX-NAME` on a `.Attachments` projection that reads `Name`.
+
+### PA-T43 · A header row of buttons overflows its card
+
+**Symptom (Studio):** the table's column headings are about 100 px apart whatever their `FillPortions`, the last headings fall outside the card, and they do not line up with the rows.
+**Cause:** a Classic button has a minimum width, so buttons in an auto-layout row cannot shrink to their share.
+**Fix:** `LayoutMinWidth: 0` and `LayoutMinHeight: 0` on each header button.
+
+### PA-T44 · A pill in a wrapper container vanishes in a table row
+
+**Symptom (Studio):** in a gallery row the priority and status pills are missing and every cell after them is under the wrong heading.
+**Cause:** the pill (`ModernText` with a fixed width) was inside a horizontal container sized by `FillPortions`, which collapsed.
+**Fix:** put the pill directly in the row, and make the pill columns fixed-width, the **same width in the header and in every row**; the other columns share the rest by `FillPortions`.
+
+### PA-T45 · A small button shows part of its text
+
+**Symptom (Studio):** "Previous page" and "Next page" buttons 34 px wide show "ious pag".
+**Cause:** a Classic button's text is its accessible name and is drawn; it cannot be hidden or shortened.
+**Fix:** the prototype's chevron as an Image (`svg_icon`) with `OnSelect`, `AccessibleLabel`, `TabIndex: 0`, `DisplayMode` and `Transparency` for the disabled state. A Classic button underneath it (text colour transparent) is the other way, when the icon needs a hover area.
+
+### PA-T46 · Text cut off in a card, an empty state or a knowledge-base tile
+
+**Symptom (Studio):** "Create a ticket to get started." shows its first line only; a two-line tile title is cut.
+**Cause:** a label with no `Width` in a centred auto-layout column takes the width of its widest sibling and wraps; a label is one line high unless its height says otherwise.
+**Fix:** a `Width` for such labels, and heights (and gallery `TemplateSize`) for the **longest** value's lines. Test with the longest sample row, not the shortest.
+
+### PA-T47 · A comment inside a composed formula hides the rest of the line
+
+**Symptom:** `pp.py fx` says "The formula contains 'Eof' where 'ParenClose' is expected" on a formula that looks complete in the generator.
+**Cause:** a generator returned `... // AC-X.1`, and another formula appended `))` or `; Next(...)` after it: both are now part of the comment.
+**Fix:** a helper that may be composed takes a `tail` and puts its comment last (`open_ticket(rec, tail)`); a nested use drops the comment.
+
+### PA-T48 · `pp.py` rejects Studio's own `LayoutMaxHeight: =`
+
+**Symptom:** `pp.py fx` or `build`: "not valid YAML (could not determine a constructor for the tag 'tag:yaml.org,2002:value')" on every screen that has a table wrapper.
+**Cause:** an empty formula is written as a bare `=`, which PyYAML resolves to a tag it cannot construct. Studio writes it; the reference sample contains it.
+**Fix and guard:** `_lint_yaml_syntax` uses a loader that constructs it as text; `test_yaml_lint_accepts_a_bare_equals`.

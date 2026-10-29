@@ -340,6 +340,36 @@ class Rules(unittest.TestCase):
     def test_duplicate_name_across_screens(self):
         self.assertFires(run(screens={"scrA": [label("=AppTitle")], "scrB": [label("=AppTitle")]}), "FX-DUPNAME")
 
+    def test_overlay_control_without_visible(self):
+        # a dialog's controls are placed from its panel; one with no Visible of its own shows on every screen (PA-T41)
+        panel = ctl("pnDlg", "GroupContainer@1.5.0", variant="ManualLayout", Visible='=varModal = "x"', X="=0", Y="=0", Width="=100", Height="=100")
+        shown = ctl("ddOne", "ModernDropdown@1.0.3", Items="=[1]", X="=pnDlg.X + 20", Y="=pnDlg.Y + 20", Visible='=varModal = "x"')
+        hidden = ctl("ddTwo", "ModernDropdown@1.0.3", Items="=[1]", X="=pnDlg.X + 20", Y="=pnDlg.Y + 60")
+        self.assertQuiet(run([panel, shown]), "FX-OVERLAY")
+        self.assertFires(run([panel, shown, hidden]), "FX-OVERLAY")
+
+    def test_svg_number_format_leaves_a_trailing_separator(self):
+        bad = '="<svg><rect width=\'" & Text(20 * 150 / 100, "0.##") & "\'/></svg>"'
+        good = '="<svg><rect width=\'" & Substitute(Text(Round(20 * 150 / 100, 1)), ",", ".") & "\'/></svg>"'
+        self.assertFires(run([ctl("imgA", "Image@2.2.3", Image=bad)]), "FX-SVG")
+        self.assertQuiet(run([ctl("imgA", "Image@2.2.3", Image=good)]), "FX-SVG")
+        self.assertQuiet(run([label('=Text(Today(), "dd mmm yyyy")')]), "FX-SVG")
+
+    def test_attachments_table_has_no_name_column(self):
+        bad = "=ForAll(LookUp(CON_Request, ID = 1).Attachments, {Name: Name})"
+        good = "=ForAll(LookUp(CON_Request, ID = 1).Attachments, {Name: DisplayName})"
+        self.assertFires(run([ctl("galA", "Gallery@2.15.0", Items=bad)]), "FX-NAME")
+        self.assertQuiet(run([ctl("galA", "Gallery@2.15.0", Items=good)]), "FX-NAME")
+
+    def test_yaml_lint_accepts_a_bare_equals(self):
+        # Studio itself writes an empty formula as `LayoutMaxHeight: =`; PyYAML resolves a bare `=` to a tag it cannot construct (PA1001 false alarm)
+        ok = pp.Report("t")
+        pp._lint_yaml_syntax(ok, "app", "Src/scrA.pa.yaml", "Screens:\n  scrA:\n    Children:\n      - a:\n          Properties:\n            LayoutMaxHeight: =\n")
+        self.assertEqual(ok.errors, [], ok.errors)
+        bad = pp.Report("t")
+        pp._lint_yaml_syntax(bad, "app", "Src/scrA.pa.yaml", "Screens:\n  scrA:\n    Children:\n      - a: [\n")
+        self.assertTrue(bad.errors)
+
     def test_named_formula_error_does_not_cascade(self):
         res = run([label("=AppTitle")], formulas=TOKENS + "\nBroken = If(1;")
         self.assertFires(res, "FX-SYNTAX")

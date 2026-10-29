@@ -75,6 +75,9 @@ the formula, or a repository rule forbids it. Everything else is a warning.
 | `FX-AC` | `// AC-<PROJECT>-NN.n` cites its check number (W); an AC ID inside a text string, which users would see (E); a formula that is only a comment (E in a behaviour property, W elsewhere); `TODO(AC-…)` stubs (W, E with `--release`); mock data at release (E) | E/W | dev-standards §9; CLAUDE.md §10 | That the ID exists in the workbook is `ac_workbook.py check` (`/verify` check 5) |
 | `FX-TOKEN` | No `RGBA(…)` or `ColorValue(…)` on a screen | E | D11 | — |
 | `FX-DUPNAME` | A control name used on two screens | E | PA2110 (control names are app-wide) | Same-screen duplicates: PA-T23 check |
+| `FX-OVERLAY` | A control placed from a panel that is shown and hidden (its `X` or `Y` names the panel's `X`, `Y`, `Width` or `Height`) but has no `Visible` of its own | E | PA-T41 | Only where the panel has a `Visible` and the control is on the same screen |
+| `FX-SVG` | An SVG image whose formula uses `Text(x, "0.##")`: a whole number comes out as `"30."`, not an SVG number, so the shape is not drawn | E | PA-T40 | — |
+| `FX-NAME` (Attachments) | `ForAll(<item>.Attachments, {Col: Name})`: the Attachments table has `Id`, `DisplayName`, `Value`, `AbsoluteUri`, not `Name` | E | PA-T42 | — |
 | `FX-IGNORE` | An `fx-ignore` that is not allowed or has no reason | E | §5 | — |
 
 Every run ends with counts (formulas, calls, names checked, names in record scope **not** checked, list queries, writes). A large

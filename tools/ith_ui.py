@@ -205,7 +205,7 @@ LOAD_DRAWER = (
      '{Author: AuthorName, AtText: Text(Created, "dd mmm yyyy, hh:mm", "en-GB"), Body: Coalesce(CommentText, "")}));\n'
      '    ClearCollect(colTActivity, ForAll(SortByColumns(Filter(ITH_TicketActivity, TicketId = varTicket.ID), "ID", SortOrder.Descending), '
      '{Text: Title, AtText: Text(Created, "dd mmm yyyy, hh:mm", "en-GB")}));\n'
-     '    ClearCollect(colAttach, ForAll(LookUp(ITH_Ticket, ID = varTicket.ID).Attachments, {Name: Name}));\n'
+     '    ClearCollect(colAttach, ForAll(LookUp(ITH_Ticket, ID = varTicket.ID).Attachments, {Name: DisplayName}));\n'
      '    true,\n'
      '    Notify("The ticket details could not be loaded. " & FirstError.Message, NotificationType.Error))'))
 
@@ -415,7 +415,7 @@ def overview():
     stat_row = hrow(f"{p}Stats", stats, 84, GAP, 0, VIS)
 
     recent = mini_list(p, "Rc", "Recent tickets", "RecentTickets", "AC-ITH-12.5", 'Set(varView, "all"); Set(varPage, 1); Navigate(scrTickets, ScreenTransition.None) // AC-ITH-12.3',
-                       "AC-ITH-12.1", rowfp=2, card_h=340)
+                       "AC-ITH-12.1", rowfp=2, card_h=400)
     # tickets by status and by priority (AC-ITH-13)
     bars = []
     for i in range(5):
@@ -445,7 +445,7 @@ def overview():
     by = card_shell(f"{p}By", [lbl(f"{p}ByT", "Tickets by status", H3_PT, True, h=BODY_LH, role="Heading2")] + bars +
                     [lbl(f"{p}ByT2", "Tickets by priority", H3_PT, True, h=BODY_LH, role="Heading2"), stack, leg_row, alt], h=None, fp=1)
     by.props.update({"PaddingLeft": 16, "PaddingRight": 16, "PaddingTop": 16, "PaddingBottom": 16, "LayoutGap": 8})
-    row2 = hrow(f"{p}Row2", [recent, by], 340, GAP, 0, VIS, align="Stretch")
+    row2 = hrow(f"{p}Row2", [recent, by], 400, GAP, 0, VIS, align="Stretch")
 
     mine = mini_list(p, "As", "My assigned tickets", "MyAssigned", "AC-ITH-12.5", 'Set(varView, "assigned"); Set(varPage, 1); Navigate(scrTickets, ScreenTransition.None) // AC-ITH-12.3', "AC-ITH-12.2")
     ev_cells = [svg_bar(f"{p}EvDotBg", "0", 8, 8, "HexAccentText", "HexAccentText", align_in="AlignInContainer.Start"),
@@ -466,8 +466,9 @@ def overview():
 
 
 # ------------------------------------------------------------------ scrTickets
-COLS = [("Ticket ID", "ID", 1.1), ("Subject", "Title", 3), ("Requester", "RequesterName", 1.6), ("Category", "Category", 1.2), ("Priority", "PrioIdx", 1.1),
-        ("Assigned to", "AssignedToName", 1.6), ("Status", "StatIdx", 1.3), ("Created", "Created", 1.2)]
+# (header, sort key, FillPortions or None, fixed width or None): a pill column has the pill's width in the header and in every row
+COLS = [("Ticket ID", "ID", 1.1, None), ("Subject", "Title", 3, None), ("Requester", "RequesterName", 1.6, None), ("Category", "Category", 1.2, None), ("Priority", "PrioIdx", None, 76),
+        ("Assigned to", "AssignedToName", 1.6, None), ("Status", "StatIdx", None, 96), ("Created", "Created", 1.2, None)]
 
 
 def filter_dd(p, key, items, var, label_text, w):
@@ -499,25 +500,24 @@ def tickets():
                          filter_dd(p, "FCa", "colFCategory", "varFCategory", "Category", 150), clear], 40, 10, 0, VIS, align="Center")
     # table header: sortable buttons
     heads = []
-    for i, (text, key, fp) in enumerate(COLS, 1):
+    for i, (text, key, fp, fw) in enumerate(COLS, 1):
         b = button(f"{p}Th{i}", f'="{text}" & If(varSort = "{key}", If(varDesc, " ▼", " ▲"), "")',
-                   f'If(varSort = "{key}", Set(varDesc, !varDesc), Set(varSort, "{key}"); Set(varDesc, false)) // AC-ITH-17.1', "tab", h=TH_H, fp=fp, size=SMALL_PT + 0.5, color="ColorTextMuted",
+                   f'If(varSort = "{key}", Set(varDesc, !varDesc), Set(varSort, "{key}"); Set(varDesc, false)) // AC-ITH-17.1', "tab", h=TH_H, fp=(fp if fw is None else 0), w=fw, size=SMALL_PT + 0.5, color="ColorTextMuted",
                    weight="FontWeight.Normal", hover_fill="ColorTransparent", pressed_fill="ColorTransparent")
         b.props.update({"Align": "Align.Left", "PaddingLeft": 0, "PaddingRight": 0, "HoverColor": "ColorText", "PressedColor": "ColorText", "RadiusTopLeft": 0, "RadiusTopRight": 0,
                         "RadiusBottomLeft": 0, "RadiusBottomRight": 0, "Text": b.props["Text"]})
-        b.props["AccessibleLabel"] = None
-        b.props.pop("AccessibleLabel")
+        b.props.update({"LayoutMinWidth": 0, "LayoutMinHeight": 0})  # a Classic button has a minimum width, so the header row would overflow its card
         heads.append(b)
-    heads.append(lbl(f"{p}ThAct", "Actions", SMALL_PT + 0.5, False, "ColorTextMuted", h=TH_H, fp=0.9, valign="Middle"))
+    heads.append(lbl(f"{p}ThAct", "Actions", SMALL_PT + 0.5, False, "ColorTextMuted", h=TH_H, w=64, fp=0, valign="Middle"))
     th = hrow(f"{p}Th", heads, TH_H, 8, 0, "CountRows(PagedTickets) > 0", "ColorSunken", 14, "Center")
     cells = [lbl(f"{p}RId", "=ThisItem.Code", BODY_PT, True, "ColorAccentText", fp=1.1),
              lbl(f"{p}RSub", '=If(Len(ThisItem.Title) > 38, Left(ThisItem.Title, 37) & "…", ThisItem.Title)', BODY_PT, False, fp=3, ac="AC-ITH-15.3"),
              lbl(f"{p}RReq", "=ThisItem.RequesterName", BODY_PT, False, fp=1.6), lbl(f"{p}RCat", "=ThisItem.Category", BODY_PT, False, fp=1.2),
-             box(f"{p}RPrC", [pr_pill(f"{p}RPr", "ThisItem.Priority", 76)], "Horizontal", 0, fp=1.1, align="Center"),
+             pr_pill(f"{p}RPr", "ThisItem.Priority", 76),
              lbl(f"{p}RAs", '=If(IsBlank(ThisItem.AssignedToName), "Unassigned", ThisItem.AssignedToName)', BODY_PT, False, "If(IsBlank(ThisItem.AssignedToName), ColorTextMuted, ColorText)", fp=1.6),
-             box(f"{p}RStC", [st_pill(f"{p}RSt", "ThisItem.TicketStatus", 96)], "Horizontal", 0, fp=1.3, align="Center"),
+             st_pill(f"{p}RSt", "ThisItem.TicketStatus", 96),
              lbl(f"{p}RCr", "=ThisItem.CreatedText", BODY_PT, False, fp=1.2)]
-    ed_btn = button(f"{p}REd", "Edit", open_ticket("ThisItem", "; " + FORM_EDIT), "tab", h=29, fp=0.9, size=SMALL_PT + 0.5, visible="IsStaff", color="ColorAccentText",
+    ed_btn = button(f"{p}REd", "Edit", open_ticket("ThisItem", "; " + FORM_EDIT), "tab", h=29, w=64, fp=0, size=SMALL_PT + 0.5, visible="IsStaff", color="ColorAccentText",
                     weight="FontWeight.Normal", hover_fill="ColorHover", radius=6, align_in="AlignInContainer.Center")
     cells.append(ed_btn)
     n = "CountRows(PagedTickets)"
@@ -526,15 +526,14 @@ def tickets():
     # footer (AC-ITH-17.3)
     foot_kids = [lbl(f"{p}FCount", '=If(CountRows(FilteredTickets) = 0, "0", ((varPage - 1) * varPageSize + 1) & "–" & ((varPage - 1) * varPageSize + CountRows(PagedTickets)) & " of " & CountRows(FilteredTickets))',
                      BODY_PT, False, "ColorTextMuted", fp=1, ac="AC-ITH-17.3"),
-                 lbl(f"{p}FRows", "Rows", BODY_PT, False, "ColorTextMuted", w=40, fp=0)]
+                 lbl(f"{p}FRows", "Rows", BODY_PT, False, "ColorTextMuted", w=52, fp=0)]
     rows_dd = dropdown(f"{p}FSize", "colPageSizes")
     rows_dd.props.update({"AccessibleLabel": '"Rows per page"', "Default": "LookUp(colPageSizes, Value = varPageSize)", "FillPortions": 0, "Width": 80, "AlignInContainer": "AlignInContainer.Center",
                           "OnChange": f"Set(varPageSize, {p}FSize.Selected.Value); Set(varPage, 1) // AC-ITH-17.5"})
-    prev = button(f"{p}Prev", "Previous page", "Set(varPage, varPage - 1) // AC-ITH-17.4", "secondary", w=34, h=29, size=SMALL_PT, fill="ColorSurface", radius=6, fp=0, align_in="AlignInContainer.Center",
-                  display="If(varPage < 2, DisplayMode.Disabled, DisplayMode.Edit)")
-    nxt = button(f"{p}Next", "Next page", "Set(varPage, varPage + 1) // AC-ITH-17.4", "secondary", w=34, h=29, size=SMALL_PT, fill="ColorSurface", radius=6, fp=0, align_in="AlignInContainer.Center",
-                 display="If(varPage >= PageCount, DisplayMode.Disabled, DisplayMode.Edit)")
-    prev.props["Color"] = nxt.props["Color"] = "ColorText"
+    prev = icon_image(f"{p}Prev", "l", "HexText", 18, None, None, "Set(varPage, varPage - 1) // AC-ITH-17.4", "Previous page", tab=0, display="If(varPage < 2, DisplayMode.Disabled, DisplayMode.Edit)")
+    nxt = icon_image(f"{p}Next", "r", "HexText", 18, None, None, "Set(varPage, varPage + 1) // AC-ITH-17.4", "Next page", tab=0, display="If(varPage >= PageCount, DisplayMode.Disabled, DisplayMode.Edit)")
+    prev.props.update({"AlignInContainer": "AlignInContainer.Center", "FillPortions": 0, "Transparency": "If(varPage < 2, 0.6, 0)", "HoverFill": "ColorHover"})
+    nxt.props.update({"AlignInContainer": "AlignInContainer.Center", "FillPortions": 0, "Transparency": "If(varPage >= PageCount, 0.6, 0)", "HoverFill": "ColorHover"})
     foot = hrow(f"{p}Foot", foot_kids + [rows_dd, prev, lbl(f"{p}FPage", '=varPage & " / " & PageCount', BODY_PT, False, "ColorTextMuted", w=60, fp=0, align="Center"), nxt], FOOT_H, 10, 0, "CountRows(PagedTickets) > 0",
                 pad_x=14, align="Center")
     emp_filter = 'CountRows(FilteredTickets) = 0'
@@ -546,6 +545,9 @@ def tickets():
     empty = box(f"{p}Empty", [ic, label(f"{p}EmptyH", f'=If({f_on}, "No tickets match your filters", "No tickets here yet")', size=H3_PT, bold=True, h=BODY_LH, align="Center"),
                               label(f"{p}EmptyT", f'=If({f_on}, "Try a different search or clear the filters.", "Create a ticket to get started.")', size=BODY_PT, color="ColorTextMuted", h=BODY_LH, align="Center"),
                               eb], "Vertical", 8, h=200, fp=0, visible=emp_filter, align="Center", pad_y=32)
+    for child in empty.children:
+        if child.name.endswith(("EmptyH", "EmptyT")):
+            child.props.update({"Width": 420, "AlignInContainer": "AlignInContainer.Center"})
     card = card_shell(f"{p}Card", [th, tbl, foot, empty], h=f"If({n} = 0, 200, {TH_H} + {n} * {ROW_H} + {FOOT_H})", fp=0, visible=VIS)
     s.content = [head, *state_labels(p, "tickets"), tb, card]
     s.overlays = overlays(p)
@@ -579,14 +581,14 @@ def knowledge():
     tb.children[0].props["FillPortions"] = 0
     # card grid: 4 across (min 260, gap 14) as a wrapping gallery
     card_cells = [box(f"{p}CardIn", [lbl(f"{p}CardCat", "=ThisItem.ArticleCategory", BODY_PT, False, "ColorTextMuted", h=BODY_LH),
-                                     lbl(f"{p}CardTitle", "=ThisItem.Title", H3_PT, True, h=BODY_LH, wrap=True),
-                                     label(f"{p}CardDesc", "=ThisItem.ArticleSummary", size=BODY_PT, color="ColorTextMuted", h=63)], "Vertical", 4, fp=1, h=None)]
+                                     lbl(f"{p}CardTitle", "=ThisItem.Title", H3_PT, True, h=42, wrap=True),
+                                     label(f"{p}CardDesc", "=ThisItem.ArticleSummary", size=BODY_PT, color="ColorTextMuted", h=42)], "Vertical", 4, fp=1, h=None)]
     card_cells[0].props["LayoutAlignItems"] = "LayoutAlignItems.Stretch"
     row = box(f"{p}GalRow", card_cells, "Horizontal", 0, h="Parent.TemplateHeight", w="Parent.TemplateWidth", fill="ColorSurface", pad=16, border=True, radius=CARD_R, border_color="ColorDivider", min0=False)
-    gal = Node(f"{p}Grid", "Gallery@2.15.0", {"BorderColor": "ColorTransparent", "Height": "Parent.Height", "Items": "FilteredArticles // AC-ITH-35.2", "TemplateSize": 140, "TemplatePadding": 14,
+    gal = Node(f"{p}Grid", "Gallery@2.15.0", {"BorderColor": "ColorTransparent", "Height": "Parent.Height", "Items": "FilteredArticles // AC-ITH-35.2", "TemplateSize": 160, "TemplatePadding": 14,
                                               "Width": "Parent.Width", "WrapCount": 4, "OnSelect": "Set(varArticle, ThisItem) // AC-ITH-36.1"}, [row], variant="BrowseLayout_Vertical_TwoTextOneImageVariant_ver5.0")
     grid_n = "CountRows(FilteredArticles)"
-    grid = Node(f"{p}GridWrap", "GroupContainer@1.5.0", {"DropShadow": "DropShadow.None", "FillPortions": 0, "Height": f"RoundUp({grid_n} / 4, 0) * 154", "LayoutMaxHeight": "", "LayoutMaxWidth": "",
+    grid = Node(f"{p}GridWrap", "GroupContainer@1.5.0", {"DropShadow": "DropShadow.None", "FillPortions": 0, "Height": f"RoundUp({grid_n} / 4, 0) * 174", "LayoutMaxHeight": "", "LayoutMaxWidth": "",
                                                        "Visible": f"{vis_list} && {grid_n} > 0"}, [gal], variant="ManualLayout")
     empty = empty_label(f"{p}Empty", '="No articles match """ & varKQ & """."', f"{vis_list} && {grid_n} = 0", h=66)
     # article view (AC-ITH-36)
@@ -650,12 +652,14 @@ def overlays(p):
     return drawer(p) + form(p) + confirm(p)
 
 
-def tdrop(name, items, default, onchange, label_text, w, x=None, y=None, fp=None, display="If(CanChange, DisplayMode.Edit, DisplayMode.View)", ac=None):
+def tdrop(name, items, default, onchange, label_text, w, x=None, y=None, fp=None, display="If(CanChange, DisplayMode.Edit, DisplayMode.View)", ac=None, visible=None):
     d = dropdown(name, items)
     d.props.update({"AccessibleLabel": f'"{label_text}"', "Default": default, "OnChange": onchange + (f" // {ac}" if ac else ""), "DisplayMode": display})
     for k, v in (("Width", w), ("X", x), ("Y", y), ("FillPortions", fp)):
         if v is not None:
             d.props[k] = v
+    if visible is not None:
+        d.props["Visible"] = visible  # an overlay control is shown by its overlay's variable, never always
     return d
 
 
@@ -822,9 +826,9 @@ def form(p):
     subject = tin("fmSubject", f'If({edit}, {t}.Title, Coalesce(varPrefill, ""))', "Short summary of the issue", CTRL, y(f"{20 + 32 + 12 + 25}"), "Ticket subject", err="varErrSubject", ac="AC-ITH-20.2")
     descr = tin("fmDesc", f'If({edit}, {t}.Details, "")', "What happened, and what did you expect?", 96, y(f"160 + {e1}"), "Description", multiline=True, err="varErrDesc", ac="AC-ITH-20.2")
     oy = f"268 + {e1} + {e2}"                         # category/priority row
-    cat_dd = tdrop("fmCat", "colCategoryOpt", f'If({edit}, LookUp(colCategoryOpt, Value = {t}.Category), LookUp(colCategoryOpt, Value = "Software"))', "x", "Category", half, x=x(), y=y(f"{oy} + 25"), display="DisplayMode.Edit")
+    cat_dd = tdrop("fmCat", "colCategoryOpt", f'If({edit}, LookUp(colCategoryOpt, Value = {t}.Category), LookUp(colCategoryOpt, Value = "Software"))', "x", "Category", half, x=x(), y=y(f"{oy} + 25"), display="DisplayMode.Edit", visible=shown)
     pri_dd = tdrop("fmPri", "colPriorityOpt", f'If({edit}, LookUp(colPriorityOpt, Value = {t}.Priority), LookUp(colPriorityOpt, Value = "Medium"))', "x", "Priority", half, x=x(20 + half + 12), y=y(f"{oy} + 25"),
-                   display="DisplayMode.Edit")
+                   display="DisplayMode.Edit", visible=shown)
     for d in (cat_dd, pri_dd):
         d.props.pop("OnChange", None)
     ry = f"{oy} + 71"                                 # requester row
@@ -834,7 +838,7 @@ def form(p):
         r_.props["DisplayMode"] = "If(IsStaff, DisplayMode.Edit, DisplayMode.View)"
     ay = f"{ry} + 71 + {e3}"
     as_dd = tdrop("fmAssign", "colAssignOpt", f'If({edit}, LookUp(colAssignOpt, Value = Coalesce({t}.AssignedToName, "Unassigned")), First(colAssignOpt))', "x", "Assign to (optional)", iw, x=x(), y=y(f"{ay} + 25"),
-                  display="DisplayMode.Edit")
+                  display="DisplayMode.Edit", visible=shown)
     as_dd.props.pop("OnChange", None)
     by = f"{ay} + 71"
     height = f"{by} + {BTN_H} + 20"

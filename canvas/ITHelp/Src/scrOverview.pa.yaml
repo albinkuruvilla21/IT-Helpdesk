@@ -22,7 +22,7 @@ Screens:
             IfError(
                 ClearCollect(colComments, ForAll(SortByColumns(Filter(ITH_TicketComment, TicketId = varTicket.ID), "ID", SortOrder.Ascending), {Author: AuthorName, AtText: Text(Created, "dd mmm yyyy, hh:mm", "en-GB"), Body: Coalesce(CommentText, "")}));
                 ClearCollect(colTActivity, ForAll(SortByColumns(Filter(ITH_TicketActivity, TicketId = varTicket.ID), "ID", SortOrder.Descending), {Text: Title, AtText: Text(Created, "dd mmm yyyy, hh:mm", "en-GB")}));
-                ClearCollect(colAttach, ForAll(LookUp(ITH_Ticket, ID = varTicket.ID).Attachments, {Name: Name}));
+                ClearCollect(colAttach, ForAll(LookUp(ITH_Ticket, ID = varTicket.ID).Attachments, {Name: DisplayName}));
                 true,
                 Notify("The ticket details could not be loaded. " & FirstError.Message, NotificationType.Error))))) // AC-ITH-32.2
     Children:
@@ -293,7 +293,7 @@ Screens:
                 Properties:
                   DropShadow: =DropShadow.None
                   FillPortions: =0
-                  Height: =340
+                  Height: =400
                   LayoutAlignItems: =LayoutAlignItems.Stretch
                   LayoutDirection: =LayoutDirection.Horizontal
                   LayoutGap: =14
@@ -314,7 +314,7 @@ Screens:
                         RadiusBottomRight: =10
                         Fill: =ColorSurface
                         FillPortions: =2
-                        Height: =340
+                        Height: =400
                         LayoutAlignItems: =LayoutAlignItems.Stretch
                         LayoutDirection: =LayoutDirection.Vertical
                         LayoutGap: =0
@@ -409,7 +409,7 @@ Screens:
                                       IfError(
                                           ClearCollect(colComments, ForAll(SortByColumns(Filter(ITH_TicketComment, TicketId = varTicket.ID), "ID", SortOrder.Ascending), {Author: AuthorName, AtText: Text(Created, "dd mmm yyyy, hh:mm", "en-GB"), Body: Coalesce(CommentText, "")}));
                                           ClearCollect(colTActivity, ForAll(SortByColumns(Filter(ITH_TicketActivity, TicketId = varTicket.ID), "ID", SortOrder.Descending), {Text: Title, AtText: Text(Created, "dd mmm yyyy, hh:mm", "en-GB")}));
-                                          ClearCollect(colAttach, ForAll(LookUp(ITH_Ticket, ID = varTicket.ID).Attachments, {Name: Name}));
+                                          ClearCollect(colAttach, ForAll(LookUp(ITH_Ticket, ID = varTicket.ID).Attachments, {Name: DisplayName}));
                                           true,
                                           Notify("The ticket details could not be loaded. " & FirstError.Message, NotificationType.Error)) // AC-ITH-24.1
                                   Children:
@@ -592,7 +592,7 @@ Screens:
                                           AccessibleLabel: =Round(Min(100, Max(0, CountRows(Filter(colTickets, TicketStatus = Index(colStatusOpt, 1).Value)) * 100 / Max(1, CountRows(colTickets)))), 0) & " percent"
                                           BorderColor: =ColorTransparent
                                           Height: =8
-                                          Image: ="data:image/svg+xml;utf8," & EncodeUrl("<svg xmlns='http://www.w3.org/2000/svg' width='150' height='8' viewBox='0 0 150 8'><rect width='150' height='8' rx='4.0' fill='" & HexHover & "'/><rect width='" & Text(Min(100, Max(0, CountRows(Filter(colTickets, TicketStatus = Index(colStatusOpt, 1).Value)) * 100 / Max(1, CountRows(colTickets)))) * 150 / 100, "0.##") & "' height='8' rx='4.0' fill='" & Switch(Index(colStatusOpt, 1).Value, "Open", HexInfo, "In Progress", HexWarning, "On Hold", HexNeutralText, "Resolved", HexSuccess, "Closed", HexClosed, HexNeutralText) & "'/></svg>")
+                                          Image: ="data:image/svg+xml;utf8," & EncodeUrl("<svg xmlns='http://www.w3.org/2000/svg' width='150' height='8' viewBox='0 0 150 8'><rect width='150' height='8' rx='4.0' fill='" & HexHover & "'/><rect width='" & Substitute(Text(Round(Min(100, Max(0, CountRows(Filter(colTickets, TicketStatus = Index(colStatusOpt, 1).Value)) * 100 / Max(1, CountRows(colTickets)))) * 150 / 100, 1)), ",", ".") & "' height='8' rx='4.0' fill='" & Switch(Index(colStatusOpt, 1).Value, "Open", HexInfo, "In Progress", HexWarning, "On Hold", HexNeutralText, "Resolved", HexSuccess, "Closed", HexClosed, HexNeutralText) & "'/></svg>")
                                           ImagePosition: =ImagePosition.Fill
                                           Width: =150
                                           AlignInContainer: =AlignInContainer.Center
@@ -652,7 +652,7 @@ Screens:
                                           AccessibleLabel: =Round(Min(100, Max(0, CountRows(Filter(colTickets, TicketStatus = Index(colStatusOpt, 2).Value)) * 100 / Max(1, CountRows(colTickets)))), 0) & " percent"
                                           BorderColor: =ColorTransparent
                                           Height: =8
-                                          Image: ="data:image/svg+xml;utf8," & EncodeUrl("<svg xmlns='http://www.w3.org/2000/svg' width='150' height='8' viewBox='0 0 150 8'><rect width='150' height='8' rx='4.0' fill='" & HexHover & "'/><rect width='" & Text(Min(100, Max(0, CountRows(Filter(colTickets, TicketStatus = Index(colStatusOpt, 2).Value)) * 100 / Max(1, CountRows(colTickets)))) * 150 / 100, "0.##") & "' height='8' rx='4.0' fill='" & Switch(Index(colStatusOpt, 2).Value, "Open", HexInfo, "In Progress", HexWarning, "On Hold", HexNeutralText, "Resolved", HexSuccess, "Closed", HexClosed, HexNeutralText) & "'/></svg>")
+                                          Image: ="data:image/svg+xml;utf8," & EncodeUrl("<svg xmlns='http://www.w3.org/2000/svg' width='150' height='8' viewBox='0 0 150 8'><rect width='150' height='8' rx='4.0' fill='" & HexHover & "'/><rect width='" & Substitute(Text(Round(Min(100, Max(0, CountRows(Filter(colTickets, TicketStatus = Index(colStatusOpt, 2).Value)) * 100 / Max(1, CountRows(colTickets)))) * 150 / 100, 1)), ",", ".") & "' height='8' rx='4.0' fill='" & Switch(Index(colStatusOpt, 2).Value, "Open", HexInfo, "In Progress", HexWarning, "On Hold", HexNeutralText, "Resolved", HexSuccess, "Closed", HexClosed, HexNeutralText) & "'/></svg>")
                                           ImagePosition: =ImagePosition.Fill
                                           Width: =150
                                           AlignInContainer: =AlignInContainer.Center
@@ -712,7 +712,7 @@ Screens:
                                           AccessibleLabel: =Round(Min(100, Max(0, CountRows(Filter(colTickets, TicketStatus = Index(colStatusOpt, 3).Value)) * 100 / Max(1, CountRows(colTickets)))), 0) & " percent"
                                           BorderColor: =ColorTransparent
                                           Height: =8
-                                          Image: ="data:image/svg+xml;utf8," & EncodeUrl("<svg xmlns='http://www.w3.org/2000/svg' width='150' height='8' viewBox='0 0 150 8'><rect width='150' height='8' rx='4.0' fill='" & HexHover & "'/><rect width='" & Text(Min(100, Max(0, CountRows(Filter(colTickets, TicketStatus = Index(colStatusOpt, 3).Value)) * 100 / Max(1, CountRows(colTickets)))) * 150 / 100, "0.##") & "' height='8' rx='4.0' fill='" & Switch(Index(colStatusOpt, 3).Value, "Open", HexInfo, "In Progress", HexWarning, "On Hold", HexNeutralText, "Resolved", HexSuccess, "Closed", HexClosed, HexNeutralText) & "'/></svg>")
+                                          Image: ="data:image/svg+xml;utf8," & EncodeUrl("<svg xmlns='http://www.w3.org/2000/svg' width='150' height='8' viewBox='0 0 150 8'><rect width='150' height='8' rx='4.0' fill='" & HexHover & "'/><rect width='" & Substitute(Text(Round(Min(100, Max(0, CountRows(Filter(colTickets, TicketStatus = Index(colStatusOpt, 3).Value)) * 100 / Max(1, CountRows(colTickets)))) * 150 / 100, 1)), ",", ".") & "' height='8' rx='4.0' fill='" & Switch(Index(colStatusOpt, 3).Value, "Open", HexInfo, "In Progress", HexWarning, "On Hold", HexNeutralText, "Resolved", HexSuccess, "Closed", HexClosed, HexNeutralText) & "'/></svg>")
                                           ImagePosition: =ImagePosition.Fill
                                           Width: =150
                                           AlignInContainer: =AlignInContainer.Center
@@ -772,7 +772,7 @@ Screens:
                                           AccessibleLabel: =Round(Min(100, Max(0, CountRows(Filter(colTickets, TicketStatus = Index(colStatusOpt, 4).Value)) * 100 / Max(1, CountRows(colTickets)))), 0) & " percent"
                                           BorderColor: =ColorTransparent
                                           Height: =8
-                                          Image: ="data:image/svg+xml;utf8," & EncodeUrl("<svg xmlns='http://www.w3.org/2000/svg' width='150' height='8' viewBox='0 0 150 8'><rect width='150' height='8' rx='4.0' fill='" & HexHover & "'/><rect width='" & Text(Min(100, Max(0, CountRows(Filter(colTickets, TicketStatus = Index(colStatusOpt, 4).Value)) * 100 / Max(1, CountRows(colTickets)))) * 150 / 100, "0.##") & "' height='8' rx='4.0' fill='" & Switch(Index(colStatusOpt, 4).Value, "Open", HexInfo, "In Progress", HexWarning, "On Hold", HexNeutralText, "Resolved", HexSuccess, "Closed", HexClosed, HexNeutralText) & "'/></svg>")
+                                          Image: ="data:image/svg+xml;utf8," & EncodeUrl("<svg xmlns='http://www.w3.org/2000/svg' width='150' height='8' viewBox='0 0 150 8'><rect width='150' height='8' rx='4.0' fill='" & HexHover & "'/><rect width='" & Substitute(Text(Round(Min(100, Max(0, CountRows(Filter(colTickets, TicketStatus = Index(colStatusOpt, 4).Value)) * 100 / Max(1, CountRows(colTickets)))) * 150 / 100, 1)), ",", ".") & "' height='8' rx='4.0' fill='" & Switch(Index(colStatusOpt, 4).Value, "Open", HexInfo, "In Progress", HexWarning, "On Hold", HexNeutralText, "Resolved", HexSuccess, "Closed", HexClosed, HexNeutralText) & "'/></svg>")
                                           ImagePosition: =ImagePosition.Fill
                                           Width: =150
                                           AlignInContainer: =AlignInContainer.Center
@@ -832,7 +832,7 @@ Screens:
                                           AccessibleLabel: =Round(Min(100, Max(0, CountRows(Filter(colTickets, TicketStatus = Index(colStatusOpt, 5).Value)) * 100 / Max(1, CountRows(colTickets)))), 0) & " percent"
                                           BorderColor: =ColorTransparent
                                           Height: =8
-                                          Image: ="data:image/svg+xml;utf8," & EncodeUrl("<svg xmlns='http://www.w3.org/2000/svg' width='150' height='8' viewBox='0 0 150 8'><rect width='150' height='8' rx='4.0' fill='" & HexHover & "'/><rect width='" & Text(Min(100, Max(0, CountRows(Filter(colTickets, TicketStatus = Index(colStatusOpt, 5).Value)) * 100 / Max(1, CountRows(colTickets)))) * 150 / 100, "0.##") & "' height='8' rx='4.0' fill='" & Switch(Index(colStatusOpt, 5).Value, "Open", HexInfo, "In Progress", HexWarning, "On Hold", HexNeutralText, "Resolved", HexSuccess, "Closed", HexClosed, HexNeutralText) & "'/></svg>")
+                                          Image: ="data:image/svg+xml;utf8," & EncodeUrl("<svg xmlns='http://www.w3.org/2000/svg' width='150' height='8' viewBox='0 0 150 8'><rect width='150' height='8' rx='4.0' fill='" & HexHover & "'/><rect width='" & Substitute(Text(Round(Min(100, Max(0, CountRows(Filter(colTickets, TicketStatus = Index(colStatusOpt, 5).Value)) * 100 / Max(1, CountRows(colTickets)))) * 150 / 100, 1)), ",", ".") & "' height='8' rx='4.0' fill='" & Switch(Index(colStatusOpt, 5).Value, "Open", HexInfo, "In Progress", HexWarning, "On Hold", HexNeutralText, "Resolved", HexSuccess, "Closed", HexClosed, HexNeutralText) & "'/></svg>")
                                           ImagePosition: =ImagePosition.Fill
                                           Width: =150
                                           AlignInContainer: =AlignInContainer.Center
@@ -1098,7 +1098,7 @@ Screens:
                                       IfError(
                                           ClearCollect(colComments, ForAll(SortByColumns(Filter(ITH_TicketComment, TicketId = varTicket.ID), "ID", SortOrder.Ascending), {Author: AuthorName, AtText: Text(Created, "dd mmm yyyy, hh:mm", "en-GB"), Body: Coalesce(CommentText, "")}));
                                           ClearCollect(colTActivity, ForAll(SortByColumns(Filter(ITH_TicketActivity, TicketId = varTicket.ID), "ID", SortOrder.Descending), {Text: Title, AtText: Text(Created, "dd mmm yyyy, hh:mm", "en-GB")}));
-                                          ClearCollect(colAttach, ForAll(LookUp(ITH_Ticket, ID = varTicket.ID).Attachments, {Name: Name}));
+                                          ClearCollect(colAttach, ForAll(LookUp(ITH_Ticket, ID = varTicket.ID).Attachments, {Name: DisplayName}));
                                           true,
                                           Notify("The ticket details could not be loaded. " & FirstError.Message, NotificationType.Error)) // AC-ITH-24.1
                                   Children:
@@ -1299,7 +1299,7 @@ Screens:
                                                 AccessibleLabel: =Round(Min(100, Max(0, 0)), 0) & " percent"
                                                 BorderColor: =ColorTransparent
                                                 Height: =8
-                                                Image: ="data:image/svg+xml;utf8," & EncodeUrl("<svg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 8 8'><rect width='8' height='8' rx='4.0' fill='" & HexAccentText & "'/><rect width='" & Text(Min(100, Max(0, 0)) * 8 / 100, "0.##") & "' height='8' rx='4.0' fill='" & HexAccentText & "'/></svg>")
+                                                Image: ="data:image/svg+xml;utf8," & EncodeUrl("<svg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 8 8'><rect width='8' height='8' rx='4.0' fill='" & HexAccentText & "'/><rect width='" & Substitute(Text(Round(Min(100, Max(0, 0)) * 8 / 100, 1)), ",", ".") & "' height='8' rx='4.0' fill='" & HexAccentText & "'/></svg>")
                                                 ImagePosition: =ImagePosition.Fill
                                                 Width: =8
                                                 AlignInContainer: =AlignInContainer.Start
@@ -2204,7 +2204,7 @@ Screens:
                     IfError(
                         ClearCollect(colComments, ForAll(SortByColumns(Filter(ITH_TicketComment, TicketId = varTicket.ID), "ID", SortOrder.Ascending), {Author: AuthorName, AtText: Text(Created, "dd mmm yyyy, hh:mm", "en-GB"), Body: Coalesce(CommentText, "")}));
                         ClearCollect(colTActivity, ForAll(SortByColumns(Filter(ITH_TicketActivity, TicketId = varTicket.ID), "ID", SortOrder.Descending), {Text: Title, AtText: Text(Created, "dd mmm yyyy, hh:mm", "en-GB")}));
-                        ClearCollect(colAttach, ForAll(LookUp(ITH_Ticket, ID = varTicket.ID).Attachments, {Name: Name}));
+                        ClearCollect(colAttach, ForAll(LookUp(ITH_Ticket, ID = varTicket.ID).Attachments, {Name: DisplayName}));
                         true,
                         Notify("The ticket details could not be loaded. " & FirstError.Message, NotificationType.Error)); Set(varMenu, "") // AC-ITH-24.1
                 Children:
@@ -3297,7 +3297,7 @@ Screens:
                               IfError(
                                   ClearCollect(colComments, ForAll(SortByColumns(Filter(ITH_TicketComment, TicketId = varTicket.ID), "ID", SortOrder.Ascending), {Author: AuthorName, AtText: Text(Created, "dd mmm yyyy, hh:mm", "en-GB"), Body: Coalesce(CommentText, "")}));
                                   ClearCollect(colTActivity, ForAll(SortByColumns(Filter(ITH_TicketActivity, TicketId = varTicket.ID), "ID", SortOrder.Descending), {Text: Title, AtText: Text(Created, "dd mmm yyyy, hh:mm", "en-GB")}));
-                                  ClearCollect(colAttach, ForAll(LookUp(ITH_Ticket, ID = varTicket.ID).Attachments, {Name: Name}));
+                                  ClearCollect(colAttach, ForAll(LookUp(ITH_Ticket, ID = varTicket.ID).Attachments, {Name: DisplayName}));
                                   true,
                                   Notify("The ticket details could not be loaded. " & FirstError.Message, NotificationType.Error));
                               Set(varLoading, true); // fx-ignore FX-DELEG lists under 2,000 items by design, data row limit 2,000 (S-DELEG), baseline Q-07 agreed by Albin 2026-10-29
@@ -3389,7 +3389,7 @@ Screens:
                                           AccessibleLabel: =Round(Min(100, Max(0, 0)), 0) & " percent"
                                           BorderColor: =ColorTransparent
                                           Height: =8
-                                          Image: ="data:image/svg+xml;utf8," & EncodeUrl("<svg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 8 8'><rect width='8' height='8' rx='4.0' fill='" & HexAccentText & "'/><rect width='" & Text(Min(100, Max(0, 0)) * 8 / 100, "0.##") & "' height='8' rx='4.0' fill='" & HexAccentText & "'/></svg>")
+                                          Image: ="data:image/svg+xml;utf8," & EncodeUrl("<svg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 8 8'><rect width='8' height='8' rx='4.0' fill='" & HexAccentText & "'/><rect width='" & Substitute(Text(Round(Min(100, Max(0, 0)) * 8 / 100, 1)), ",", ".") & "' height='8' rx='4.0' fill='" & HexAccentText & "'/></svg>")
                                           ImagePosition: =ImagePosition.Fill
                                           Width: =8
                                           AlignInContainer: =AlignInContainer.Start
@@ -3652,6 +3652,7 @@ Screens:
             Width: =254
             X: =ovwPnForm.X + 20
             Y: =ovwPnForm.Y + 268 + If(varErrSubject, 18, 0) + If(varErrDesc, 18, 0) + 25
+            Visible: =varModal = "form"
       - ovwFmPriCap:
           Control: Label@2.5.1
           Properties:
@@ -3680,6 +3681,7 @@ Screens:
             Width: =254
             X: =ovwPnForm.X + 286
             Y: =ovwPnForm.Y + 268 + If(varErrSubject, 18, 0) + If(varErrDesc, 18, 0) + 25
+            Visible: =varModal = "form"
       - ovwFmReqNameCap:
           Control: Label@2.5.1
           Properties:
@@ -3797,6 +3799,7 @@ Screens:
             Width: =520
             X: =ovwPnForm.X + 20
             Y: =ovwPnForm.Y + 268 + If(varErrSubject, 18, 0) + If(varErrDesc, 18, 0) + 71 + 71 + If(varErrEmail, 18, 0) + 25
+            Visible: =varModal = "form"
       - ovwFmCancel:
           Control: Classic/Button@2.2.0
           Properties:

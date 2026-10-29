@@ -131,6 +131,7 @@ always written in words as well as colour.
 6. At the base width and a narrow width (700) every screen has no clipped text and no control past its section.
 7. **Compared with the prototype** (prototype-fidelity §7): every register row for the screen is `Built`, `Matched`, `Deviation` or
    `Out of scope`, and every deviation has its platform reason in design-spec §9.
+8. **Walked in Studio in every state and on every screen, with the longest sample values** (PA-T40 to PA-T46): the overlay set is shown only by its variable (`FX-OVERLAY`), every table column lines up with its heading, every pill and icon is drawn, no text is cut off, and the empty, loading and error states read in full.
 
 ## 9. Extending the library
 

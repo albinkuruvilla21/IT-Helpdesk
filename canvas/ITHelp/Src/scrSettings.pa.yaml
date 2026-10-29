@@ -1556,7 +1556,7 @@ Screens:
                     IfError(
                         ClearCollect(colComments, ForAll(SortByColumns(Filter(ITH_TicketComment, TicketId = varTicket.ID), "ID", SortOrder.Ascending), {Author: AuthorName, AtText: Text(Created, "dd mmm yyyy, hh:mm", "en-GB"), Body: Coalesce(CommentText, "")}));
                         ClearCollect(colTActivity, ForAll(SortByColumns(Filter(ITH_TicketActivity, TicketId = varTicket.ID), "ID", SortOrder.Descending), {Text: Title, AtText: Text(Created, "dd mmm yyyy, hh:mm", "en-GB")}));
-                        ClearCollect(colAttach, ForAll(LookUp(ITH_Ticket, ID = varTicket.ID).Attachments, {Name: Name}));
+                        ClearCollect(colAttach, ForAll(LookUp(ITH_Ticket, ID = varTicket.ID).Attachments, {Name: DisplayName}));
                         true,
                         Notify("The ticket details could not be loaded. " & FirstError.Message, NotificationType.Error)); Set(varMenu, "") // AC-ITH-24.1
                 Children:
@@ -2649,7 +2649,7 @@ Screens:
                               IfError(
                                   ClearCollect(colComments, ForAll(SortByColumns(Filter(ITH_TicketComment, TicketId = varTicket.ID), "ID", SortOrder.Ascending), {Author: AuthorName, AtText: Text(Created, "dd mmm yyyy, hh:mm", "en-GB"), Body: Coalesce(CommentText, "")}));
                                   ClearCollect(colTActivity, ForAll(SortByColumns(Filter(ITH_TicketActivity, TicketId = varTicket.ID), "ID", SortOrder.Descending), {Text: Title, AtText: Text(Created, "dd mmm yyyy, hh:mm", "en-GB")}));
-                                  ClearCollect(colAttach, ForAll(LookUp(ITH_Ticket, ID = varTicket.ID).Attachments, {Name: Name}));
+                                  ClearCollect(colAttach, ForAll(LookUp(ITH_Ticket, ID = varTicket.ID).Attachments, {Name: DisplayName}));
                                   true,
                                   Notify("The ticket details could not be loaded. " & FirstError.Message, NotificationType.Error));
                               Set(varLoading, true); // fx-ignore FX-DELEG lists under 2,000 items by design, data row limit 2,000 (S-DELEG), baseline Q-07 agreed by Albin 2026-10-29
@@ -2741,7 +2741,7 @@ Screens:
                                           AccessibleLabel: =Round(Min(100, Max(0, 0)), 0) & " percent"
                                           BorderColor: =ColorTransparent
                                           Height: =8
-                                          Image: ="data:image/svg+xml;utf8," & EncodeUrl("<svg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 8 8'><rect width='8' height='8' rx='4.0' fill='" & HexAccentText & "'/><rect width='" & Text(Min(100, Max(0, 0)) * 8 / 100, "0.##") & "' height='8' rx='4.0' fill='" & HexAccentText & "'/></svg>")
+                                          Image: ="data:image/svg+xml;utf8," & EncodeUrl("<svg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 8 8'><rect width='8' height='8' rx='4.0' fill='" & HexAccentText & "'/><rect width='" & Substitute(Text(Round(Min(100, Max(0, 0)) * 8 / 100, 1)), ",", ".") & "' height='8' rx='4.0' fill='" & HexAccentText & "'/></svg>")
                                           ImagePosition: =ImagePosition.Fill
                                           Width: =8
                                           AlignInContainer: =AlignInContainer.Start
@@ -3004,6 +3004,7 @@ Screens:
             Width: =254
             X: =stPnForm.X + 20
             Y: =stPnForm.Y + 268 + If(varErrSubject, 18, 0) + If(varErrDesc, 18, 0) + 25
+            Visible: =varModal = "form"
       - stFmPriCap:
           Control: Label@2.5.1
           Properties:
@@ -3032,6 +3033,7 @@ Screens:
             Width: =254
             X: =stPnForm.X + 286
             Y: =stPnForm.Y + 268 + If(varErrSubject, 18, 0) + If(varErrDesc, 18, 0) + 25
+            Visible: =varModal = "form"
       - stFmReqNameCap:
           Control: Label@2.5.1
           Properties:
@@ -3149,6 +3151,7 @@ Screens:
             Width: =520
             X: =stPnForm.X + 20
             Y: =stPnForm.Y + 268 + If(varErrSubject, 18, 0) + If(varErrDesc, 18, 0) + 71 + 71 + If(varErrEmail, 18, 0) + 25
+            Visible: =varModal = "form"
       - stFmCancel:
           Control: Classic/Button@2.2.0
           Properties:

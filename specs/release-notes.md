@@ -1,12 +1,12 @@
-# Acies Innovations IT Help — release 1.0.1.0
+# Acies Innovations IT Help — release 1.0.2.0
 
 > Written by `/verify release` for the delivery lead (stage **G11**). Also the hand-over note for whoever
 > imports it.
 
 | | |
 |---|---|
-| Packages | `releases/AciesInnovationsITHelp_1_0_1_0_managed.zip` (97 KB) · `releases/AciesInnovationsITHelp_1_0_1_0.zip` (97 KB, unmanaged, Dev only) |
-| Version | 1.0.1.0 |
+| Packages | `releases/AciesInnovationsITHelp_1_0_2_0_managed.zip` · `releases/AciesInnovationsITHelp_1_0_2_0.zip` (unmanaged, Dev only) |
+| Version | 1.0.2.0 |
 | Built | 2026-10-29, from commit 35e36a5 plus the G11 changes |
 | `pp.py build` (validation) | ✅ 0 errors · 105 warnings: 1 YAML-packed app (PA-T8), 104 `FX-DELEG` suppressions listed under *Known issues* |
 | `check_schemas.py` | ✅ 9 schemas, 0 errors |
@@ -19,7 +19,7 @@
 | Level | Result |
 |---|---|
 | 1–2 Static | Syntax confirmed by Microsoft's Power Fx parser 1.99.0.0: 10,649 formulas, all confirmed. Static checks 0 errors. 413 list queries and 72 writes checked against `schemas/`; 339 names in the record scope of an unknown table are not checked |
-| 3 Studio App checker | **Not yet opened in Studio.** Nobody has bound the lists, added the flows or read App checker → Formulas |
+| 3 Studio App checker | **Opened by the delivery team on 1.0.1.0; one formula error found and fixed (PA-T42); App checker → Formulas not yet reported clean for 1.0.2.0** |
 | 4 Acceptance checks walked | Not done |
 
 ## What's in it
@@ -38,13 +38,24 @@ Not built, by PO decision: ticket delete (Q-11, AC-ITH-30), phone layout (Q-04, 
 
 ## Changes since the last release
 
-First release candidate. Template 1.9.0 started this project; its own changes are in `CHANGELOG.md`.
+1.0.2.0 fixes what the first Studio pass found (video `uiglitch/`, 2026-10-29):
+
+| Fixed | Cause (trap) |
+|---|---|
+| The form's category, priority and assignee dropdowns showed on every screen | No `Visible` on the overlay's dropdowns (PA-T41) |
+| Ticket table: priority and status pills missing, headings off the card and under the wrong columns | Pills in wrapper containers, header buttons with a minimum width (PA-T43, PA-T44): the Priority, Status and Actions columns are now fixed-width in the header and every row |
+| Pager showed "ious pag" | Replaced by chevron icons with names (PA-T45) |
+| Status bars had no fill | `Text(x, "0.##")` in the SVG (PA-T40) |
+| "Create a ticket to get started." and the knowledge-base tile titles cut off; the priority legend clipped | Label widths and heights (PA-T46); the Overview row is taller |
+| `Name isn't valid` when opening a ticket | The Attachments table's column is `DisplayName` (PA-T42) |
+
+The first candidate, 1.0.1.0, is still in `releases/` and is superseded.
 
 ## Known issues
 
 | Item | Detail |
 |---|---|
-| Not opened in Studio | The layout of every screen (sidebar, header, panel, overlays), the SVG icons and badges, the `IsDark` switch, and the gallery `WrapCount` and `OnSelect` are checked statically only (S-UI, S-NAV, S-DRAW, build-plan §7). Expect a round of fixes |
+| Opened in Studio once, not signed off | The delivery team opened 1.0.1.0 in Studio and reported the glitches fixed above; 1.0.2.0 has not been opened yet. The layout of every screen (sidebar, header, panel, overlays), the SVG icons and badges, the `IsDark` switch, and the gallery `WrapCount` and `OnSelect` are checked statically only (S-UI, S-NAV, S-DRAW, build-plan §7). Expect a round of fixes |
 | Attachments (S-ATT, AC-ITH-23) | The create form has **no file field**: SharePoint attachments need an `Attachments` control inside a Form data card, which cannot be generated. The panel lists attachments an item already has, by name only (SharePoint returns no size, DEV-05). Outstanding for Studio |
 | CSV export (S-CSV, AC-ITH-42) | Uses `Download()` with a data URI; unproven. If Studio or the browser refuses, a flow must produce the file |
 | Dark/light choice | Not remembered between sessions (DEV-02, Q-22) |
