@@ -11,7 +11,7 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from canvas_ui import (Node, Screen, avatar, badge, box, button, dropdown, hrow, label, panel, rect, svg_bar, svg_icon, svg_tile, table,  # noqa: E402
+from canvas_ui import (Node, Screen, avatar, badge, box, button, dropdown, hrow, label, panel, rect, svg_bar, svg_icon, svg_tile, table as _table,  # noqa: E402
                        textinput, _eq)
 import ith_app  # noqa: E402
 
@@ -66,6 +66,11 @@ VIS = '!varLoading && varLoadError = ""'
 
 
 # ------------------------------------------------------------------ small helpers
+def table(*args, **kw):
+    """canvas_ui.table with fit=True: every flexible cell may shrink to its share of the row (PA-T43)."""
+    return _table(*args, fit=True, **kw)
+
+
 def lbl(name, text, pt=BODY_PT, bold=False, color="ColorText", h=BODY_LH, wrap=False, **kw):
     n = label(name, text, size=pt, bold=bold, color=color, h=h, **kw)
     if not wrap:

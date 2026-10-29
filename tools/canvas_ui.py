@@ -325,9 +325,13 @@ def table_header(name, cols, visible=None, center=False):
     return hrow(name, kids, TABLE_HEAD_H, 8, 0, visible, "ColorSurface", 8, "Center")
 
 
-def table(name, items, row_cells, height, tpl=ROW_H, visible=None, ac=None, row_fill="ColorBackground", row_pad=8, row_gap=8):
+def table(name, items, row_cells, height, tpl=ROW_H, visible=None, ac=None, row_fill="ColorBackground", row_pad=8, row_gap=8, fit=False):
     """A table body: a gallery in a fixed-height ManualLayout wrapper (height = rows * tpl, or a fixed number), one row container sized to
-    the template, and a 1 px separator. Uses the sample's gallery variant and ONLY these gallery properties."""
+    the template, and a 1 px separator. Uses the sample's gallery variant and ONLY these gallery properties.
+    fit=True: the flexible Label and Button cells get LayoutMinWidth 0, so columns of unequal FillPortions share the row as the header does (PA-T43)."""
+    for c in (row_cells if fit else []):  # a flexible Label or Button has a minimum width (about 136 px): a row of them runs past its card and hides the last cell (PA-T43)
+        if c.control.startswith(("Label@", "Classic/Button@")) and "FillPortions" in c.props and "Width" not in c.props:
+            c.props["LayoutMinWidth"] = 0
     row = box(f"{name}Row", row_cells, "Horizontal", row_gap, h="Parent.TemplateHeight", w="Parent.TemplateWidth", fill=row_fill, pad_x=row_pad, align="Center", min0=False)
     sep = Node(f"{name}Sep", "Rectangle@2.3.0", {"BorderColor": "ColorTransparent", "Fill": "ColorDivider", "Height": SEP_H, "Width": "Parent.TemplateWidth",
                                                   "Y": "Parent.TemplateHeight - Self.Height"})

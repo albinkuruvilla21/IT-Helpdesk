@@ -588,6 +588,7 @@ Screens:
                                                 Text: =Coalesce(ThisItem.PriorityDefinition, "")
                                                 FillPortions: =1
                                                 VerticalAlign: =VerticalAlign.Middle
+                                                LayoutMinWidth: =0
                                     - stPrTblSep:
                                         Control: Rectangle@2.3.0
                                         Properties:
@@ -699,6 +700,7 @@ Screens:
                                                 Text: =Coalesce(ThisItem.StatusDefinition, "")
                                                 FillPortions: =1
                                                 VerticalAlign: =VerticalAlign.Middle
+                                                LayoutMinWidth: =0
                                     - stSdTblSep:
                                         Control: Rectangle@2.3.0
                                         Properties:
@@ -2427,6 +2429,7 @@ Screens:
                                           Text: =ThisItem.Name
                                           FillPortions: =1
                                           Wrap: =false
+                                          LayoutMinWidth: =0
                               - stDrwAttTblSep:
                                   Control: Rectangle@2.3.0
                                   Properties:

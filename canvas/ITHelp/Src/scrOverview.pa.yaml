@@ -438,6 +438,7 @@ Screens:
                                                 Text: =ThisItem.Code
                                                 FillPortions: =1.1
                                                 Wrap: =false
+                                                LayoutMinWidth: =0
                                           - ovwRcSub:
                                               Control: Label@2.5.1
                                               Properties:
@@ -448,6 +449,7 @@ Screens:
                                                 Text: =If(Len(ThisItem.Title) > 38, Left(ThisItem.Title, 37) & "…", ThisItem.Title)
                                                 FillPortions: =3
                                                 Wrap: =false
+                                                LayoutMinWidth: =0
                                           - ovwRcPr:
                                               Control: ModernText@1.0.0
                                               Properties:
@@ -1127,6 +1129,7 @@ Screens:
                                                 Text: =ThisItem.Code
                                                 FillPortions: =1.1
                                                 Wrap: =false
+                                                LayoutMinWidth: =0
                                           - ovwAsSub:
                                               Control: Label@2.5.1
                                               Properties:
@@ -1137,6 +1140,7 @@ Screens:
                                                 Text: =If(Len(ThisItem.Title) > 38, Left(ThisItem.Title, 37) & "…", ThisItem.Title)
                                                 FillPortions: =3
                                                 Wrap: =false
+                                                LayoutMinWidth: =0
                                           - ovwAsPr:
                                               Control: ModernText@1.0.0
                                               Properties:
@@ -3075,6 +3079,7 @@ Screens:
                                           Text: =ThisItem.Name
                                           FillPortions: =1
                                           Wrap: =false
+                                          LayoutMinWidth: =0
                               - ovwDrwAttTblSep:
                                   Control: Rectangle@2.3.0
                                   Properties:

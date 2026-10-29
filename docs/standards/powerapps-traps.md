@@ -45,7 +45,7 @@ validate` catches the ones marked ✔. Add a trap when a project finds a new one
 | PA-T40 | An SVG bar, ring or icon built by a formula draws nothing (a progress bar's fill is missing), with no error | ✔ (`FX-SVG`; `canvas_ui.svg_bar` and `svg_ring` use `Substitute(Text(Round(x, 2)), ",", ".")`) |
 | PA-T41 | A dialog's dropdowns, inputs or buttons show on **every** screen state, over the content (the form's fields on the Overview) | ✔ (`FX-OVERLAY`) |
 | PA-T42 | Studio: "Name isn't valid. 'Name' isn't recognized" on `ForAll(<item>.Attachments, {Name: Name})` | ✔ (`FX-NAME` on `Attachments`): the columns are `Id`, `DisplayName`, `Value`, `AbsoluteUri` |
-| PA-T43 | A table header row built of buttons runs past its card: the columns do not line up with the rows and the last ones are missing | `LayoutMinWidth: 0` on each header button (`ith_ui.py`) |
+| PA-T43 | A table's columns do not line up with its headings and the last cell of every row (an Edit button) is cut off: flexible labels and buttons in a row have a minimum width of about 136 px | `LayoutMinWidth: 0` on each flexible header button and row cell (`canvas_ui.table(..., fit=True)`) |
 | PA-T44 | A status or priority pill inside a wrapper container disappears in a table row, so every later column in the row shifts left | Pill columns are fixed-width, the same in the header and in every row, and the pill sits directly in the row |
 | PA-T45 | A pager or icon button of 34 px with text ("Previous page") shows "ious pag" | Use the prototype's icon as an Image with `OnSelect`, `AccessibleLabel`, `TabIndex: 0` and `DisplayMode` |
 | PA-T46 | Text is cut off in a card or an empty state: a label with no width wraps in a centred column; a title that takes two lines in a one-line label | Give the label a `Width` and a height for the **longest** value's lines; check with the longest sample row |
@@ -394,11 +394,11 @@ Studio showed `Name isn't valid. 'Result' isn't recognized` and then `The functi
 **Fix:** `{Name: DisplayName}`. There is no size column: a size cannot be shown without another source.
 **Guard:** `FX-NAME` on a `.Attachments` projection that reads `Name`.
 
-### PA-T43 · A header row of buttons overflows its card
+### PA-T43 · Table columns do not line up and the last cell is cut off
 
-**Symptom (Studio):** the table's column headings are about 100 px apart whatever their `FillPortions`, the last headings fall outside the card, and they do not line up with the rows.
-**Cause:** a Classic button has a minimum width, so buttons in an auto-layout row cannot shrink to their share.
-**Fix:** `LayoutMinWidth: 0` and `LayoutMinHeight: 0` on each header button.
+**Symptom (Studio):** the headings are about 100 px apart whatever their `FillPortions`; in the rows every text column is about 144 px from the next, the subject is no wider than the category, and the last cell (an Edit button) is not visible. Headings and rows do not line up.
+**Cause:** a Label or Classic Button in an auto-layout row has a minimum width of about 136 px, so a row of flexible cells cannot shrink to its share: it runs past the card, and the card clips what is beyond.
+**Fix:** `LayoutMinWidth: 0` (and `LayoutMinHeight: 0`) on every flexible header button and every flexible row cell. `canvas_ui.table(..., fit=True)` does it for the row; the header buttons are set where they are built. Give fixed columns (pills, actions) the same fixed width in the header and in every row.
 
 ### PA-T44 · A pill in a wrapper container vanishes in a table row
 

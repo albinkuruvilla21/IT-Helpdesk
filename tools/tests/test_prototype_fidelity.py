@@ -80,6 +80,24 @@ class Measure(unittest.TestCase):
         self.assertTrue(all(t["pt"] > 0 and t["label_h"] > 0 for t in d["type_scale"]), d["type_scale"][:3])
 
 
+class TableFit(unittest.TestCase):
+    def cells(self):
+        return [ui.label("cA", "=ThisItem.A", fp=3), ui.label("cB", "=ThisItem.B", w=60), ui.button("cC", "Go", "Select(Self)", fp=1)]
+
+    def row(self, tbl):
+        return tbl.children[0].children[0].children  # wrapper > gallery > row container > cells
+
+    def test_fit_lets_flexible_cells_shrink(self):
+        cells = self.row(ui.table("tbl", "Items", self.cells(), 100, fit=True))
+        self.assertEqual(cells[0].props["LayoutMinWidth"], 0)
+        self.assertEqual(cells[2].props["LayoutMinWidth"], 0)
+        self.assertNotIn("LayoutMinWidth", cells[1].props)  # a fixed-width cell keeps its width
+
+    def test_default_table_is_the_reference_apps(self):
+        for c in self.row(ui.table("tbl", "Items", self.cells(), 100)):
+            self.assertNotIn("LayoutMinWidth", c.props)
+
+
 class Patterns(unittest.TestCase):
     GEO = {"w": 1020, "top": 12, "h": 46, "radius": 23, "pad": 13, "title_pt": 12.5, "tab_h": 29, "tab_pt": 10, "seg_pad": 3, "user_pt": 9.5}
 

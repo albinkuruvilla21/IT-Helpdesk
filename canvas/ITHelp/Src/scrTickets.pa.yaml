@@ -643,6 +643,7 @@ Screens:
                                           Text: =ThisItem.Code
                                           FillPortions: =1.1
                                           Wrap: =false
+                                          LayoutMinWidth: =0
                                     - tkRSub:
                                         Control: Label@2.5.1
                                         Properties:
@@ -653,6 +654,7 @@ Screens:
                                           Text: =If(Len(ThisItem.Title) > 38, Left(ThisItem.Title, 37) & "…", ThisItem.Title) // AC-ITH-15.3
                                           FillPortions: =3
                                           Wrap: =false
+                                          LayoutMinWidth: =0
                                     - tkRReq:
                                         Control: Label@2.5.1
                                         Properties:
@@ -663,6 +665,7 @@ Screens:
                                           Text: =ThisItem.RequesterName
                                           FillPortions: =1.6
                                           Wrap: =false
+                                          LayoutMinWidth: =0
                                     - tkRCat:
                                         Control: Label@2.5.1
                                         Properties:
@@ -673,6 +676,7 @@ Screens:
                                           Text: =ThisItem.Category
                                           FillPortions: =1.2
                                           Wrap: =false
+                                          LayoutMinWidth: =0
                                     - tkRPr:
                                         Control: ModernText@1.0.0
                                         Properties:
@@ -706,6 +710,7 @@ Screens:
                                           Text: =If(IsBlank(ThisItem.AssignedToName), "Unassigned", ThisItem.AssignedToName)
                                           FillPortions: =1.6
                                           Wrap: =false
+                                          LayoutMinWidth: =0
                                     - tkRSt:
                                         Control: ModernText@1.0.0
                                         Properties:
@@ -739,6 +744,7 @@ Screens:
                                           Text: =ThisItem.CreatedText
                                           FillPortions: =1.2
                                           Wrap: =false
+                                          LayoutMinWidth: =0
                                     - tkREd:
                                         Control: Classic/Button@2.2.0
                                         Properties:
@@ -2678,6 +2684,7 @@ Screens:
                                           Text: =ThisItem.Name
                                           FillPortions: =1
                                           Wrap: =false
+                                          LayoutMinWidth: =0
                               - tkDrwAttTblSep:
                                   Control: Rectangle@2.3.0
                                   Properties:

@@ -3,11 +3,11 @@
 Newest first. A project made from this template records here which template version it started from,
 then its own material changes above that line.
 
-## IT Help 1.0.2.0 — 2026-10-29 (the first Studio pass: UI glitches and one formula error)
+## IT Help 1.0.3.0 — 2026-10-29 (the first Studio pass: UI glitches and one formula error; table column widths)
 
 Fixed from the delivery team's video: the form's dropdowns on every screen (PA-T41), the ticket table's pills, headings and pager (PA-T43 to PA-T45), SVG bars with
 no fill (PA-T40), cut-off text (PA-T46) and `{Name: Name}` on Attachments (PA-T42). New guards: `FX-OVERLAY`, `FX-SVG` and an Attachments check in `tools/powerfx.py`, each tested
-both ways. Traps PA-T40 to PA-T48 and lessons-learned row 18 written here and in the boilerplate (template 1.10.0, branch `from-it-help-2026-10-29`, 67ce3cd).
+both ways; the ticket table's cells now shrink to their share (`canvas_ui.table(fit=True)`, PA-T43). Traps PA-T40 to PA-T48 and lessons-learned row 18 written here and in the boilerplate (template 1.10.0, branch `from-it-help-2026-10-29`, 67ce3cd).
 
 ## IT Help 1.0.0.0 — 2026-10-29 (delivery G0 to G11, from template 1.9.0)
 

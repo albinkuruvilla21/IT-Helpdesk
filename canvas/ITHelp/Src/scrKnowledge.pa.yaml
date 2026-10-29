@@ -678,6 +678,7 @@ Screens:
                                           Text: =ThisItem.Text
                                           FillPortions: =1
                                           VerticalAlign: =VerticalAlign.Middle
+                                          LayoutMinWidth: =0
                               - kbStepsSep:
                                   Control: Rectangle@2.3.0
                                   Properties:
@@ -2481,6 +2482,7 @@ Screens:
                                           Text: =ThisItem.Name
                                           FillPortions: =1
                                           Wrap: =false
+                                          LayoutMinWidth: =0
                               - kbDrwAttTblSep:
                                   Control: Rectangle@2.3.0
                                   Properties:
