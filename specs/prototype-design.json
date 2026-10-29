@@ -1,8 +1,8 @@
 {
- "scale": 1.5,
- "content_width": 1020,
+ "scale": 1.0,
+ "content_width": 680,
  "prototype_content_width": 680.0,
- "has_dark_scheme": false,
+ "has_dark_scheme": true,
  "custom_properties": {
   "light": {
    "bg": "#f6f7f9",
@@ -19,15 +19,28 @@
    "h3": "#fcfcfd",
    "ln": "#f0f2f5"
   },
-  "dark": {}
+  "dark": {
+   "bg": "#0b0f17",
+   "c": "#121826",
+   "bd": "#263041",
+   "tx": "#e6e9ef",
+   "mu": "#98a2b3",
+   "ac": "#818cf8",
+   "ah": "#4338ca",
+   "as": "#1e2347",
+   "h": "#1b2335",
+   "h2": "#161d2c",
+   "h3": "#151b29",
+   "ln": "#1c2434"
+  }
  },
  "tokens": {
   "ColorBackground": {
    "css": "--bg",
    "light": "RGBA(246, 247, 249, 1)",
    "light_hex": "#f6f7f9",
-   "dark": null,
-   "dark_hex": null
+   "dark": "RGBA(11, 15, 23, 1)",
+   "dark_hex": "#0b0f17"
   }
  },
  "contrast": [],
@@ -37,109 +50,109 @@
    "selector": "body",
    "media": "",
    "px": 14.0,
-   "pt": 16.0,
+   "pt": 10.5,
    "weight": null,
    "line_height": 1.5,
-   "label_h": 32
+   "label_h": 21
   },
   {
    "selector": "h1",
    "media": "",
    "px": 18.0,
-   "pt": 20.0,
+   "pt": 13.5,
    "weight": "600",
    "line_height": null,
-   "label_h": 35
+   "label_h": 24
   },
   {
    "selector": "h3",
    "media": "",
    "px": 14.0,
-   "pt": 16.0,
+   "pt": 10.5,
    "weight": "600",
    "line_height": null,
-   "label_h": 28
+   "label_h": 19
   },
   {
    "selector": ".logo",
    "media": "",
    "px": 15.0,
-   "pt": 17.0,
+   "pt": 11.0,
    "weight": "600",
    "line_height": null,
-   "label_h": 30
+   "label_h": 20
   },
   {
    "selector": ".cnt",
    "media": "",
    "px": 12.0,
-   "pt": 13.5,
+   "pt": 9.0,
    "weight": null,
    "line_height": null,
-   "label_h": 24
+   "label_h": 16
   },
   {
    "selector": ".prof small",
    "media": "",
    "px": 12.0,
-   "pt": 13.5,
+   "pt": 9.0,
    "weight": null,
    "line_height": null,
-   "label_h": 24
+   "label_h": 16
   },
   {
    "selector": ".av",
    "media": "",
    "px": 12.0,
-   "pt": 13.5,
+   "pt": 9.0,
    "weight": "600",
    "line_height": null,
-   "label_h": 24
+   "label_h": 16
   },
   {
    "selector": ".stat b",
    "media": "",
    "px": 26.0,
-   "pt": 29.0,
+   "pt": 19.5,
    "weight": "600",
    "line_height": 1.2,
-   "label_h": 47
+   "label_h": 32
   },
   {
    "selector": "th",
    "media": "",
    "px": 12.5,
-   "pt": 14.0,
+   "pt": 9.5,
    "weight": "500",
    "line_height": null,
-   "label_h": 25
+   "label_h": 17
   },
   {
    "selector": ".b",
    "media": "",
    "px": 12.5,
-   "pt": 14.0,
+   "pt": 9.5,
    "weight": "500",
    "line_height": null,
-   "label_h": 25
+   "label_h": 17
   },
   {
    "selector": ".kv label",
    "media": "",
    "px": 12.5,
-   "pt": 14.0,
+   "pt": 9.5,
    "weight": null,
    "line_height": null,
-   "label_h": 25
+   "label_h": 17
   },
   {
    "selector": ".note",
    "media": "",
    "px": 13.0,
-   "pt": 14.5,
+   "pt": 10.0,
    "weight": null,
    "line_height": null,
-   "label_h": 26
+   "label_h": 18
   }
  ],
  "geometry": [
@@ -147,91 +160,91 @@
    "selector": "aside",
    "media": "",
    "padding": [
-    18
+    12
    ],
    "gap": [
-    6
+    4
    ],
    "width": [
-    348
+    232
    ]
   },
   {
    "selector": ".col aside",
    "media": "",
    "width": [
-    96
+    64
    ]
   },
   {
    "selector": ".logo",
    "media": "",
    "padding": [
-    9,
-    12,
-    21
+    6,
+    8,
+    14
    ],
    "gap": [
-    15
+    10
    ]
   },
   {
    "selector": ".mark",
    "media": "",
    "border-radius": [
-    12
+    8
    ],
    "height": [
-    42
+    28
    ],
    "width": [
-    42
+    28
    ]
   },
   {
    "selector": ".nav",
    "media": "",
    "border-radius": [
-    12
+    8
    ],
    "padding": [
-    12,
-    15
+    8,
+    10
    ],
    "gap": [
-    15
+    10
    ]
   },
   {
    "selector": ".cnt",
    "media": "",
    "border-radius": [
-    15
+    10
    ],
    "padding": [
     null,
-    10
+    7
    ]
   },
   {
    "selector": ".prof",
    "media": "",
    "padding": [
-    15,
-    12
+    10,
+    8
    ],
    "gap": [
-    15
+    10
    ]
   },
   {
    "selector": ".av",
    "media": "",
    "height": [
-    45
+    30
    ],
    "width": [
-    45
+    30
    ]
   },
   {
@@ -239,34 +252,34 @@
    "media": "",
    "padding": [
     null,
-    30
+    20
    ],
    "gap": [
-    18
+    12
    ],
    "height": [
-    90
+    60
    ]
   },
   {
    "selector": ".sbox",
    "media": "",
    "border-radius": [
-    12
+    8
    ],
    "padding": [
     null,
-    15
+    10
    ],
    "gap": [
-    12
+    8
    ]
   },
   {
    "selector": ".sbox input",
    "media": "",
    "padding": [
-    10,
+    7,
     null
    ]
   },
@@ -274,227 +287,227 @@
    "selector": ".hd .sbox",
    "media": "",
    "width": [
-    450
+    300
    ]
   },
   {
    "selector": ".ib",
    "media": "",
    "border-radius": [
-    12
+    8
    ],
    "height": [
-    51
+    34
    ],
    "width": [
-    51
+    34
    ]
   },
   {
    "selector": ".dot",
    "media": "",
    "height": [
-    12
+    8
    ],
    "width": [
-    12
+    8
    ]
   },
   {
    "selector": ".dd",
    "media": "",
    "border-radius": [
-    15
+    10
    ],
    "padding": [
-    9
+    6
    ],
    "width": [
-    450
+    300
    ]
   },
   {
    "selector": ".dd .it",
    "media": "",
    "border-radius": [
-    9
+    6
    ],
    "padding": [
-    12,
-    15
+    8,
+    10
    ]
   },
   {
    "selector": ".ct",
    "media": "",
    "padding": [
-    30
+    20
    ]
   },
   {
    "selector": ".btn",
    "media": "",
    "border-radius": [
-    12
+    8
    ],
    "padding": [
-    10,
-    18
+    7,
+    12
    ],
    "gap": [
-    9
+    6
    ]
   },
   {
    "selector": ".btn.sm",
    "media": "",
    "padding": [
-    4,
-    12
+    3,
+    8
    ]
   },
   {
    "selector": ".card",
    "media": "",
    "border-radius": [
-    15
+    10
    ]
   },
   {
    "selector": ".cp",
    "media": "",
    "padding": [
-    24
+    16
    ]
   },
   {
    "selector": ".g4",
    "media": "",
    "gap": [
-    21
+    14
    ]
   },
   {
    "selector": ".g2",
    "media": "",
    "gap": [
-    21
+    14
    ]
   },
   {
    "selector": ".g3",
    "media": "",
    "gap": [
-    21
+    14
    ]
   },
   {
    "selector": ".ch",
    "media": "",
    "padding": [
-    18,
-    24
+    12,
+    16
    ]
   },
   {
    "selector": "th",
    "media": "",
    "padding": [
-    14,
-    21
+    9,
+    14
    ]
   },
   {
    "selector": "td",
    "media": "",
    "padding": [
-    15,
-    21
+    10,
+    14
    ]
   },
   {
    "selector": ".sub",
    "media": "",
    "max-width": [
-    450
+    300
    ]
   },
   {
    "selector": ".b",
    "media": "",
    "border-radius": [
-    18
+    12
    ],
    "padding": [
-    2,
-    14
+    1,
+    9
    ],
    "gap": [
-    9
+    6
    ]
   },
   {
    "selector": ".b i",
    "media": "",
    "height": [
-    9
+    6
    ],
    "width": [
-    9
+    6
    ]
   },
   {
    "selector": ".tb",
    "media": "",
    "gap": [
-    15
+    10
    ]
   },
   {
    "selector": ".tb .sbox",
    "media": "",
    "width": [
-    420
+    280
    ]
   },
   {
    "selector": "select",
    "media": "",
    "border-radius": [
-    12
+    8
    ],
    "padding": [
-    10,
-    15
+    7,
+    10
    ]
   },
   {
    "selector": "input:not([type=file])",
    "media": "",
    "border-radius": [
-    12
+    8
    ],
    "padding": [
-    10,
-    15
+    7,
+    10
    ]
   },
   {
    "selector": "textarea",
    "media": "",
    "border-radius": [
-    12
+    8
    ],
    "padding": [
-    10,
-    15
+    7,
+    10
    ]
   },
   {
    "selector": ".sbox input",
    "media": "",
    "padding": [
-    10,
+    7,
     null
    ]
   },
@@ -502,60 +515,60 @@
    "selector": ".pg",
    "media": "",
    "padding": [
-    15,
-    21
+    10,
+    14
    ],
    "gap": [
-    15
+    10
    ]
   },
   {
    "selector": ".pg select",
    "media": "",
    "padding": [
-    4,
-    9
+    3,
+    6
    ]
   },
   {
    "selector": ".pg .sp",
    "media": "",
    "gap": [
-    9
+    6
    ]
   },
   {
    "selector": ".emp",
    "media": "",
    "padding": [
-    72,
-    24
+    48,
+    16
    ]
   },
   {
    "selector": ".emp h3",
    "media": "",
    "margin": [
-    12,
+    8,
     null,
-    6
+    4
    ]
   },
   {
    "selector": ".row",
    "media": "",
    "gap": [
-    18
+    12
    ]
   },
   {
    "selector": ".br",
    "media": "",
    "gap": [
-    15
+    10
    ],
    "margin": [
-    14,
+    9,
     null
    ]
   },
@@ -563,143 +576,143 @@
    "selector": ".tr",
    "media": "",
    "border-radius": [
-    6
+    4
    ],
    "height": [
-    12
+    8
    ]
   },
   {
    "selector": ".tr i",
    "media": "",
    "border-radius": [
-    6
+    4
    ]
   },
   {
    "selector": ".stk",
    "media": "",
    "border-radius": [
-    9
+    6
    ],
    "gap": [
-    3
+    2
    ],
    "height": [
-    18
+    12
    ],
    "margin": [
-    9,
+    6,
     null,
-    21
+    14
    ]
   },
   {
    "selector": ".lg",
    "media": "",
    "gap": [
-    9,
-    24
+    6,
+    16
    ]
   },
   {
    "selector": ".lg span",
    "media": "",
    "gap": [
-    9
+    6
    ]
   },
   {
    "selector": ".lg i",
    "media": "",
    "border-radius": [
-    3
+    2
    ],
    "height": [
-    12
+    8
    ],
    "width": [
-    12
+    8
    ]
   },
   {
    "selector": ".li",
    "media": "",
    "padding": [
-    14,
-    24
+    9,
+    16
    ],
    "gap": [
-    15
+    10
    ]
   },
   {
    "selector": ".ev",
    "media": "",
    "padding": [
-    12,
-    24
+    8,
+    16
    ],
    "gap": [
-    15
+    10
    ]
   },
   {
    "selector": ".ev i",
    "media": "",
    "height": [
-    12
+    8
    ],
    "width": [
-    12
+    8
    ]
   },
   {
    "selector": ".ov.mo",
    "media": "",
    "padding": [
-    24
+    16
    ]
   },
   {
    "selector": ".modal",
    "media": "",
    "border-radius": [
-    18
+    12
    ],
    "padding": [
-    30
+    20
    ]
   },
   {
    "selector": ".drawer",
    "media": "",
    "padding": [
-    30
+    20
    ]
   },
   {
    "selector": ".two",
    "media": "",
    "gap": [
-    18
+    12
    ]
   },
   {
    "selector": ".ft",
    "media": "",
    "gap": [
-    12
+    8
    ]
   },
   {
    "selector": ".kv",
    "media": "",
    "gap": [
-    18
+    12
    ],
    "margin": [
-    24,
+    16,
     null
    ]
   },
@@ -707,89 +720,89 @@
    "selector": ".cm",
    "media": "",
    "border-radius": [
-    12
+    8
    ],
    "padding": [
-    15,
-    18
+    10,
+    12
    ]
   },
   {
    "selector": ".tl div:before",
    "media": "",
    "height": [
-    12
+    8
    ],
    "width": [
-    12
+    8
    ]
   },
   {
    "selector": ".kb",
    "media": "",
    "gap": [
-    21
+    14
    ]
   },
   {
    "selector": ".kb .card",
    "media": "",
    "padding": [
-    24
+    16
    ]
   },
   {
    "selector": ".chip",
    "media": "",
    "border-radius": [
-    21
+    14
    ],
    "padding": [
-    6,
-    18
+    4,
+    12
    ]
   },
   {
    "selector": ".art",
    "media": "",
    "max-width": [
-    1020
+    680
    ]
   },
   {
    "selector": "#ts",
    "media": "",
    "gap": [
-    12
+    8
    ]
   },
   {
    "selector": ".toast",
    "media": "",
    "border-radius": [
-    12
+    8
    ],
    "padding": [
-    15,
-    21
+    10,
+    14
    ]
   },
   {
    "selector": ".note",
    "media": "",
    "border-radius": [
-    12
+    8
    ],
    "padding": [
-    12,
-    18
+    8,
+    12
    ]
   },
   {
    "selector": ".ct",
    "media": "@media(max-width:700px)",
    "padding": [
-    18
+    12
    ]
   },
   {
@@ -797,7 +810,7 @@
    "media": "@media(max-width:700px)",
    "padding": [
     null,
-    18
+    12
    ]
   }
  ],

@@ -49,7 +49,7 @@ carries it, and a component can never move to another publisher (PA-T1).
 | G0 | Project set up | This file, renamed solution | `/project-setup` | — | Done |
 | G1 | Inputs converted | `inputs/_converted/INDEX.md` | `/ingest` | G0 | Done |
 | **G2** | **Acceptance criteria: Client PO sign-off** | `specs/acceptance-criteria/<CODE>_AcceptanceCriteria.xlsx` | `/acceptance-criteria` | G1 | Approved |
-| G3 | Design spec | `specs/design-spec.md`, tokens in `App.Formulas` | `/deliver` | G2 | Not started |
+| G3 | Design spec | `specs/design-spec.md`, tokens in `App.Formulas` | `/deliver` | G2 | Done |
 | G4 | Build plan | `specs/build-plan.md` | `/deliver` | G3 | Not started |
 | G5 | List schemas | `schemas/*.csv`, `specs/data-model.md`, list environment variables | `/deliver` | G4 | Not started |
 | G6 | Scaffold | `canvas/` screens, solution components wired, samples removed | `/deliver` | G5 | Not started |
@@ -104,6 +104,7 @@ asks.
 | Q-19 | 2026-10-29 | Should a person get an email about a change they made themselves (AC-ITH-33, 34)? Baseline: no | /acceptance-criteria | Client PO | 🔶 |
 | Q-20 | 2026-10-29 | May a requester close or reopen their own ticket (AC-ITH-29, 39)? Baseline: no | /acceptance-criteria | Client PO | 🔶 |
 | Q-21 | 2026-10-29 | May requesters raise a ticket on someone else's behalf, and comment on their own tickets (AC-ITH-20, 27)? Baseline: only staff change the requester; requesters may comment | /acceptance-criteria | Client PO | 🔶 |
+| Q-22 | 2026-10-29 | May the dark/light choice be remembered per user (needs a small list)? Baseline: not remembered, starts Light each session (design-spec DEV-02) | /design-spec | Client PO | 🔶 |
 
 ## 5. Tenant facts
 

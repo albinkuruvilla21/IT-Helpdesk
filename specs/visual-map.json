@@ -1,0 +1,118 @@
+{
+  "width": 1366,
+  "height": 768,
+  "scale": 1,
+  "clock": "2026-10-29T09:00:00",
+  "tolerance": 0.1,
+  "settleMs": 700,
+  "screens": [
+    {
+      "screen": "scrOverview",
+      "state": "ready",
+      "scheme": "light",
+      "design": "inputs/design/index (4).html",
+      "region": "#app",
+      "setup": "applyTheme(false,true);go('overview')",
+      "screenshot": "specs/screenshots/scrOverview-ready-light.png"
+    },
+    {
+      "screen": "scrTickets",
+      "state": "all",
+      "scheme": "light",
+      "design": "inputs/design/index (4).html",
+      "region": "#app",
+      "setup": "applyTheme(false,true);go('all')",
+      "screenshot": "specs/screenshots/scrTickets-all-light.png"
+    },
+    {
+      "screen": "scrOverview",
+      "state": "ready",
+      "scheme": "dark",
+      "design": "inputs/design/index (4).html",
+      "region": "#app",
+      "setup": "applyTheme(true,true);go('overview')",
+      "screenshot": "specs/screenshots/scrOverview-ready-dark.png"
+    },
+    {
+      "screen": "scrTickets",
+      "state": "all",
+      "scheme": "dark",
+      "design": "inputs/design/index (4).html",
+      "region": "#app",
+      "setup": "applyTheme(true,true);go('all')",
+      "screenshot": "specs/screenshots/scrTickets-all-dark.png"
+    },
+    {
+      "screen": "scrTickets",
+      "state": "mine",
+      "scheme": "light",
+      "design": "inputs/design/index (4).html",
+      "region": "#app",
+      "setup": "applyTheme(false,true);go('mine')",
+      "screenshot": "specs/screenshots/scrTickets-mine-light.png"
+    },
+    {
+      "screen": "scrTickets",
+      "state": "assigned",
+      "scheme": "light",
+      "design": "inputs/design/index (4).html",
+      "region": "#app",
+      "setup": "applyTheme(false,true);go('assigned')",
+      "screenshot": "specs/screenshots/scrTickets-assigned-light.png"
+    },
+    {
+      "screen": "scrTickets",
+      "state": "empty",
+      "scheme": "light",
+      "design": "inputs/design/index (4).html",
+      "region": "#app",
+      "setup": "applyTheme(false,true);go('all');setQ('zzzz')",
+      "screenshot": "specs/screenshots/scrTickets-empty-light.png"
+    },
+    {
+      "screen": "scrTickets",
+      "state": "form",
+      "scheme": "light",
+      "design": "inputs/design/index (4).html",
+      "region": "#app",
+      "setup": "applyTheme(false,true);go('all');openForm()",
+      "screenshot": "specs/screenshots/scrTickets-form-light.png"
+    },
+    {
+      "screen": "scrTickets",
+      "state": "drawer",
+      "scheme": "light",
+      "design": "inputs/design/index (4).html",
+      "region": "#app",
+      "setup": "applyTheme(false,true);go('all');openT('HD-1001')",
+      "screenshot": "specs/screenshots/scrTickets-drawer-light.png"
+    },
+    {
+      "screen": "scrKnowledge",
+      "state": "list",
+      "scheme": "light",
+      "design": "inputs/design/index (4).html",
+      "region": "#app",
+      "setup": "applyTheme(false,true);go('kb')",
+      "screenshot": "specs/screenshots/scrKnowledge-list-light.png"
+    },
+    {
+      "screen": "scrKnowledge",
+      "state": "article",
+      "scheme": "light",
+      "design": "inputs/design/index (4).html",
+      "region": "#app",
+      "setup": "applyTheme(false,true);go('kb');KO=0;render()",
+      "screenshot": "specs/screenshots/scrKnowledge-article-light.png"
+    },
+    {
+      "screen": "scrSettings",
+      "state": "ready",
+      "scheme": "light",
+      "design": "inputs/design/index (4).html",
+      "region": "#app",
+      "setup": "applyTheme(false,true);go('settings')",
+      "screenshot": "specs/screenshots/scrSettings-ready-light.png"
+    }
+  ]
+}
