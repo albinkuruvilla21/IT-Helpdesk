@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Helpdesk</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f6f7f9;--c:#fff;--bd:#e4e7ec;--tx:#101828;--mu:#667085;--ac:#4f46e5;--ah:#4338ca;--as:#eef2ff;--r:10px;--h:#f2f4f7;--h2:#f9fafb;--h3:#fcfcfd;--ln:#f0f2f5}
+[data-theme=dark]{color-scheme:dark;--bg:#0b0f17;--c:#121826;--bd:#263041;--tx:#e6e9ef;--mu:#98a2b3;--ac:#818cf8;--ah:#4338ca;--as:#1e2347;--h:#1b2335;--h2:#161d2c;--h3:#151b29;--ln:#1c2434}
+[data-theme=dark] .btn.p{background:#4f46e5;border-color:#4f46e5}[data-theme=dark] .btn.p:hover{background:#4338ca}[data-theme=dark] .btn.d{color:#fca5a5}[data-theme=dark] .er{color:#fca5a5}[data-theme=dark] .toast{background:#2a3347}[data-theme=dark] .note{background:#2b2410;border-color:#5b4a14;color:#fcd34d}[data-theme=dark] .ov{background:#000a}
+*{box-sizing:border-box}body{margin:0;font:14px/1.5 Inter,system-ui,sans-serif;color:var(--tx);background:var(--bg)}
+button,input,select,textarea{font:inherit;color:inherit}h1,h2,h3,p{margin:0}h1{font-size:18px;font-weight:600}h3{font-size:14px;font-weight:600}
+.mu{color:var(--mu)}.app{display:flex;height:100vh}
+aside{width:232px;flex:none;background:var(--c);border-right:1px solid var(--bd);display:flex;flex-direction:column;padding:12px;gap:4px;transition:width .2s}
+.col aside{width:64px}.col .lbl{display:none}.col .logo b{display:none}
+.logo{display:flex;align-items:center;gap:10px;padding:6px 8px 14px;font-weight:600;font-size:15px}
+.mark{width:28px;height:28px;border-radius:8px;background:var(--ac);color:#fff;display:grid;place-items:center;flex:none}
+.nav{display:flex;gap:10px;align-items:center;width:100%;padding:8px 10px;border:0;border-radius:8px;background:none;color:var(--mu);cursor:pointer;text-align:left}
+.nav:hover{background:var(--h);color:var(--tx)}.nav.on{background:var(--as);color:var(--ac);font-weight:500}.nav .lbl{flex:1}
+.cnt{font-size:12px;background:var(--h);color:var(--mu);border-radius:10px;padding:0 7px;flex:none}.nav.on .cnt{background:var(--c)}
+.prof{display:flex;gap:10px;align-items:center;padding:10px 8px;border-top:1px solid var(--bd);margin-top:auto}.prof small{display:block;color:var(--mu);font-size:12px}
+.av{width:30px;height:30px;border-radius:50%;background:var(--as);color:var(--ac);display:grid;place-items:center;font-size:12px;font-weight:600;flex:none}
+.main{flex:1;display:flex;flex-direction:column;min-width:0}
+.hd{height:60px;flex:none;display:flex;align-items:center;gap:12px;padding:0 20px;background:var(--c);border-bottom:1px solid var(--bd)}
+.crumb{color:var(--mu)}.crumb a{cursor:pointer}.crumb a:hover{color:var(--ac)}.hd .t{font-weight:600;white-space:nowrap}
+.sbox{display:flex;align-items:center;gap:8px;background:var(--c);border:1px solid var(--bd);border-radius:8px;padding:0 10px;color:var(--mu);min-width:0}
+.sbox:focus-within{border-color:var(--ac);box-shadow:0 0 0 3px #4f46e51f}.sbox input{border:0;outline:0;background:none;padding:7px 0;width:100%}
+.hd .sbox{margin-left:auto;width:300px}.dw{position:relative}
+.ib{width:34px;height:34px;border:0;background:none;border-radius:8px;display:grid;place-items:center;cursor:pointer;color:var(--mu);position:relative}.ib:hover{background:var(--h)}
+.dot{position:absolute;top:7px;right:8px;width:8px;height:8px;background:#dc2626;border-radius:50%;border:2px solid var(--c)}
+.dd{display:none;position:absolute;right:0;top:40px;width:300px;background:var(--c);border:1px solid var(--bd);border-radius:var(--r);box-shadow:0 8px 24px #10182814;z-index:30;padding:6px}
+.dd.open{display:block}.dd .it{display:block;width:100%;text-align:left;border:0;background:none;padding:8px 10px;border-radius:6px;cursor:pointer}.dd .it:hover{background:var(--h)}.dd small{color:var(--mu);display:block}
+.ct{flex:1;overflow:auto;padding:20px}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:7px 12px;border-radius:8px;border:1px solid var(--bd);background:var(--c);cursor:pointer;font-weight:500;white-space:nowrap}
+.btn:hover{background:var(--h2)}.btn.p{background:var(--ac);border-color:var(--ac);color:#fff}.btn.p:hover{background:var(--ah)}.btn.d{color:#b91c1c}.btn.g{border-color:transparent;background:none;color:var(--mu)}.btn.sm{padding:3px 8px}
+button:focus-visible,a:focus-visible,tr:focus-visible,select:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid var(--ac);outline-offset:1px}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.card{background:var(--c);border:1px solid var(--bd);border-radius:var(--r)}.cp{padding:16px}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:14px}.g2{display:grid;grid-template-columns:2fr 1fr;gap:14px;margin-bottom:14px}.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.stat b{display:block;font-size:26px;font-weight:600;line-height:1.2}.stat span{color:var(--mu)}
+.ch{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--bd)}
+.tbw{overflow-x:auto}table{width:100%;border-collapse:collapse}
+th{text-align:left;font-weight:500;color:var(--mu);font-size:12.5px;padding:9px 14px;border-bottom:1px solid var(--bd);white-space:nowrap;background:var(--h3)}
+th.s{cursor:pointer;user-select:none}th.s:hover{color:var(--tx)}td{padding:10px 14px;border-bottom:1px solid var(--ln);vertical-align:middle}
+tbody tr{cursor:pointer}tbody tr:hover{background:var(--h2)}tbody tr:last-child td{border-bottom:0}.id{font-weight:500;color:var(--ac);white-space:nowrap}.sub{max-width:300px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.b{display:inline-flex;align-items:center;gap:6px;padding:1px 9px;border-radius:12px;font-size:12.5px;font-weight:500;white-space:nowrap}.b i{width:6px;height:6px;border-radius:50%}
+.tb{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px;align-items:center}.tb .sbox{width:280px}
+select,input:not([type=file]),textarea{border:1px solid var(--bd);border-radius:8px;padding:7px 10px;background:var(--c);width:100%}.tb select{width:auto}.sbox input{border:0;padding:7px 0}
+.pg{display:flex;align-items:center;gap:10px;padding:10px 14px;border-top:1px solid var(--bd);color:var(--mu);flex-wrap:wrap}.pg select{width:auto;padding:3px 6px}.pg .sp{margin-left:auto;display:flex;gap:6px;align-items:center}
+.emp{text-align:center;padding:48px 16px;color:var(--mu)}.emp h3{color:var(--tx);margin:8px 0 4px}.emp .btn{margin-top:12px}
+.row{display:flex;gap:12px;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap}
+.br{display:grid;grid-template-columns:90px 1fr 28px;gap:10px;align-items:center;margin:9px 0}.tr{height:8px;background:var(--h);border-radius:4px;overflow:hidden}.tr i{display:block;height:100%;border-radius:4px}.br b{text-align:right}
+.stk{display:flex;height:12px;border-radius:6px;overflow:hidden;gap:2px;margin:6px 0 14px}.lg{display:flex;flex-wrap:wrap;gap:6px 16px}.lg span{display:flex;gap:6px;align-items:center}.lg i{width:8px;height:8px;border-radius:2px}
+.li{display:flex;justify-content:space-between;gap:10px;padding:9px 16px;border-bottom:1px solid var(--ln);cursor:pointer}.li:hover{background:var(--h2)}.li:last-child{border-bottom:0}
+.ev{display:flex;gap:10px;padding:8px 16px}.ev i{width:8px;height:8px;border-radius:50%;background:var(--ac);margin-top:7px;flex:none}.ev small{color:var(--mu);display:block}
+.ov{position:fixed;inset:0;background:#10182866;display:flex;z-index:50}.ov.mo{align-items:center;justify-content:center;padding:16px}
+.modal{background:var(--c);border-radius:12px;width:min(560px,100%);max-height:100%;overflow:auto;padding:20px;box-shadow:0 20px 50px #10182833}
+.drawer{margin-left:auto;width:min(580px,100%);background:var(--c);height:100%;overflow:auto;padding:20px;animation:sl .18s ease-out}@keyframes sl{from{transform:translateX(24px);opacity:.4}}
+.fl{display:block;margin-bottom:12px;font-weight:500}.fl>*:not(small){margin-top:4px;font-weight:400}.er{display:block;color:#b91c1c;min-height:0;font-weight:400}.fl.bad input,.fl.bad textarea{border-color:#dc2626}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}.ft{display:flex;justify-content:flex-end;gap:8px;margin-top:8px}
+.kv{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0}.kv label{font-size:12.5px;color:var(--mu);display:block}.kv div{min-width:0;word-break:break-word}
+.sec{margin-top:20px}.sec h3{margin-bottom:8px}.cm{border:1px solid var(--bd);border-radius:8px;padding:10px 12px;margin-bottom:8px}.cm small{color:var(--mu)}
+.tl{border-left:2px solid var(--bd);margin-left:4px;padding-left:14px}.tl div{position:relative;margin-bottom:10px}.tl div:before{content:"";position:absolute;left:-20px;top:7px;width:8px;height:8px;border-radius:50%;background:var(--ac)}.tl small{color:var(--mu);display:block}
+.kb{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}.kb .card{padding:16px;cursor:pointer;text-align:left}.kb .card:hover{border-color:#c7d2fe}
+.chip{padding:4px 12px;border-radius:14px;border:1px solid var(--bd);background:var(--c);cursor:pointer}.chip.on{background:var(--as);border-color:#c7d2fe;color:var(--ac)}
+.art{max-width:680px}.art ol{padding-left:20px}.art li{margin-bottom:8px}
+#ts{position:fixed;right:16px;bottom:16px;display:flex;flex-direction:column;gap:8px;z-index:90}
+.toast{background:#101828;color:#fff;padding:10px 14px;border-radius:8px;box-shadow:0 8px 24px #10182833;animation:sl .18s ease-out}.toast.err{background:#b91c1c}
+.note{background:var(--c)beb;border:1px solid #fde68a;color:#92400e;border-radius:8px;padding:8px 12px;font-size:13px}
+@media(max-width:900px){.g4{grid-template-columns:repeat(2,1fr)}.g2,.g3{grid-template-columns:1fr}}
+@media(max-width:700px){.hm{display:none}.hd .sbox{width:auto;flex:1}.crumb{display:none}.ct{padding:12px}.two,.kv{grid-template-columns:1fr}.hd{padding:0 12px}.btn.p .lbl{display:none}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style></head><body>
+<div class="app" id="app">
+<aside><div class="logo"><div class="mark">H</div><b>Helpdesk</b></div><nav id="nav"></nav>
+<div class="prof"><div class="av">AM</div><div class="lbl"><b>Alex Morgan</b><small>IT technician</small></div></div></aside>
+<div class="main">
+<header class="hd"><button class="ib" onclick="$('#app').classList.toggle('col')" aria-label="Collapse sidebar" id="tg"></button>
+<div class="crumb"><a onclick="go('overview')">Helpdesk</a> / <span class="t" id="title"></span></div>
+<div class="sbox">__S__<input id="gq" placeholder="Search tickets by ID or subject" oninput="setQ(this.value)" aria-label="Search tickets"></div>
+<button class="btn p" onclick="openForm()">__P__<span class="lbl">Create ticket</span></button>
+<button class="ib" id="th" onclick="toggleTheme()" aria-label="Toggle dark theme"></button>
+<div class="dw"><button class="ib" onclick="dd('dn')" aria-label="Notifications">__B__<span class="dot" id="dot"></span></button><div class="dd" id="dn"></div></div>
+<div class="dw"><button class="ib" onclick="dd('dp')" aria-label="Profile"><span class="av">AM</span></button>
+<div class="dd" id="dp"><div style="padding:8px 10px"><b>Alex Morgan</b><small>alex.morgan@contoso.com</small></div>
+<button class="it" onclick="go('settings')">Settings</button><button class="it" onclick="resetData()">Reset demo data</button></div></div>
+</header>
+<div class="ct" id="ct"></div></div></div>
+<div id="dr"></div><div id="md"></div><div id="ts" role="status" aria-live="polite"></div>
+<script>
+const $=s=>document.querySelector(s),esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const P={home:'<path d="M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/>',list:'<path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/>',user:'<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>',check:'<circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/>',book:'<path d="M4 19V5a2 2 0 0 1 2-2h14v16H6a2 2 0 0 0-2 2zm0 0a2 2 0 0 0 2 2h14"/>',gear:'<path d="M4 6h9m4 0h3M4 12h3m4 0h9M4 18h11m4 0h1"/><circle cx="15" cy="6" r="2"/><circle cx="9" cy="12" r="2"/><circle cx="17" cy="18" r="2"/>',search:'<circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/>',bell:'<path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9M10 21h4"/>',plus:'<path d="M12 5v14M5 12h14"/>',x:'<path d="M6 6l12 12M18 6L6 18"/>',l:'<path d="M15 6l-6 6 6 6"/>',r:'<path d="M9 6l6 6-6 6"/>',menu:'<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16"/>',trash:'<path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/>',edit:'<path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/>',inbox:'<path d="M3 13l3-8h12l3 8v6H3zM3 13h5l1 3h6l1-3h5"/>'};
+const ic=(n,s=18)=>`<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${P[n]}</svg>`;
+document.body.innerHTML=document.body.innerHTML.replace('__S__',ic('search',16)).replace('__P__',ic('plus',16)).replace('__B__',ic('bell'));
+$('#tg').innerHTML=ic('menu');
+const ME={name:'Alex Morgan',email:'alex.morgan@contoso.com'},TECHS=['Alex Morgan','Priya Nair','Daniel Kim','Sofia Rossi'],CATS=['Hardware','Software','Network','Access','Other'],PRIS=['Low','Medium','High','Critical'],STS=['Open','In Progress','On Hold','Resolved','Closed'];
+const PD={Low:'Minor issue or question with a workaround. Target: 3 days.',Medium:'Affects one person\'s work, no workaround. Target: 1 day.',High:'Blocks a person or small team. Target: 4 hours.',Critical:'Business-wide outage or security risk. Target: 1 hour.'};
+const SD={Open:'Submitted and waiting to be picked up.','In Progress':'A technician is actively working on it.','On Hold':'Waiting on the requester, a vendor, or parts.',Resolved:'A fix is in place and awaiting confirmation.',Closed:'Confirmed complete. No further work.'};
+const CL={Open:'#1d4ed8','In Progress':'#b45309','On Hold':'#475467',Resolved:'#15803d',Closed:'#667085',Low:'#475467',Medium:'#1d4ed8',High:'#c2410c',Critical:'#b91c1c'};
+const bd=v=>`<span class="b" style="color:${CL[v]};background:color-mix(in srgb,${CL[v]} 14%,var(--c))"><i style="background:${CL[v]}"></i>${v}</span>`;
+const KB=[{c:'Account',t:'How to reset your password',d:'Reset a forgotten or expired password using self-service.',s:['Go to the sign-in page and select "Forgot password".','Enter your work email and complete the verification code.','Choose a new password of at least 12 characters.','Sign in again on all devices once it saves.']},
+{c:'Network',t:'Troubleshooting VPN connectivity',d:'Fix the most common VPN connection errors.',s:['Check that you have an internet connection without the VPN.','Quit the VPN client fully and reopen it.','Switch networks (for example, to a mobile hotspot) to rule out Wi-Fi blocks.','Update the VPN client to the latest version from the Software Center.','If error 809 persists, create a ticket and include the error text.']},
+{c:'Email',t:'Setting up Outlook',d:'Add your work mailbox to Outlook on desktop or mobile.',s:['Open Outlook and select Add account.','Enter your work email and approve the sign-in prompt.','Wait for the first sync to finish before closing Outlook.','On mobile, install the Outlook app and sign in the same way.']},
+{c:'Software',t:'Requesting software access',d:'How to request licensed software and get it approved.',s:['Check the Software Center first; many apps install without approval.','Create a ticket in the Software category with the app name and reason.','Ask your manager to reply to the ticket to approve it.','IT installs the app and marks the ticket resolved.']},
+{c:'Network',t:'Connecting to office Wi-Fi',d:'Join the secure office network on a new device.',s:['Select the staff network from the Wi-Fi list.','Sign in with your work email and password.','Accept the certificate when prompted.']},
+{c:'Account',t:'Setting up multi-factor authentication',d:'Register your phone for sign-in approvals.',s:['Install the authenticator app from your app store.','Open Security settings and choose Add method.','Scan the QR code and enter the six-digit code.']}];
+const KEY='hd_tickets_v1',now=()=>new Date().toISOString(),ago=h=>new Date(Date.now()-h*36e5).toISOString();
+function seed(){const R=[['Unable to access VPN','Cannot connect to the corporate VPN since this morning. The client fails with error 809 on home Wi-Fi and a mobile hotspot.','Maria Lopez','Network','High','Open','',3],['Outlook is not syncing','Outlook has been stuck on "Updating inbox" since yesterday. Webmail works normally.','Alex Morgan','Software','Medium','In Progress','Priya Nair',20],['Laptop performance issue','Laptop freezes for several seconds when more than three apps are open. The fan is loud even when idle.','Tom Becker','Hardware','Medium','In Progress','Alex Morgan',30],['Request for software installation','Need Adobe Acrobat Pro installed to edit signed vendor contracts. Manager approval attached.','Hannah Lee','Software','Low','Open','Daniel Kim',48],['Printer connection problem','The 3rd floor printer shows offline for everyone on the finance team.','Raj Patel','Hardware','High','On Hold','Sofia Rossi',52],['Password reset not working','Self-service reset sends the code but the page rejects it as expired.','Chen Wei','Access','High','Resolved','Alex Morgan',6],['Shared mailbox access','Please add me to the shared Accounts Payable mailbox.','Alex Morgan','Access','Low','Resolved','Priya Nair',3],['Monitor flickering','External monitor flickers every few minutes when docked.','Maria Lopez','Hardware','Low','Closed','Daniel Kim',120],['Teams calls dropping','Calls drop after about ten minutes on the office Wi-Fi.','Tom Becker','Network','Critical','In Progress','Sofia Rossi',8],['New starter laptop setup','Laptop and accounts needed for a new analyst starting Monday.','Hannah Lee','Hardware','Medium','Open','Alex Morgan',26],['Cannot open shared drive','Access denied on the Finance Reports drive since the permissions change.','Raj Patel','Access','Medium','Open','',70],['Antivirus alert on laptop','Defender quarantined a file in Downloads. Want to confirm it is safe.','Alex Morgan','Other','Critical','In Progress','Daniel Kim',7],['Excel crashes on large files','Excel closes without warning when opening the quarterly model (45 MB).','Chen Wei','Software','Medium','On Hold','Priya Nair',96],['Request second monitor','Requesting a second monitor to support daily reporting work.','Alex Morgan','Hardware','Low','Open','',150]];
+return R.map((r,i)=>{const[s,d,n,c,p,st,a,h]=r,ca=ago(h),act=[{at:ca,text:`${n} created the ticket`}],cm=[];
+if(a)act.push({at:ago(h*.9),text:`${ME.name} assigned the ticket to ${a}`});
+if(st!='Open'){act.push({at:ago(st=='Resolved'?h/6:h*.5),text:`${a||ME.name} changed status to ${st}`});cm.push({a:a||ME.name,at:ago(h*.5),x:st=='On Hold'?'Waiting on a reply before I can continue.':'Looking into this now. I will update the ticket shortly.'});act.push({at:cm[0].at,text:`${cm[0].a} added a comment`})}
+act.sort((x,y)=>x.at<y.at?-1:1);return{id:'HD-'+(1001+i),subject:s,description:d,requesterName:n,requesterEmail:n.toLowerCase().replace(' ','.')+'@contoso.com',category:c,priority:p,status:st,assignedTo:a,createdAt:ca,updatedAt:act[act.length-1].at,attachments:i%4==0?[{name:'screenshot.png',size:'184 KB'}]:[],comments:cm,activity:act}})}
+function load(){try{const s=JSON.parse(localStorage.getItem(KEY));if(Array.isArray(s)&&s.length)return s}catch(e){setTimeout(()=>toast('Saved data could not be read. Sample data restored.','err'),500)}return seed()}
+let T=load(),V='overview',TID=null,KO=null,KQ='',KC='',CB=null,READ=false,F={q:'',st:'',pr:'',cat:'',sort:'createdAt',dir:-1,page:1,size:10};
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(T))}catch(e){toast('Could not save changes in this browser.','err')}};
+const mine=()=>T.filter(t=>t.requesterEmail==ME.email),asg=()=>T.filter(t=>t.assignedTo==ME.name),live=t=>!['Resolved','Closed'].includes(t.status);
+const fmt=d=>new Date(d).toLocaleString('en-GB',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'}),sd=d=>new Date(d).toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'});
+const rel=d=>{const m=Math.round((Date.now()-new Date(d))/6e4);return m<1?'just now':m<60?m+' min ago':m<1440?Math.round(m/60)+' h ago':Math.round(m/1440)+' d ago'};
+const ini=n=>n.split(' ').map(x=>x[0]).join('').slice(0,2).toUpperCase(),opts=(a,s,all)=>(all!=null?`<option value="">${all}</option>`:'')+a.map(x=>`<option ${x==s?'selected':''}>${esc(x)}</option>`).join('');
+const NAV=[['overview','Overview','home'],['all','All tickets','list'],['mine','My tickets','user'],['assigned','Assigned to me','check'],['kb','Knowledge base','book'],['settings','Settings','gear']];
+const TT={overview:'Overview',all:'All tickets',mine:'My tickets',assigned:'Assigned to me',kb:'Knowledge base',settings:'Settings'};
+function nav(){$('#nav').innerHTML=NAV.map(([k,l,i])=>{const n=k=='mine'?mine().filter(live).length:k=='assigned'?asg().filter(live).length:0;return`<button class="nav ${V==k?'on':''}" onclick="go('${k}')" title="${l}" ${V==k?'aria-current="page"':''}>${ic(i)}<span class="lbl">${l}</span>${n?`<span class="cnt lbl">${n}</span>`:''}</button>`}).join('')}
+function go(v){V=v;KO=null;F.page=1;document.querySelectorAll('.dd').forEach(x=>x.classList.remove('open'));render()}
+function render(){nav();$('#title').textContent=V=='kb'&&KO!=null?'Knowledge base / '+KB[KO].t:TT[V];const c=$('#ct');
+if(V=='overview')c.innerHTML=overview();else if(V=='kb')c.innerHTML=kbPage();else if(V=='settings')c.innerHTML=settings();else{c.innerHTML=listPage();renderTable()}
+if(TID)drawer()}
+function dd(id){const e=$('#'+id),o=e.classList.contains('open');document.querySelectorAll('.dd').forEach(x=>x.classList.remove('open'));if(!o){if(id=='dn'){READ=true;$('#dot').style.display='none';e.innerHTML=feed(5).map(a=>`<button class="it" onclick="openT('${a.id}')">${esc(a.text)}<small>${a.id} · ${rel(a.at)}</small></button>`).join('')}e.classList.add('open')}}
+document.addEventListener('click',e=>{if(!e.target.closest('.dw'))document.querySelectorAll('.dd').forEach(x=>x.classList.remove('open'))});
+document.addEventListener('keydown',e=>{if(e.key=='Escape'){if($('#md').innerHTML)closeM();else if(TID)closeT()}});
+const feed=n=>T.flatMap(t=>t.activity.map(a=>({...a,id:t.id}))).sort((a,b)=>a.at<b.at?1:-1).slice(0,n);
+const mini=L=>L.length?`<div class="tbw"><table><tbody>${L.map(t=>`<tr tabindex="0" onclick="openT('${t.id}')" onkeydown="if(event.key=='Enter')openT('${t.id}')"><td class="id">${t.id}</td><td class="sub">${esc(t.subject)}</td><td class="hm">${bd(t.priority)}</td><td>${bd(t.status)}</td></tr>`).join('')}</tbody></table></div>`:`<div class="emp">Nothing here yet.</div>`;
+function overview(){const n=s=>T.filter(t=>t.status==s).length,td=new Date().toDateString(),rt=T.filter(t=>t.status=='Resolved'&&new Date(t.updatedAt).toDateString()==td).length,tot=T.length||1;
+const st=[['Total tickets',T.length],['Open',n('Open')],['In progress',n('In Progress')],['Resolved today',rt]];
+return`<div class="g4">${st.map(s=>`<div class="card cp stat"><span>${s[0]}</span><b>${s[1]}</b></div>`).join('')}</div>
+<div class="g2"><div class="card"><div class="ch"><h3>Recent tickets</h3><button class="btn sm" onclick="go('all')">View all</button></div>${mini([...T].sort((a,b)=>a.createdAt<b.createdAt?1:-1).slice(0,6))}</div>
+<div class="card cp"><h3>Tickets by status</h3>${STS.map(s=>`<div class="br"><span>${s}</span><div class="tr"><i style="width:${n(s)/tot*100}%;background:${CL[s]}"></i></div><b>${n(s)}</b></div>`).join('')}
+<h3 style="margin-top:18px">Tickets by priority</h3><div class="stk" role="img" aria-label="Priority split">${PRIS.map(p=>`<i style="flex:${T.filter(t=>t.priority==p).length};background:${CL[p]}"></i>`).join('')}</div><div class="lg">${PRIS.map(p=>`<span><i style="background:${CL[p]}"></i>${p} ${T.filter(t=>t.priority==p).length}</span>`).join('')}</div></div></div>
+<div class="g2" style="grid-template-columns:1fr 1fr"><div class="card"><div class="ch"><h3>My assigned tickets</h3><button class="btn sm" onclick="go('assigned')">View all</button></div>${mini(asg().filter(live).slice(0,5))}</div>
+<div class="card"><div class="ch"><h3>Recent activity</h3></div>${feed(7).map(a=>`<div class="ev"><i></i><div>${esc(a.text)}<small>${a.id} · ${rel(a.at)}</small></div></div>`).join('')}</div></div>`}
+const DESC={all:'Every ticket in the helpdesk.',mine:'Tickets you submitted as '+ME.name+'.',assigned:'Tickets assigned to you.'};
+function listPage(){return`<div class="row"><div><h1>${TT[V]}</h1><p class="mu">${DESC[V]}</p></div></div><div class="tb"><div class="sbox">${ic('search',16)}<input id="q" placeholder="Search by ID or subject" value="${esc(F.q)}" oninput="setQ(this.value)" aria-label="Search tickets"></div>
+<select aria-label="Status" onchange="F.st=this.value;F.page=1;renderTable()">${opts(STS,F.st,'All statuses')}</select><select aria-label="Priority" onchange="F.pr=this.value;F.page=1;renderTable()">${opts(PRIS,F.pr,'All priorities')}</select><select aria-label="Category" onchange="F.cat=this.value;F.page=1;renderTable()">${opts(CATS,F.cat,'All categories')}</select>
+<button class="btn g" onclick="clr()">Clear filters</button></div><div id="tbl" class="card"></div>`}
+function setQ(v){F.q=v;F.page=1;$('#gq').value=v;if($('#q'))$('#q').value=v;if(!['all','mine','assigned'].includes(V))go('all');else renderTable()}
+function clr(){F.q=F.st=F.pr=F.cat='';F.page=1;$('#gq').value='';render()}
+const sv=(t,k)=>k=='priority'?PRIS.indexOf(t.priority):k=='status'?STS.indexOf(t.status):k=='id'?+t.id.slice(3):String(t[k]).toLowerCase();
+function sortBy(k){F.dir=F.sort==k?-F.dir:1;F.sort=k;renderTable()}
+function renderTable(){const q=F.q.trim().toLowerCase(),B=V=='mine'?mine():V=='assigned'?asg():T;
+const L=B.filter(t=>(!q||t.id.toLowerCase().includes(q)||t.subject.toLowerCase().includes(q))&&(!F.st||t.status==F.st)&&(!F.pr||t.priority==F.pr)&&(!F.cat||t.category==F.cat)).sort((a,b)=>{const x=sv(a,F.sort),y=sv(b,F.sort);return(x>y?1:x<y?-1:0)*F.dir});
+const n=L.length,pg=Math.max(1,Math.ceil(n/F.size));F.page=Math.min(F.page,pg);const s=(F.page-1)*F.size,Pg=L.slice(s,s+F.size),f=q||F.st||F.pr||F.cat;
+const C=[['id','Ticket ID'],['subject','Subject'],['requesterName','Requester','hm'],['category','Category','hm'],['priority','Priority'],['assignedTo','Assigned to','hm'],['status','Status'],['createdAt','Created','hm']];
+if(!n){$('#tbl').innerHTML=`<div class="emp">${ic('inbox',32)}<h3>${f?'No tickets match your filters':'No tickets here yet'}</h3><p>${f?'Try a different search or clear the filters.':'Create a ticket to get started.'}</p>${f?'<button class="btn" onclick="clr()">Clear filters</button>':'<button class="btn p" onclick="openForm()">Create ticket</button>'}</div>`;return}
+$('#tbl').innerHTML=`<div class="tbw"><table><thead><tr>${C.map(c=>`<th class="s ${c[2]||''}" onclick="sortBy('${c[0]}')" aria-sort="${F.sort==c[0]?(F.dir>0?'ascending':'descending'):'none'}">${c[1]}${F.sort==c[0]?(F.dir>0?' ▲':' ▼'):''}</th>`).join('')}<th>Actions</th></tr></thead><tbody>${Pg.map(t=>`<tr tabindex="0" onclick="openT('${t.id}')" onkeydown="if(event.key=='Enter')openT('${t.id}')"><td class="id">${t.id}</td><td class="sub">${esc(t.subject)}</td><td class="hm">${esc(t.requesterName)}</td><td class="hm">${t.category}</td><td>${bd(t.priority)}</td><td class="hm">${esc(t.assignedTo)||'<span class="mu">Unassigned</span>'}</td><td>${bd(t.status)}</td><td class="hm">${sd(t.createdAt)}</td><td style="white-space:nowrap"><button class="btn g sm" aria-label="Edit ${t.id}" onclick="event.stopPropagation();openForm('${t.id}')">${ic('edit',15)}</button><button class="btn g sm d" aria-label="Delete ${t.id}" onclick="event.stopPropagation();delT('${t.id}')">${ic('trash',15)}</button></td></tr>`).join('')}</tbody></table></div>
+<div class="pg"><span>${s+1}–${s+Pg.length} of ${n}</span><div class="sp"><label>Rows <select onchange="F.size=+this.value;F.page=1;renderTable()">${[5,10,25].map(x=>`<option ${x==F.size?'selected':''}>${x}</option>`).join('')}</select></label><button class="btn sm" aria-label="Previous page" ${F.page<2?'disabled':''} onclick="F.page--;renderTable()">${ic('l',14)}</button><span>${F.page} / ${pg}</span><button class="btn sm" aria-label="Next page" ${F.page>=pg?'disabled':''} onclick="F.page++;renderTable()">${ic('r',14)}</button></div></div>`}
+function modal(h){$('#md').innerHTML=`<div class="ov mo" onclick="if(event.target==this)closeM()"><div class="modal" role="dialog" aria-modal="true">${h}</div></div>`}
+const closeM=()=>$('#md').innerHTML='';
+function confirmDlg(title,msg,label,cb){CB=cb;modal(`<h2>${title}</h2><p class="mu" style="margin:6px 0 16px">${msg}</p><div class="ft"><button class="btn" onclick="closeM()">Cancel</button><button class="btn p" onclick="closeM();CB()">${label}</button></div>`)}
+function toast(m,t){const e=document.createElement('div');e.className='toast '+(t||'');e.textContent=m;$('#ts').appendChild(e);setTimeout(()=>e.remove(),3200)}
+const fld=(l,k,i)=>`<label class="fl" id="w_${k}">${l}${i}<small class="er" id="e_${k}"></small></label>`;
+function openForm(id,pre){const t=id?T.find(x=>x.id==id):null,v=t||{subject:pre||'',description:'',category:'Software',priority:'Medium',requesterName:ME.name,requesterEmail:ME.email,assignedTo:''};
+modal(`<div class="row" style="margin:0 0 12px"><h2>${t?'Edit '+t.id:'Create ticket'}</h2><button class="ib" onclick="closeM()" aria-label="Close">${ic('x')}</button></div><form onsubmit="return saveForm(event,'${id||''}')" novalidate>
+${fld('Ticket subject *','subject',`<input id="f_subject" value="${esc(v.subject)}" placeholder="Short summary of the issue">`)}${fld('Description *','description',`<textarea id="f_description" rows="4" placeholder="What happened, and what did you expect?">${esc(v.description)}</textarea>`)}
+<div class="two">${fld('Category','category',`<select id="f_category">${opts(CATS,v.category)}</select>`)}${fld('Priority','priority',`<select id="f_priority">${opts(PRIS,v.priority)}</select>`)}</div>
+<div class="two">${fld('Requester name','requesterName',`<input id="f_requesterName" value="${esc(v.requesterName)}">`)}${fld('Requester email','requesterEmail',`<input id="f_requesterEmail" value="${esc(v.requesterEmail)}">`)}</div>
+${fld('Assign to (optional)','assignedTo',`<select id="f_assignedTo"><option value="">Unassigned</option>${opts(TECHS,v.assignedTo)}</select>`)}
+${t?'':fld('Attachments','att',`<input type="file" id="f_att" multiple><small class="mu">Simulated: file names are saved, files are not uploaded.</small>`)}
+<div class="ft"><button type="button" class="btn" onclick="closeM()">Cancel</button><button class="btn p">${t?'Save changes':'Create ticket'}</button></div></form>`);$('#f_subject').focus()}
+function saveForm(e,id){e.preventDefault();const g=k=>$('#f_'+k).value.trim(),E={};
+if(!g('subject'))E.subject='Enter a subject.';if(!g('description'))E.description='Describe the issue.';if(g('requesterEmail')&&!/^\S+@\S+\.\S+$/.test(g('requesterEmail')))E.requesterEmail='Enter a valid email address.';
+['subject','description','requesterEmail'].forEach(k=>{$('#e_'+k).textContent=E[k]||'';$('#w_'+k).classList.toggle('bad',!!E[k])});if(Object.keys(E).length)return false;
+const d={subject:g('subject'),description:g('description'),category:g('category'),priority:g('priority'),requesterName:g('requesterName')||ME.name,requesterEmail:g('requesterEmail')||ME.email,assignedTo:g('assignedTo')};
+if(id){const t=T.find(x=>x.id==id);Object.assign(t,d);log(t,`${ME.name} edited ticket details`);toast(id+' updated')}
+else{const n=Math.max(1000,...T.map(x=>+x.id.slice(3)))+1,at=now(),t={id:'HD-'+n,...d,status:'Open',createdAt:at,updatedAt:at,attachments:[...($('#f_att').files||[])].map(f=>({name:f.name,size:Math.max(1,Math.round(f.size/1024))+' KB'})),comments:[],activity:[{at,text:`${d.requesterName} created the ticket`}]};
+if(d.assignedTo)t.activity.push({at,text:`${ME.name} assigned the ticket to ${d.assignedTo}`});T.push(t);toast(t.id+' created')}
+save();closeM();render();return false}
+function log(t,text){const at=now();t.activity.push({at,text});t.updatedAt=at}
+function openT(id){TID=id;document.querySelectorAll('.dd').forEach(x=>x.classList.remove('open'));drawer()}
+function closeT(){TID=null;$('#dr').innerHTML=''}
+function drawer(){const t=T.find(x=>x.id==TID);if(!t){closeT();return}
+$('#dr').innerHTML=`<div class="ov" onclick="closeT()"><div class="drawer" role="dialog" aria-label="${t.id}" onclick="event.stopPropagation()">
+<div class="row" style="margin-bottom:6px"><span class="id">${t.id}</span><button class="ib" onclick="closeT()" aria-label="Close panel">${ic('x')}</button></div><h2>${esc(t.subject)}</h2>
+<div style="display:flex;gap:6px;margin:8px 0 12px">${bd(t.status)}${bd(t.priority)}</div>
+<div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" onclick="openForm('${t.id}')">${ic('edit',15)}Edit</button>${live(t)?`<button class="btn" onclick="setF('status','Resolved')">Resolve</button>`:''}${t.status!='Closed'?`<button class="btn" onclick="closeTk()">Close ticket</button>`:''}<button class="btn d" onclick="delT('${t.id}')">${ic('trash',15)}Delete</button></div>
+<div class="kv"><div><label>Status</label><select aria-label="Status" onchange="setF('status',this.value)">${opts(STS,t.status)}</select></div><div><label>Priority</label><select aria-label="Priority" onchange="setF('priority',this.value)">${opts(PRIS,t.priority)}</select></div>
+<div><label>Assigned technician</label><select aria-label="Assignee" onchange="setF('assignedTo',this.value)"><option value="">Unassigned</option>${opts(TECHS,t.assignedTo)}</select></div><div><label>Category</label>${t.category}</div>
+<div><label>Requester</label>${esc(t.requesterName)}<br><span class="mu">${esc(t.requesterEmail)}</span></div><div><label>Created</label>${fmt(t.createdAt)}<br><label style="margin-top:6px">Last updated</label>${fmt(t.updatedAt)}</div></div>
+<div class="sec"><h3>Description</h3><p style="white-space:pre-wrap">${esc(t.description)}</p></div>
+<div class="sec"><h3>Attachments</h3>${t.attachments.length?t.attachments.map(a=>`<div class="cm">${esc(a.name)} <small>${a.size}</small></div>`).join(''):'<p class="mu">No attachments.</p>'}</div>
+<div class="sec"><h3>Comments (${t.comments.length})</h3>${t.comments.map(c=>`<div class="cm"><b>${esc(c.a)}</b> <small>${fmt(c.at)}</small><p style="white-space:pre-wrap">${esc(c.x)}</p></div>`).join('')||'<p class="mu" style="margin-bottom:8px">No comments yet.</p>'}
+<textarea id="nc" rows="3" placeholder="Write a comment" aria-label="Comment"></textarea><div class="ft"><button class="btn p" onclick="addC()">Add comment</button></div></div>
+<div class="sec"><h3>Activity</h3><div class="tl">${[...t.activity].reverse().map(a=>`<div>${esc(a.text)}<small>${fmt(a.at)}</small></div>`).join('')}</div></div></div></div>`}
+function setF(k,v){const t=T.find(x=>x.id==TID);if(t[k]==v)return;t[k]=v;const L={status:'status to',priority:'priority to',assignedTo:'assignee to'};log(t,`${ME.name} changed ${L[k]} ${v||'Unassigned'}`);save();toast(k=='status'?`${t.id} marked ${v}`:'Ticket updated');render()}
+function addC(){const x=$('#nc').value.trim();if(!x){toast('Write a comment before adding it.','err');return}const t=T.find(y=>y.id==TID);t.comments.push({a:ME.name,at:now(),x});log(t,`${ME.name} added a comment`);save();toast('Comment added');render()}
+function closeTk(){confirmDlg('Close '+TID+'?','Closed tickets are treated as complete. You can reopen it by changing the status.','Close ticket',()=>setF('status','Closed'))}
+function delT(id){confirmDlg('Delete '+id+'?','This permanently removes the ticket, its comments, and its activity.','Delete ticket',()=>{T=T.filter(t=>t.id!=id);save();if(TID==id)closeT();toast(id+' deleted');render()})}
+function resetData(){document.querySelectorAll('.dd').forEach(x=>x.classList.remove('open'));confirmDlg('Reset demo data?','All tickets return to the sample set. Your changes are lost.','Reset',()=>{T=seed();save();closeT();toast('Demo data restored');render()})}
+function kbPage(){if(KO!=null){const a=KB[KO];return`<div class="art"><button class="btn g" onclick="KO=null;render()">${ic('l',15)}Back to articles</button><h1 style="margin:10px 0 4px;font-size:22px">${a.t}</h1><p class="mu" style="margin-bottom:14px">${a.c} · ${a.d}</p><div class="card cp"><ol>${a.s.map(s=>`<li>${s}</li>`).join('')}</ol></div><div class="card cp" style="margin-top:14px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap"><span>Still stuck?</span><button class="btn p" onclick="openForm(null,'${esc(a.t).replace(/'/g,"\\'")}')">Create ticket</button></div></div>`}
+return`<div class="row"><div><h1>Knowledge base</h1><p class="mu">Self-service guides for common issues.</p></div></div><div class="tb"><div class="sbox">${ic('search',16)}<input placeholder="Search articles" value="${esc(KQ)}" oninput="KQ=this.value;kbList()" aria-label="Search articles"></div><div id="kc" style="display:flex;gap:6px;flex-wrap:wrap"></div></div><div class="kb" id="kl"></div>`}
+function kbList(){if(!$('#kl'))return;const q=KQ.toLowerCase(),cs=[...new Set(KB.map(a=>a.c))];$('#kc').innerHTML=['',...cs].map(c=>`<button class="chip ${KC==c?'on':''}" onclick="KC='${c}';kbList()">${c||'All'}</button>`).join('');
+const L=KB.map((a,i)=>({a,i})).filter(({a})=>(!KC||a.c==KC)&&(!q||(a.t+a.d).toLowerCase().includes(q)));
+$('#kl').innerHTML=L.map(({a,i})=>`<button class="card" onclick="KO=${i};render()"><span class="mu">${a.c}</span><h3 style="margin:4px 0">${a.t}</h3><p class="mu">${a.d}</p></button>`).join('')||`<div class="emp" style="grid-column:1/-1">No articles match "${esc(KQ)}".</div>`}
+function settings(){const l=o=>Object.entries(o).map(([k,v])=>`<div style="margin-bottom:8px">${bd(k)} <span class="mu">${v}</span></div>`).join('');
+return`<div class="row"><div><h1>Settings</h1><p class="mu">Reference information for this prototype.</p></div></div><div class="g3"><div class="card cp"><h3>Current user</h3><div style="display:flex;gap:10px;align-items:center;margin-top:10px"><span class="av">AM</span><div><b>${ME.name}</b><br><span class="mu">${ME.email}</span></div></div><p class="mu" style="margin-top:10px">Role: IT technician</p></div>
+<div class="card cp"><h3>Ticket categories</h3><div class="lg" style="margin-top:10px">${CATS.map(c=>`<span class="chip">${c}</span>`).join('')}</div></div>
+<div class="card cp"><h3>Simulated behaviour</h3><p class="mu" style="margin:10px 0">Sign-in, email, and attachments are simulated. Ticket data is saved in this browser only.</p><button class="btn d" onclick="resetData()">Reset demo data</button></div></div>
+<div class="g2" style="margin-top:14px;grid-template-columns:1fr 1fr"><div class="card cp"><h3 style="margin-bottom:10px">Priority definitions</h3>${l(PD)}</div><div class="card cp"><h3 style="margin-bottom:10px">Status definitions</h3>${l(SD)}</div></div>`}
+P.sun='<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5L19 19M5 19l1.5-1.5M17.5 6.5L19 5"/>';P.moon='<path d="M21 13A9 9 0 1 1 11 3a7 7 0 0 0 10 10z"/>';
+const CLt={...CL},CD={Open:'#93c5fd','In Progress':'#fcd34d','On Hold':'#cbd5e1',Resolved:'#86efac',Closed:'#94a3b8',Low:'#cbd5e1',Medium:'#93c5fd',High:'#fdba74',Critical:'#fca5a5'};
+function applyTheme(d,keep){document.documentElement.dataset.theme=d?'dark':'light';Object.assign(CL,d?CD:CLt);$('#th').innerHTML=ic(d?'sun':'moon');if(!keep)try{localStorage.setItem('hd_theme',d?'dark':'light')}catch(e){}}
+function toggleTheme(){applyTheme(document.documentElement.dataset.theme!='dark');render()}
+{let s=null;try{s=localStorage.getItem('hd_theme')}catch(e){}applyTheme(s?s=='dark':matchMedia('(prefers-color-scheme: dark)').matches,!s)}
+if(innerWidth<700)$('#app').classList.add('col');
+$('#ct').innerHTML='<div class="emp">Loading tickets…</div>';nav();
+setTimeout(()=>{render();kbList()},300);
+const _r=render;render=function(){_r();kbList()};
+</script></body></html>

@@ -47,7 +47,7 @@ carries it, and a component can never move to another publisher (PA-T1).
 | # | Stage | Artefact | Run by | Needs | Status |
 |---|---|---|---|---|---|
 | G0 | Project set up | This file, renamed solution | `/project-setup` | — | Done |
-| G1 | Inputs converted | `inputs/_converted/INDEX.md` | `/ingest` | G0 | Not started |
+| G1 | Inputs converted | `inputs/_converted/INDEX.md` | `/ingest` | G0 | Done |
 | **G2** | **Acceptance criteria: Client PO sign-off** | `specs/acceptance-criteria/<CODE>_AcceptanceCriteria.xlsx` | `/acceptance-criteria` | G1 | Not started |
 | G3 | Design spec | `specs/design-spec.md`, tokens in `App.Formulas` | `/deliver` | G2 | Not started |
 | G4 | Build plan | `specs/build-plan.md` | `/deliver` | G3 | Not started |
@@ -80,7 +80,23 @@ asks.
 
 | ID | Raised | Question | Raised by | Owner | Answer · date |
 |---|---|---|---|---|---|
-| Q-01 | | | | | |
+| Q-01 | 2026-10-29 | Which version of `index (4).html` did the client accept, and when? Every "as shown in the design" depends on it. Baseline: the file in `inputs/design/` as it is | /ingest | Client PO | 🔶 |
+| Q-02 | 2026-10-29 | No brand guide: may the prototype's colours (indigo accent `#4f46e5`, light and dark) and Inter font stand as the brand? Inter is not a Studio font; baseline: Segoe UI | /ingest | Client PO | 🔶 |
+| Q-03 | 2026-10-29 | Which security groups are the Requesters, Technicians and Administrators (BRD R20)? The prototype has one fixed technician user. Baseline: role read from three group-backed list permissions | /ingest | Client admin | 🔶 |
+| Q-04 | 2026-10-29 | BRD R2 puts "mobile-specific layout design and dark theme" out of scope, but the prototype has a dark theme toggle and responsive breakpoints. Build the dark scheme? Baseline: build both schemes, chosen by configuration | /ingest | Client PO | 🔶 |
+| Q-05 | 2026-10-29 | Prototype-only items: "Reset demo data" (profile menu, Settings) and the Settings card "Simulated behaviour". Baseline: not built | /ingest | Client PO | 🔶 |
+| Q-06 | 2026-10-29 | Overview counts: should requesters see helpdesk-wide counts or only their own tickets (BRD R4)? Baseline: their own | /ingest | Client PO | 🔶 |
+| Q-07 | 2026-10-29 | Expected ticket volume per month (BRD R5)? Decides delegation and indexes. Baseline: under 2,000 items | /ingest | Client PO | 🔶 |
+| Q-08 | 2026-10-29 | Who may edit a ticket after it is created: technicians only, or the requester too (BRD R11)? Baseline: technicians and administrators only | /ingest | Client PO | 🔶 |
+| Q-09 | 2026-10-29 | Confirm ticket ID format `HD-` + number, and whether requesters may set Priority (BRD R6). Baseline: yes to the format; requesters may set it, as in the prototype | /ingest | Client PO | 🔶 |
+| Q-10 | 2026-10-29 | The prototype's ID is "highest number plus one"; two simultaneous creates could clash. Baseline: the ID is the SharePoint item ID with the `HD-` prefix, no separate counter | /ingest | Acies lead | 🔶 |
+| Q-11 | 2026-10-29 | Delete: permanent, or close and retain for audit (BRD R14)? Baseline: permanent delete, Administrators only, as the prototype's confirmation says | /ingest | Client PO | 🔶 |
+| Q-12 | 2026-10-29 | BRD R3 asks whether an optional "Approvals" menu is wanted; the prototype has none. Baseline: not built | /ingest | Client PO | 🔶 |
+| Q-13 | 2026-10-29 | BRD queries still open: restrict status transitions (R9); technician private notes and internal comments (R8, R11); auto-close Resolved tickets after n days (R12); shared team queues (R14); auto-assignment by category (R15). Baseline: none of them | /ingest | Client PO | 🔶 |
+| Q-14 | 2026-10-29 | Maximum attachment size and allowed file types (BRD R7). Baseline: 10 MB, no restriction on type beyond SharePoint's | /ingest | Client PO | 🔶 |
+| Q-15 | 2026-10-29 | Which events send Outlook email, and from which mailbox (BRD R16)? Baseline: the five events listed in the BRD, from a shared mailbox 🔶 | /ingest | Client PO | 🔶 |
+| Q-16 | 2026-10-29 | Initial knowledge base articles and their maintainer, final categories, priority definitions and technician list (BRD R17, R18). Baseline: the prototype's six articles, five categories and four technicians as sample data | /ingest | Client PO | 🔶 |
+| Q-17 | 2026-10-29 | CSV export (BRD R20) is not in the prototype: which fields and roles? Baseline: the nine fields the BRD lists, technicians and administrators | /ingest | Client PO | 🔶 |
 
 ## 5. Tenant facts
 
