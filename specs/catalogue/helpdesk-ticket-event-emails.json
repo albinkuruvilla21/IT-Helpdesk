@@ -1,0 +1,64 @@
+{
+  "id": "helpdesk-ticket-event-emails",
+  "name": "Helpdesk emails from an activity list",
+  "type": "Cloud flow",
+  "summary": "Three flows that email the requester when a ticket is created, the technician when it is assigned, and the requester when its status changes, it is resolved or commented on.",
+  "capabilities": [
+    "Starts on a new row of the activity list, filtered by event type with a trigger condition",
+    "Skips the email when the person made the change themselves",
+    "Sends as a shared mailbox when one is set",
+    "A mail override sends every message to one tester mailbox in Dev and Test",
+    "HTML-encodes ticket text before it goes into the body"
+  ],
+  "keywords": [
+    "email",
+    "notification",
+    "ticket",
+    "outlook",
+    "activity"
+  ],
+  "source": {
+    "repository": "https://github.com/albinkuruvilla21/IT-Helpdesk",
+    "path": "tools/ith_flows.py",
+    "ref": "18aef9bf6ea00a0fa5025e3a1c6fbd11787dc94e",
+    "release": "1.0.1.0"
+  },
+  "toolchain": {
+    "pac": "2.13.1",
+    "studio": "3.26091"
+  },
+  "connectors": [
+    "shared_sharepointonline",
+    "shared_office365"
+  ],
+  "data": [
+    "<PREFIX>_Ticket (read)",
+    "<PREFIX>_TicketActivity (trigger)"
+  ],
+  "configuration": [
+    "ith-style environment variables: site, ticket list, activity list, notification mailbox, app link, mail override",
+    "Connection references for SharePoint and Outlook"
+  ],
+  "dependsOn": [
+    "List schema 'helpdesk-ticket-schemas'"
+  ],
+  "reuse": {
+    "rights": "Acies-owned",
+    "owner": "Acies Innovations",
+    "confirmedBy": "",
+    "confirmedOn": "",
+    "licence": ""
+  },
+  "status": "Usable",
+  "usedIn": [
+    {
+      "project": "ITH",
+      "repository": "https://github.com/albinkuruvilla21/IT-Helpdesk",
+      "release": "1.0.1.0",
+      "date": "2026-10-29"
+    }
+  ],
+  "maintainer": "",
+  "lastVerified": "2026-10-29",
+  "notes": "The generator writes all three flows (solution/src/Workflows/Notify*). Connector operation IDs and parameter names were written without a tenant and must be confirmed in the designer after import. Not yet run on a tenant."
+}

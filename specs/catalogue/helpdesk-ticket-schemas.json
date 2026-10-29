@@ -1,0 +1,64 @@
+{
+  "id": "helpdesk-ticket-schemas",
+  "name": "Helpdesk list schemas",
+  "type": "List schema",
+  "summary": "Nine SharePoint list schemas for a helpdesk: tickets, comments, an activity log that drives emails, knowledge articles, technicians, categories, priorities, statuses and employee roles.",
+  "capabilities": [
+    "Ticket list with indexed requester, assignee and status",
+    "Comment and activity lists keyed by ticket ID (no lookup columns)",
+    "Master-data lists with sort order and an active flag",
+    "A role list so the app can show Requester, Technician or Administrator"
+  ],
+  "keywords": [
+    "helpdesk",
+    "ticket",
+    "schema",
+    "roles",
+    "master data"
+  ],
+  "source": {
+    "repository": "https://github.com/albinkuruvilla21/IT-Helpdesk",
+    "path": "schemas/ITH_Ticket.csv",
+    "ref": "18aef9bf6ea00a0fa5025e3a1c6fbd11787dc94e",
+    "release": "1.0.1.0"
+  },
+  "toolchain": {
+    "pac": "2.13.1",
+    "studio": "3.26091"
+  },
+  "connectors": [],
+  "data": [
+    "<PREFIX>_Ticket",
+    "<PREFIX>_TicketComment",
+    "<PREFIX>_TicketActivity",
+    "<PREFIX>_Article",
+    "<PREFIX>_Technician",
+    "<PREFIX>_Category",
+    "<PREFIX>_Priority",
+    "<PREFIX>_Status",
+    "<PREFIX>_UserRole"
+  ],
+  "configuration": [
+    "Environment variable per list (<prefix>_<Entity>List) whose display name is the list name"
+  ],
+  "dependsOn": [],
+  "reuse": {
+    "rights": "Acies-owned",
+    "owner": "Acies Innovations",
+    "confirmedBy": "",
+    "confirmedOn": "",
+    "licence": ""
+  },
+  "status": "Usable",
+  "usedIn": [
+    {
+      "project": "ITH",
+      "repository": "https://github.com/albinkuruvilla21/IT-Helpdesk",
+      "release": "1.0.1.0",
+      "date": "2026-10-29"
+    }
+  ],
+  "maintainer": "",
+  "lastVerified": "2026-10-29",
+  "notes": "The other eight schemas sit beside it in schemas/. Rename the prefix and regenerate with specs/_working/make_schemas.py's approach (schema_builder.py). Sample rows use example.com."
+}

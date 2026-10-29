@@ -1,0 +1,73 @@
+{
+  "id": "helpdesk-app-generator",
+  "name": "Helpdesk app: sidebar, header, ticket list, ticket panel, knowledge base",
+  "type": "Screen generator",
+  "summary": "A generator for a ticketing app: a foldable left navigation, a header with breadcrumb, search, notifications and profile menus, an overview, a sortable, filterable, paged ticket list, a create/edit form, a ticket panel with status, assignment, comments and activity, a knowledge base and a settings page, in light and dark.",
+  "capabilities": [
+    "Left navigation that folds to icons, with counts",
+    "Header with breadcrumb, global search, notification feed and profile menu",
+    "Overview with count cards, status and priority bars and a recent-activity feed",
+    "Ticket table with search, three filters, sorting, paging and an empty state",
+    "Create and edit form with inline validation",
+    "Ticket panel: change status, priority and assignee, comments, activity timeline, resolve and close",
+    "Knowledge base with search, category chips and an article view",
+    "Role (requester, technician, administrator) read from a list",
+    "Mock mode so every screen can be seen before the lists exist"
+  ],
+  "keywords": [
+    "helpdesk",
+    "ticket",
+    "it support",
+    "sidebar",
+    "navigation",
+    "overlay",
+    "drawer",
+    "knowledge base",
+    "dark theme"
+  ],
+  "source": {
+    "repository": "https://github.com/albinkuruvilla21/IT-Helpdesk",
+    "path": "tools/ith_ui.py",
+    "ref": "18aef9bf6ea00a0fa5025e3a1c6fbd11787dc94e",
+    "release": "1.0.1.0"
+  },
+  "toolchain": {
+    "pac": "2.13.1",
+    "studio": "3.26091"
+  },
+  "connectors": [
+    "shared_sharepointonline"
+  ],
+  "data": [
+    "<PREFIX>_Ticket, <PREFIX>_TicketComment, <PREFIX>_TicketActivity",
+    "<PREFIX>_Article, <PREFIX>_Technician, <PREFIX>_Category, <PREFIX>_Priority, <PREFIX>_Status, <PREFIX>_UserRole"
+  ],
+  "configuration": [
+    "Colour tokens in App.Formulas (tools/ith_app.py)",
+    "Data row limit 2,000",
+    "One environment variable per list"
+  ],
+  "dependsOn": [
+    "List schema 'helpdesk-ticket-schemas'",
+    "Cloud flow 'helpdesk-ticket-event-emails'"
+  ],
+  "reuse": {
+    "rights": "Acies-owned",
+    "owner": "Acies Innovations",
+    "confirmedBy": "",
+    "confirmedOn": "",
+    "licence": ""
+  },
+  "status": "Usable",
+  "usedIn": [
+    {
+      "project": "ITH",
+      "repository": "https://github.com/albinkuruvilla21/IT-Helpdesk",
+      "release": "1.0.1.0",
+      "date": "2026-10-29"
+    }
+  ],
+  "maintainer": "",
+  "lastVerified": "2026-10-29",
+  "notes": "Names, wording and the measured sizes are this project's (a 1366 px prototype at scale 1.0); a new project changes the constants at the top of the file and the tokens. Attachments need a Studio-built Form (spike S-ATT). Passed pp.py build and Microsoft's Power Fx parser; not yet opened in Studio (powerfx-validation level 3)."
+}
