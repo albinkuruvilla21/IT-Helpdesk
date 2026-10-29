@@ -1529,7 +1529,7 @@ Screens:
             Height: =21
             Size: =10.5
             Text: ="/  " & Switch(varView, "all", "All tickets", "mine", "My tickets", "Assigned to me") // AC-ITH-04.2
-            Width: =420
+            Width: =380
             X: =SideW + 132
             Y: =19
             Role: =TextRole.Heading1
@@ -3064,7 +3064,7 @@ Screens:
             BorderThickness: =1
             DropShadow: =DropShadow.Bold
             Fill: =ColorSurface
-            Height: =148 + If(varErrSubject, 18, 0) + 96 + 8 + If(varErrDesc, 18, 0) + 12 + 71 + 71 + If(varErrEmail, 18, 0) + 71 + 37 + 20
+            Height: =268 + If(varErrSubject, 18, 0) + If(varErrDesc, 18, 0) + 71 + 71 + If(varErrEmail, 18, 0) + 71 + 37 + 20
             LayoutMaxHeight: =
             LayoutMaxWidth: =
             RadiusTopLeft: =12
@@ -3180,7 +3180,7 @@ Screens:
             Text: ="Enter a subject." // AC-ITH-22.1
             Width: =520
             X: =tkPnForm.X + 20
-            Y: =tkPnForm.Y + 89 + 34 + 2
+            Y: =tkPnForm.Y + 125
             Visible: =varErrSubject
             Live: =Live.Polite
       - tkFmDescCap:
@@ -3194,7 +3194,7 @@ Screens:
             Text: ="Description *"
             Width: =520
             X: =tkPnForm.X + 20
-            Y: =tkPnForm.Y + 148 + If(varErrSubject, 18, 0) - 25
+            Y: =tkPnForm.Y + 135 + If(varErrSubject, 18, 0)
             Visible: =varModal = "form"
             Wrap: =false
       - tkFmDesc:
@@ -3216,7 +3216,7 @@ Screens:
             Mode: =TextMode.MultiLine
             Width: =520
             X: =tkPnForm.X + 20
-            Y: =tkPnForm.Y + 148 + If(varErrSubject, 18, 0)
+            Y: =tkPnForm.Y + 160 + If(varErrSubject, 18, 0)
             Visible: =varModal = "form"
             Fill: =ColorSurface
             FocusedBorderColor: =ColorPrimary
@@ -3231,7 +3231,7 @@ Screens:
             Text: ="Describe the issue." // AC-ITH-22.2
             Width: =520
             X: =tkPnForm.X + 20
-            Y: =tkPnForm.Y + 148 + If(varErrSubject, 18, 0) + 96 + 2
+            Y: =tkPnForm.Y + 160 + If(varErrSubject, 18, 0) + 96 + 2
             Visible: =varErrDesc
             Live: =Live.Polite
       - tkFmCatCap:
@@ -3245,7 +3245,7 @@ Screens:
             Text: ="Category"
             Width: =254
             X: =tkPnForm.X + 20
-            Y: =tkPnForm.Y + 148 + If(varErrSubject, 18, 0) + 96 + 8 + If(varErrDesc, 18, 0) + 12
+            Y: =tkPnForm.Y + 268 + If(varErrSubject, 18, 0) + If(varErrDesc, 18, 0)
             Visible: =varModal = "form"
             Wrap: =false
       - tkFmCat:
@@ -3261,7 +3261,7 @@ Screens:
             DisplayMode: =DisplayMode.Edit
             Width: =254
             X: =tkPnForm.X + 20
-            Y: =tkPnForm.Y + 148 + If(varErrSubject, 18, 0) + 96 + 8 + If(varErrDesc, 18, 0) + 12 + 25
+            Y: =tkPnForm.Y + 268 + If(varErrSubject, 18, 0) + If(varErrDesc, 18, 0) + 25
       - tkFmPriCap:
           Control: Label@2.5.1
           Properties:
@@ -3273,7 +3273,7 @@ Screens:
             Text: ="Priority"
             Width: =254
             X: =tkPnForm.X + 286
-            Y: =tkPnForm.Y + 148 + If(varErrSubject, 18, 0) + 96 + 8 + If(varErrDesc, 18, 0) + 12
+            Y: =tkPnForm.Y + 268 + If(varErrSubject, 18, 0) + If(varErrDesc, 18, 0)
             Visible: =varModal = "form"
             Wrap: =false
       - tkFmPri:
@@ -3289,7 +3289,7 @@ Screens:
             DisplayMode: =DisplayMode.Edit
             Width: =254
             X: =tkPnForm.X + 286
-            Y: =tkPnForm.Y + 148 + If(varErrSubject, 18, 0) + 96 + 8 + If(varErrDesc, 18, 0) + 12 + 25
+            Y: =tkPnForm.Y + 268 + If(varErrSubject, 18, 0) + If(varErrDesc, 18, 0) + 25
       - tkFmReqNameCap:
           Control: Label@2.5.1
           Properties:
@@ -3301,7 +3301,7 @@ Screens:
             Text: ="Requester name"
             Width: =254
             X: =tkPnForm.X + 20
-            Y: =tkPnForm.Y + 148 + If(varErrSubject, 18, 0) + 96 + 8 + If(varErrDesc, 18, 0) + 12 + 71
+            Y: =tkPnForm.Y + 268 + If(varErrSubject, 18, 0) + If(varErrDesc, 18, 0) + 71
             Visible: =varModal = "form"
             Wrap: =false
       - tkFmReqName:
@@ -3322,7 +3322,7 @@ Screens:
             Size: =10.5
             Width: =254
             X: =tkPnForm.X + 20
-            Y: =tkPnForm.Y + 148 + If(varErrSubject, 18, 0) + 96 + 8 + If(varErrDesc, 18, 0) + 12 + 71 + 25
+            Y: =tkPnForm.Y + 268 + If(varErrSubject, 18, 0) + If(varErrDesc, 18, 0) + 71 + 25
             Visible: =varModal = "form"
             Fill: =ColorSurface
             FocusedBorderColor: =ColorPrimary
@@ -3339,7 +3339,7 @@ Screens:
             Text: ="Requester email"
             Width: =254
             X: =tkPnForm.X + 286
-            Y: =tkPnForm.Y + 148 + If(varErrSubject, 18, 0) + 96 + 8 + If(varErrDesc, 18, 0) + 12 + 71
+            Y: =tkPnForm.Y + 268 + If(varErrSubject, 18, 0) + If(varErrDesc, 18, 0) + 71
             Visible: =varModal = "form"
             Wrap: =false
       - tkFmReqEmail:
@@ -3360,7 +3360,7 @@ Screens:
             Size: =10.5
             Width: =254
             X: =tkPnForm.X + 286
-            Y: =tkPnForm.Y + 148 + If(varErrSubject, 18, 0) + 96 + 8 + If(varErrDesc, 18, 0) + 12 + 71 + 25
+            Y: =tkPnForm.Y + 268 + If(varErrSubject, 18, 0) + If(varErrDesc, 18, 0) + 71 + 25
             Visible: =varModal = "form"
             Fill: =ColorSurface
             FocusedBorderColor: =ColorPrimary
@@ -3376,7 +3376,7 @@ Screens:
             Text: ="Enter a valid email address." // AC-ITH-22.3
             Width: =254
             X: =tkPnForm.X + 286
-            Y: =tkPnForm.Y + 148 + If(varErrSubject, 18, 0) + 96 + 8 + If(varErrDesc, 18, 0) + 12 + 71 + 25 + 34 + 2
+            Y: =tkPnForm.Y + 268 + If(varErrSubject, 18, 0) + If(varErrDesc, 18, 0) + 71 + 25 + 34 + 2
             Visible: =varErrEmail
             Live: =Live.Polite
       - tkFmAssignCap:
@@ -3390,7 +3390,7 @@ Screens:
             Text: ="Assign to (optional)"
             Width: =520
             X: =tkPnForm.X + 20
-            Y: =tkPnForm.Y + 148 + If(varErrSubject, 18, 0) + 96 + 8 + If(varErrDesc, 18, 0) + 12 + 71 + 71 + If(varErrEmail, 18, 0)
+            Y: =tkPnForm.Y + 268 + If(varErrSubject, 18, 0) + If(varErrDesc, 18, 0) + 71 + 71 + If(varErrEmail, 18, 0)
             Visible: =varModal = "form"
             Wrap: =false
       - tkFmAssign:
@@ -3406,7 +3406,7 @@ Screens:
             DisplayMode: =DisplayMode.Edit
             Width: =520
             X: =tkPnForm.X + 20
-            Y: =tkPnForm.Y + 148 + If(varErrSubject, 18, 0) + 96 + 8 + If(varErrDesc, 18, 0) + 12 + 71 + 71 + If(varErrEmail, 18, 0) + 25
+            Y: =tkPnForm.Y + 268 + If(varErrSubject, 18, 0) + If(varErrDesc, 18, 0) + 71 + 71 + If(varErrEmail, 18, 0) + 25
       - tkFmCancel:
           Control: Classic/Button@2.2.0
           Properties:
@@ -3435,7 +3435,7 @@ Screens:
             Text: ="Cancel"
             Width: =80
             X: =tkPnForm.X + 322
-            Y: =tkPnForm.Y + 148 + If(varErrSubject, 18, 0) + 96 + 8 + If(varErrDesc, 18, 0) + 12 + 71 + 71 + If(varErrEmail, 18, 0) + 71
+            Y: =tkPnForm.Y + 268 + If(varErrSubject, 18, 0) + If(varErrDesc, 18, 0) + 71 + 71 + If(varErrEmail, 18, 0) + 71
             Visible: =varModal = "form"
       - tkFmSave:
           Control: Classic/Button@2.2.0
@@ -3496,7 +3496,7 @@ Screens:
             Text: =If(varFormMode = "edit", "Save changes", "Create ticket")
             Width: =130
             X: =tkPnForm.X + 410
-            Y: =tkPnForm.Y + 148 + If(varErrSubject, 18, 0) + 96 + 8 + If(varErrDesc, 18, 0) + 12 + 71 + 71 + If(varErrEmail, 18, 0) + 71
+            Y: =tkPnForm.Y + 268 + If(varErrSubject, 18, 0) + If(varErrDesc, 18, 0) + 71 + 71 + If(varErrEmail, 18, 0) + 71
             Visible: =varModal = "form"
             DisplayMode: =If(varSaving, DisplayMode.Disabled, DisplayMode.Edit)
       - tkCfOv:

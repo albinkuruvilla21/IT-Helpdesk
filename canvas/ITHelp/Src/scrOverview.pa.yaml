@@ -302,7 +302,7 @@ Screens:
                         RadiusBottomRight: =10
                         Fill: =ColorSurface
                         FillPortions: =2
-                        Height: =54 + 1 + If(CountRows(RecentTickets) = 0, 60, CountRows(RecentTickets) * 44)
+                        Height: =340
                         LayoutAlignItems: =LayoutAlignItems.Stretch
                         LayoutDirection: =LayoutDirection.Vertical
                         LayoutGap: =0
@@ -1890,7 +1890,7 @@ Screens:
             Height: =21
             Size: =10.5
             Text: ="/  Overview" // AC-ITH-04.2
-            Width: =420
+            Width: =380
             X: =SideW + 132
             Y: =19
             Role: =TextRole.Heading1
@@ -3425,7 +3425,7 @@ Screens:
             BorderThickness: =1
             DropShadow: =DropShadow.Bold
             Fill: =ColorSurface
-            Height: =148 + If(varErrSubject, 18, 0) + 96 + 8 + If(varErrDesc, 18, 0) + 12 + 71 + 71 + If(varErrEmail, 18, 0) + 71 + 37 + 20
+            Height: =268 + If(varErrSubject, 18, 0) + If(varErrDesc, 18, 0) + 71 + 71 + If(varErrEmail, 18, 0) + 71 + 37 + 20
             LayoutMaxHeight: =
             LayoutMaxWidth: =
             RadiusTopLeft: =12
@@ -3541,7 +3541,7 @@ Screens:
             Text: ="Enter a subject." // AC-ITH-22.1
             Width: =520
             X: =ovwPnForm.X + 20
-            Y: =ovwPnForm.Y + 89 + 34 + 2
+            Y: =ovwPnForm.Y + 125
             Visible: =varErrSubject
             Live: =Live.Polite
       - ovwFmDescCap:
@@ -3555,7 +3555,7 @@ Screens:
             Text: ="Description *"
             Width: =520
             X: =ovwPnForm.X + 20
-            Y: =ovwPnForm.Y + 148 + If(varErrSubject, 18, 0) - 25
+            Y: =ovwPnForm.Y + 135 + If(varErrSubject, 18, 0)
             Visible: =varModal = "form"
             Wrap: =false
       - ovwFmDesc:
@@ -3577,7 +3577,7 @@ Screens:
             Mode: =TextMode.MultiLine
             Width: =520
             X: =ovwPnForm.X + 20
-            Y: =ovwPnForm.Y + 148 + If(varErrSubject, 18, 0)
+            Y: =ovwPnForm.Y + 160 + If(varErrSubject, 18, 0)
             Visible: =varModal = "form"
             Fill: =ColorSurface
             FocusedBorderColor: =ColorPrimary
@@ -3592,7 +3592,7 @@ Screens:
             Text: ="Describe the issue." // AC-ITH-22.2
             Width: =520
             X: =ovwPnForm.X + 20
-            Y: =ovwPnForm.Y + 148 + If(varErrSubject, 18, 0) + 96 + 2
+            Y: =ovwPnForm.Y + 160 + If(varErrSubject, 18, 0) + 96 + 2
             Visible: =varErrDesc
             Live: =Live.Polite
       - ovwFmCatCap:
@@ -3606,7 +3606,7 @@ Screens:
             Text: ="Category"
             Width: =254
             X: =ovwPnForm.X + 20
-            Y: =ovwPnForm.Y + 148 + If(varErrSubject, 18, 0) + 96 + 8 + If(varErrDesc, 18, 0) + 12
+            Y: =ovwPnForm.Y + 268 + If(varErrSubject, 18, 0) + If(varErrDesc, 18, 0)
             Visible: =varModal = "form"
             Wrap: =false
       - ovwFmCat:
@@ -3622,7 +3622,7 @@ Screens:
             DisplayMode: =DisplayMode.Edit
             Width: =254
             X: =ovwPnForm.X + 20
-            Y: =ovwPnForm.Y + 148 + If(varErrSubject, 18, 0) + 96 + 8 + If(varErrDesc, 18, 0) + 12 + 25
+            Y: =ovwPnForm.Y + 268 + If(varErrSubject, 18, 0) + If(varErrDesc, 18, 0) + 25
       - ovwFmPriCap:
           Control: Label@2.5.1
           Properties:
@@ -3634,7 +3634,7 @@ Screens:
             Text: ="Priority"
             Width: =254
             X: =ovwPnForm.X + 286
-            Y: =ovwPnForm.Y + 148 + If(varErrSubject, 18, 0) + 96 + 8 + If(varErrDesc, 18, 0) + 12
+            Y: =ovwPnForm.Y + 268 + If(varErrSubject, 18, 0) + If(varErrDesc, 18, 0)
             Visible: =varModal = "form"
             Wrap: =false
       - ovwFmPri:
@@ -3650,7 +3650,7 @@ Screens:
             DisplayMode: =DisplayMode.Edit
             Width: =254
             X: =ovwPnForm.X + 286
-            Y: =ovwPnForm.Y + 148 + If(varErrSubject, 18, 0) + 96 + 8 + If(varErrDesc, 18, 0) + 12 + 25
+            Y: =ovwPnForm.Y + 268 + If(varErrSubject, 18, 0) + If(varErrDesc, 18, 0) + 25
       - ovwFmReqNameCap:
           Control: Label@2.5.1
           Properties:
@@ -3662,7 +3662,7 @@ Screens:
             Text: ="Requester name"
             Width: =254
             X: =ovwPnForm.X + 20
-            Y: =ovwPnForm.Y + 148 + If(varErrSubject, 18, 0) + 96 + 8 + If(varErrDesc, 18, 0) + 12 + 71
+            Y: =ovwPnForm.Y + 268 + If(varErrSubject, 18, 0) + If(varErrDesc, 18, 0) + 71
             Visible: =varModal = "form"
             Wrap: =false
       - ovwFmReqName:
@@ -3683,7 +3683,7 @@ Screens:
             Size: =10.5
             Width: =254
             X: =ovwPnForm.X + 20
-            Y: =ovwPnForm.Y + 148 + If(varErrSubject, 18, 0) + 96 + 8 + If(varErrDesc, 18, 0) + 12 + 71 + 25
+            Y: =ovwPnForm.Y + 268 + If(varErrSubject, 18, 0) + If(varErrDesc, 18, 0) + 71 + 25
             Visible: =varModal = "form"
             Fill: =ColorSurface
             FocusedBorderColor: =ColorPrimary
@@ -3700,7 +3700,7 @@ Screens:
             Text: ="Requester email"
             Width: =254
             X: =ovwPnForm.X + 286
-            Y: =ovwPnForm.Y + 148 + If(varErrSubject, 18, 0) + 96 + 8 + If(varErrDesc, 18, 0) + 12 + 71
+            Y: =ovwPnForm.Y + 268 + If(varErrSubject, 18, 0) + If(varErrDesc, 18, 0) + 71
             Visible: =varModal = "form"
             Wrap: =false
       - ovwFmReqEmail:
@@ -3721,7 +3721,7 @@ Screens:
             Size: =10.5
             Width: =254
             X: =ovwPnForm.X + 286
-            Y: =ovwPnForm.Y + 148 + If(varErrSubject, 18, 0) + 96 + 8 + If(varErrDesc, 18, 0) + 12 + 71 + 25
+            Y: =ovwPnForm.Y + 268 + If(varErrSubject, 18, 0) + If(varErrDesc, 18, 0) + 71 + 25
             Visible: =varModal = "form"
             Fill: =ColorSurface
             FocusedBorderColor: =ColorPrimary
@@ -3737,7 +3737,7 @@ Screens:
             Text: ="Enter a valid email address." // AC-ITH-22.3
             Width: =254
             X: =ovwPnForm.X + 286
-            Y: =ovwPnForm.Y + 148 + If(varErrSubject, 18, 0) + 96 + 8 + If(varErrDesc, 18, 0) + 12 + 71 + 25 + 34 + 2
+            Y: =ovwPnForm.Y + 268 + If(varErrSubject, 18, 0) + If(varErrDesc, 18, 0) + 71 + 25 + 34 + 2
             Visible: =varErrEmail
             Live: =Live.Polite
       - ovwFmAssignCap:
@@ -3751,7 +3751,7 @@ Screens:
             Text: ="Assign to (optional)"
             Width: =520
             X: =ovwPnForm.X + 20
-            Y: =ovwPnForm.Y + 148 + If(varErrSubject, 18, 0) + 96 + 8 + If(varErrDesc, 18, 0) + 12 + 71 + 71 + If(varErrEmail, 18, 0)
+            Y: =ovwPnForm.Y + 268 + If(varErrSubject, 18, 0) + If(varErrDesc, 18, 0) + 71 + 71 + If(varErrEmail, 18, 0)
             Visible: =varModal = "form"
             Wrap: =false
       - ovwFmAssign:
@@ -3767,7 +3767,7 @@ Screens:
             DisplayMode: =DisplayMode.Edit
             Width: =520
             X: =ovwPnForm.X + 20
-            Y: =ovwPnForm.Y + 148 + If(varErrSubject, 18, 0) + 96 + 8 + If(varErrDesc, 18, 0) + 12 + 71 + 71 + If(varErrEmail, 18, 0) + 25
+            Y: =ovwPnForm.Y + 268 + If(varErrSubject, 18, 0) + If(varErrDesc, 18, 0) + 71 + 71 + If(varErrEmail, 18, 0) + 25
       - ovwFmCancel:
           Control: Classic/Button@2.2.0
           Properties:
@@ -3796,7 +3796,7 @@ Screens:
             Text: ="Cancel"
             Width: =80
             X: =ovwPnForm.X + 322
-            Y: =ovwPnForm.Y + 148 + If(varErrSubject, 18, 0) + 96 + 8 + If(varErrDesc, 18, 0) + 12 + 71 + 71 + If(varErrEmail, 18, 0) + 71
+            Y: =ovwPnForm.Y + 268 + If(varErrSubject, 18, 0) + If(varErrDesc, 18, 0) + 71 + 71 + If(varErrEmail, 18, 0) + 71
             Visible: =varModal = "form"
       - ovwFmSave:
           Control: Classic/Button@2.2.0
@@ -3857,7 +3857,7 @@ Screens:
             Text: =If(varFormMode = "edit", "Save changes", "Create ticket")
             Width: =130
             X: =ovwPnForm.X + 410
-            Y: =ovwPnForm.Y + 148 + If(varErrSubject, 18, 0) + 96 + 8 + If(varErrDesc, 18, 0) + 12 + 71 + 71 + If(varErrEmail, 18, 0) + 71
+            Y: =ovwPnForm.Y + 268 + If(varErrSubject, 18, 0) + If(varErrDesc, 18, 0) + 71 + 71 + If(varErrEmail, 18, 0) + 71
             Visible: =varModal = "form"
             DisplayMode: =If(varSaving, DisplayMode.Disabled, DisplayMode.Edit)
       - ovwCfOv:

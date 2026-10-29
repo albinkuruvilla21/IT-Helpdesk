@@ -212,6 +212,8 @@ Common to every screen: the chrome (§7), the overlay set (6.5), `OnVisible` loa
 | DEV-10 | Weight 500 | P-134 | Medium | Normal / Semibold | Power Apps has two weights |
 | DEV-11 | Hover colours | P-05 | Fill on hover | `HoverFill` on buttons and row hover on the gallery | Platform support differs per control |
 | DEV-12 | Sidebar collapse animation | P-08 | Width animates | Width switches | Platform |
+| DEV-13 | Badge dot | P-133 | A 6 px dot before the word | Colour and word only | A text control cannot hold a shape; status stays in words (D9) |
+| DEV-14 | Button icons | P-15, P-53, P-82 | A plus icon on Create ticket, pencil on Edit, an edit icon in each row | Text-only buttons; the row action reads Edit | A Classic button holds no icon and its text is its accessible name |
 
 ## 10. Open questions
 

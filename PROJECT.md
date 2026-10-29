@@ -53,7 +53,7 @@ carries it, and a component can never move to another publisher (PA-T1).
 | G4 | Build plan | `specs/build-plan.md` | `/deliver` | G3 | Done |
 | G5 | List schemas | `schemas/*.csv`, `specs/data-model.md`, list environment variables | `/deliver` | G4 | Done |
 | G6 | Scaffold | `canvas/` screens, solution components wired, samples removed | `/deliver` | G5 | Done |
-| G7 | UI | Screens against sample data | `/deliver` | G6 | Not started |
+| G7 | UI | Screens against sample data | `/deliver` | G6 | Done |
 | G8 | Functionality | Formulas against real lists | `/deliver` | G7 | Not started |
 | G9 | Flows | `solution/src/Workflows/` | `/deliver` | G5 | Not started |
 | G10 | Test cases | *Test Cases* sheet of the AC workbook | `/deliver` | G2 | Not started |

@@ -280,7 +280,7 @@ def header(p, screen):
                    color="ColorTextMuted", size=BODY_PT, weight="FontWeight.Normal", hover_fill="ColorTransparent", pressed_fill="ColorTransparent")
     crumb.props.update({"Align": "Align.Left", "PaddingLeft": 0, "PaddingRight": 0, "HoverColor": "ColorAccentText", "PressedColor": "ColorAccentText", "Visible": "!(Parent.Width < 900)"})
     n += [crumb,
-          lbl(f"{p}CrumbTitle", ('="/  " & ' + crumb_title[1:]) if crumb_title.startswith("=") else f'="/  {crumb_title}"', BODY_PT, True, "ColorText", h=BODY_LH, w=420,
+          lbl(f"{p}CrumbTitle", ('="/  " & ' + crumb_title[1:]) if crumb_title.startswith("=") else f'="/  {crumb_title}"', BODY_PT, True, "ColorText", h=BODY_LH, w=380,
               x=f"{SW} + 132", y=19, role="Heading1", ac="AC-ITH-04.2")]
     # search box (AC-ITH-06)
     n += [panel(f"{p}SearchBg", sx, 13, 300, CTRL, fill="ColorSurface", border_color="ColorBorder", radius=CTRL_R, shadow="None"),
@@ -387,14 +387,14 @@ def mini_cells(p, key):
             pr_pill(f"{p}{key}Pr", "ThisItem.Priority", 76), st_pill(f"{p}{key}St", "ThisItem.TicketStatus", 96)]
 
 
-def mini_list(p, key, head, items, empty_ac, view_all, ac_rows, rowfp=1):
+def mini_list(p, key, head, items, empty_ac, view_all, ac_rows, rowfp=1, card_h=None):
     n = f"CountRows({items})"
     btn = button(f"{p}{key}All", "View all", view_all, "secondary", w=70, h=29, size=BODY_PT, radius=6, weight="FontWeight.Semibold", fill="ColorSurface", align_in="AlignInContainer.Center")
     btn.props["FillPortions"] = 0
     tbl = table(f"{p}{key}Tbl", items, mini_cells(p, key), f"{n} * {ROW_H}", tpl=ROW_H, visible=f"{n} > 0", ac=ac_rows, row_fill="ColorSurface", row_pad=14, row_gap=10)
     tbl.children[0].props["OnSelect"] = open_ticket("ThisItem")
     emp = empty_label(f"{p}{key}Empty", "Nothing here yet.", f"{n} = 0", h=60)
-    return card_shell(f"{p}{key}", [card_head(f"{p}{key}Hd", head, btn), divider(f"{p}{key}Div"), tbl, emp], h=f"54 + 1 + If({n} = 0, 60, {n} * {ROW_H})", fp=rowfp)
+    return card_shell(f"{p}{key}", [card_head(f"{p}{key}Hd", head, btn), divider(f"{p}{key}Div"), tbl, emp], h=card_h or f"54 + 1 + If({n} = 0, 60, {n} * {ROW_H})", fp=rowfp)
 
 
 def overview():
@@ -410,7 +410,7 @@ def overview():
     stat_row = hrow(f"{p}Stats", stats, 84, GAP, 0, VIS)
 
     recent = mini_list(p, "Rc", "Recent tickets", "RecentTickets", "AC-ITH-12.5", 'Set(varView, "all"); Set(varPage, 1); Navigate(scrTickets, ScreenTransition.None) // AC-ITH-12.3',
-                       "AC-ITH-12.1", rowfp=2)
+                       "AC-ITH-12.1", rowfp=2, card_h=340)
     # tickets by status and by priority (AC-ITH-13)
     bars = []
     for i in range(5):
@@ -455,8 +455,7 @@ def overview():
     act = card_shell(f"{p}Ev", [card_head(f"{p}EvHd", "Recent activity"), divider(f"{p}EvDiv"), ev_tbl, empty_label(f"{p}EvEmpty", "No recent activity.", f"{ev_n} = 0", h=60)],
                      h=f"46 + 1 + If({ev_n} = 0, 60, {ev_n} * 55)", fp=1)
     row3 = hrow(f"{p}Row3", [mine, act], f"Max(54 + 1 + If(CountRows(MyAssigned) = 0, 60, CountRows(MyAssigned) * {ROW_H}), 46 + 1 + If({ev_n} = 0, 60, {ev_n} * 55))", GAP, 0, VIS)
-    s.content = [*state_labels(p, "tickets"), *[stat_row], row2, row3]
-    s.content[len(state_labels(p, "tickets")):len(state_labels(p, "tickets")) + 1] = [stat_row]
+    s.content = [*state_labels(p, "tickets"), stat_row, row2, row3]
     s.overlays = overlays(p)
     return s
 
@@ -513,7 +512,6 @@ def tickets():
              lbl(f"{p}RAs", '=If(IsBlank(ThisItem.AssignedToName), "Unassigned", ThisItem.AssignedToName)', BODY_PT, False, "If(IsBlank(ThisItem.AssignedToName), ColorTextMuted, ColorText)", fp=1.6),
              box(f"{p}RStC", [st_pill(f"{p}RSt", "ThisItem.TicketStatus", 96)], "Horizontal", 0, fp=1.3, align="Center"),
              lbl(f"{p}RCr", "=ThisItem.CreatedText", BODY_PT, False, fp=1.2)]
-    ed = box(f"{p}RAct", icon_button(f"{p}REd", "edit", "Edit ticket", f"{p}RAct.X", 0, "x", visible="IsStaff") if False else [], "Horizontal", 0, fp=0.9, align="Center")
     ed_btn = button(f"{p}REd", "Edit", open_ticket("ThisItem", "; " + FORM_EDIT), "tab", h=29, fp=0.9, size=SMALL_PT + 0.5, visible="IsStaff", color="ColorAccentText",
                     weight="FontWeight.Normal", hover_fill="ColorHover", radius=6, align_in="AlignInContainer.Center")
     cells.append(ed_btn)
@@ -536,12 +534,6 @@ def tickets():
                 pad_x=14, align="Center")
     emp_filter = 'CountRows(FilteredTickets) = 0'
     f_on = '!IsBlank(Trim(varSearch)) || varFStatus <> "" || varFPriority <> "" || varFCategory <> ""'
-    empty = box(f"{p}Empty", [svg_icon(f"{p}EmptyI", PATHS["inbox"], "HexTextMuted", 32, x=0, y=0),
-                              label(f"{p}EmptyH", f'=If({f_on}, "No tickets match your filters", "No tickets here yet")', size=H3_PT, bold=True, h=BODY_LH, align="Center"),
-                              label(f"{p}EmptyT", f'=If({f_on}, "Try a different search or clear the filters.", "Create a ticket to get started.")', size=BODY_PT, color="ColorTextMuted", h=BODY_LH, align="Center"),
-                              button(f"{p}EmptyB", f'=If({f_on}, "Clear filters", "Create ticket")', f"If({f_on}, Select({p}Clear), {OPEN_FORM_NEW})", "secondary", w=130, h=BTN_H, size=BODY_PT,
-                                     radius=CTRL_R, weight="FontWeight.Semibold", fill="ColorSurface", align_in="AlignInContainer.Center")],
-                [], "Vertical", 8, h=190, fp=0, visible=emp_filter, align="Center", pad_y=24) if False else None
     ic = svg_icon(f"{p}EmptyI", PATHS["inbox"], "HexTextMuted", 32, x=0, y=0)
     ic.props["AlignInContainer"] = "AlignInContainer.Center"
     eb = button(f"{p}EmptyB", f'=If({f_on}, "Clear filters", "Create ticket")', f"If({f_on}, Select({p}Clear), {FORM_NEW}) // AC-ITH-18.1", "secondary", w=130, h=BTN_H, size=BODY_PT,
@@ -558,8 +550,7 @@ def tickets():
 # ------------------------------------------------------------------ scrKnowledge
 def knowledge():
     p = "kb"
-    s = ItScreen("scrKnowledge", p, on_visible('Set(varArticle, Blank());\nClearCollect(colArticleCats, Distinct(Filter(colArticles, IsActive), ArticleCategory))' if False else None))
-    s.on_visible = on_visible()
+    s = ItScreen("scrKnowledge", p, on_visible())
     vis_list = f"{VIS} && IsBlank(varArticle)"
     vis_art = f"{VIS} && !IsBlank(varArticle)"
     head = page_head(p, "Knowledge base", "Self-service guides for common issues.", ac="AC-ITH-35.1")
@@ -824,8 +815,8 @@ def form(p):
 
     key = "varFormKey"
     subject = tin("fmSubject", f'If({edit}, {t}.Title, Coalesce(varPrefill, ""))', "Short summary of the issue", CTRL, y(f"{20 + 32 + 12 + 25}"), "Ticket subject", err="varErrSubject", ac="AC-ITH-20.2")
-    descr = tin("fmDesc", f'If({edit}, {t}.Details, "")', "What happened, and what did you expect?", 96, y(f"{20 + 32 + 12 + 71 + e1 and 0} + 71 + 25 + {e1}") if False else y(f"148 + {e1}"), "Description", multiline=True, err="varErrDesc", ac="AC-ITH-20.2")
-    oy = f"148 + {e1} + 96 + 8 + {e2} + 12"           # category/priority row
+    descr = tin("fmDesc", f'If({edit}, {t}.Details, "")', "What happened, and what did you expect?", 96, y(f"160 + {e1}"), "Description", multiline=True, err="varErrDesc", ac="AC-ITH-20.2")
+    oy = f"268 + {e1} + {e2}"                         # category/priority row
     cat_dd = tdrop("fmCat", "colCategoryOpt", f'If({edit}, LookUp(colCategoryOpt, Value = {t}.Category), LookUp(colCategoryOpt, Value = "Software"))', "x", "Category", half, x=x(), y=y(f"{oy} + 25"), display="DisplayMode.Edit")
     pri_dd = tdrop("fmPri", "colPriorityOpt", f'If({edit}, LookUp(colPriorityOpt, Value = {t}.Priority), LookUp(colPriorityOpt, Value = "Medium"))', "x", "Priority", half, x=x(20 + half + 12), y=y(f"{oy} + 25"),
                    display="DisplayMode.Edit")
@@ -853,19 +844,13 @@ def form(p):
              label("fmTitle", '=If(varFormMode = "edit", "Edit " & varTicket.Code, "Create ticket")', size=H3_PT + 1.5, bold=True, h=32, w=iw - 44, x=x(), y=y(20), visible=shown, role="Heading2", valign="Middle"),
              *icon_button("fmX", "x", "Close", x(W - 20 - 34), y(19), 'Set(varModal, ""); Set(varPrefill, "")', visible=shown),
              cap("fmSubjectCap", "Ticket subject *", y(f"{20 + 32 + 12}")), subject,
-             errl("fmSubjectErr", "Enter a subject.", y(f"{20 + 32 + 12 + 25 + 34 + 2}"), "varErrSubject", ac="AC-ITH-22.1"),
-             cap("fmDescCap", "Description *", y(f"{20 + 32 + 12 + 71 - 71 + 71 + e1}") if False else y(f"{123} + {e1}")), descr,
-             errl("fmDescErr", "Describe the issue.", y(f"148 + {e1} + 96 + 2"), "varErrDesc", ac="AC-ITH-22.2"),
+             errl("fmSubjectErr", "Enter a subject.", y("125"), "varErrSubject", ac="AC-ITH-22.1"),
+             cap("fmDescCap", "Description *", y(f"135 + {e1}")), descr,
+             errl("fmDescErr", "Describe the issue.", y(f"160 + {e1} + 96 + 2"), "varErrDesc", ac="AC-ITH-22.2"),
              cap("fmCatCap", "Category", y(oy), ww=half), cat_dd, cap("fmPriCap", "Priority", y(oy), ww=half, xx=x(20 + half + 12)), pri_dd,
              cap("fmReqNameCap", "Requester name", y(ry), ww=half), req_n, cap("fmReqEmailCap", "Requester email", y(ry), ww=half, xx=x(20 + half + 12)), req_e,
              errl("fmReqEmailErr", "Enter a valid email address.", y(f"{ry} + 25 + 34 + 2"), "varErrEmail", ww=half, xx=x(20 + half + 12), ac="AC-ITH-22.3"),
              cap("fmAssignCap", "Assign to (optional)", y(ay)), as_dd, cancel, submit]
-    # fix the description caption position: caption sits 25 above the box
-    for n in nodes:
-        if n.name == "fmDescCap":
-            n.props["Y"] = y(f"148 + {e1} - 25")
-        if n.name == "fmSubjectErr":
-            n.props["Y"] = y(f"{20 + 32 + 12 + 25} + 34 + 2")
     return nodes
 
 
