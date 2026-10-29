@@ -1,3 +1,6 @@
 EditorState:
   ScreensOrder:
-    - scrHome
+    - scrOverview
+    - scrTickets
+    - scrKnowledge
+    - scrSettings

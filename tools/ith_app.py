@@ -66,7 +66,7 @@ HEX_KEYS = ["ColorPrimary", "ColorAccentText", "ColorText", "ColorTextMuted", "C
             "ColorInfo", "ColorWarning", "ColorNeutralText", "ColorSuccess", "ColorClosed", "ColorHigh", "ColorError", "ColorOnPrimary"]
 
 HEADER = ("      =// Design tokens. The client's brand lives here and only here: screens use these names, never RGBA literals (D11).\n"
-          "      // Derived from the accepted prototype (no brand guide), light and dark schemes: specs/design-spec.md section 2. Never rename a token.\n")
+          "      // Derived from the accepted prototype (no brand guide), light and dark schemes: specs/design-spec.md section 2 (AC-ITH-09.1). Never rename a token.\n")
 
 
 def overrides_and_dark():

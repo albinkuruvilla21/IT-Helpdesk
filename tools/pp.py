@@ -871,8 +871,13 @@ def _lint_yaml_syntax(r: Report, app: str, path: str, text: str) -> None:
     except ImportError:
         r.warn(f"canvas app '{app}' {path}: PyYAML is not installed, so only the commonest YAML faults were checked (PA1001). Run the tools through uv run")
         return
+    class _Loader(_yaml.SafeLoader):
+        pass
+
+    # Studio writes an empty formula as a bare `=` (for example `LayoutMaxHeight: =`); PyYAML resolves that to a tag it cannot construct
+    _Loader.add_constructor("tag:yaml.org,2002:value", lambda loader, node: loader.construct_scalar(node))
     try:
-        _yaml.safe_load(text)
+        _yaml.load(text, Loader=_Loader)
     except _yaml.YAMLError as e:
         r.error(f"canvas app '{app}' {path}: not valid YAML ({str(e).splitlines()[0]}) (PA1001)")
 
