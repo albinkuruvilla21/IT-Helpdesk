@@ -88,11 +88,11 @@ The ticket's displayed ID is `HD-` plus SharePoint's item ID (Q-10 baseline): no
 
 | List | Purpose | Columns (besides `Title`) | Indexed | Volume | Archival | Permissions |
 |---|---|---|---|---|---|---|
-| `ITH_Article` | Knowledge base articles | `ArticleCategory`, `ArticleSummary`, `ArticleSteps` (Note, one step a line), `SortOrder`, `IsActive` | none | < 100 | None needed: reviewed yearly | Everyone reads; Administrators edit |
-| `ITH_Technician` | Assignee dropdown | `TechnicianEmail` (required), `SortOrder`, `IsActive` | `TechnicianEmail` | < 50 | None needed | Everyone reads; Administrators edit |
-| `ITH_Category` | Category values | `SortOrder`, `IsActive` | none | < 20 | None needed | Everyone reads; Administrators edit |
-| `ITH_Priority` | Priority values and definitions | `PriorityDefinition`, `SortOrder`, `IsActive` | none | < 10 | None needed | Everyone reads; Administrators edit |
-| `ITH_Status` | Status values and definitions | `StatusDefinition`, `SortOrder`, `IsFinal`, `IsActive` | none | < 10 | None needed | Everyone reads; Administrators edit |
+| `ITH_Article` | Knowledge base articles | `ArticleCategory`, `ArticleSummary`, `ArticleSteps` (Note, one step a line), `SortOrder`, `IsActive` | `SortOrder` | < 100 | None needed: reviewed yearly | Everyone reads; Administrators edit |
+| `ITH_Technician` | Assignee dropdown | `TechnicianEmail` (required), `SortOrder`, `IsActive` | `TechnicianEmail`, `SortOrder` | < 50 | None needed | Everyone reads; Administrators edit |
+| `ITH_Category` | Category values | `SortOrder`, `IsActive` | `SortOrder` | < 20 | None needed | Everyone reads; Administrators edit |
+| `ITH_Priority` | Priority values and definitions | `PriorityDefinition`, `SortOrder`, `IsActive` | `SortOrder` | < 10 | None needed | Everyone reads; Administrators edit |
+| `ITH_Status` | Status values and definitions | `StatusDefinition`, `SortOrder`, `IsFinal`, `IsActive` | `SortOrder` | < 10 | None needed | Everyone reads; Administrators edit |
 | `ITH_UserRole` | Role of each employee (D-03) | `UserEmail` (required), `UserRole` (Choice: Requester, Technician, Administrator), `IsActive` | `UserEmail` | < 500 | None needed: reviewed yearly | Everyone reads their own row (list-wide read is acceptable: names and roles); Administrators edit |
 
 Threshold strategy for all six: each is far below 5,000 items, so no view needs a filter. `IsActive = No` hides a value without deleting it. Environment variables: `ith_ArticleList`, `ith_TechnicianList`, `ith_CategoryList`, `ith_PriorityList`, `ith_StatusList`, `ith_UserRoleList`. AC IDs: AC-ITH-35 to 38, 31, 05, 39 to 41.
@@ -128,3 +128,4 @@ Category, priority, status and assignee are stored as text copies of master-data
 | Date | Change | Why |
 |---|---|---|
 | 2026-10-29 | Nine lists created | G5 |
+| 2026-10-29 | `SortOrder` indexed on the five master-data lists, before any list existed | The app sorts by it (FX-INDEX), G8 |

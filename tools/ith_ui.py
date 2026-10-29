@@ -212,7 +212,8 @@ LOAD_DRAWER = (
 
 def open_ticket(rec, tail=""):
     """Opens the detail drawer for a ticket record expression (AC-ITH-24). `tail` is more statements; the AC comment goes last, so it never hides them."""
-    return f'Set(varTicket, {rec}); Set(varMenu, ""); Set(varDrawer, true);\n{LOAD_DRAWER}{tail} // AC-ITH-24.1'
+    return (f'Set(varTicket, {rec}); Set(varMenu, ""); Set(varDrawer, true); // fx-ignore FX-DELEG one ticket\'s comments and activity, far under the 2,000 data row limit (S-DELEG)\n'
+            f'{LOAD_DRAWER}{tail} // AC-ITH-24.1')
 
 
 def write_activity(event, text_expr, value_expr='""'):
@@ -1024,7 +1025,9 @@ def app_yaml():
             'ClearCollect(colArticleCats, Distinct(Filter(colArticles, IsActive), ArticleCategory))')
     if MOCK:
         loads = ("ClearCollect(MockTicketLive, MockTicket);\nClearCollect(MockActivityLive, MockActivity);\nClearCollect(MockCommentLive, MockComment);\n" + loads)
-    on_start = ('Set(varCollapsed, false); // AC-ITH-01.1 the app starts here, data comes from SharePoint lists\nSet(varMenu, "");\nSet(varNotifRead, false);\nSet(varModal, "");\nSet(varDrawer, false);\nSet(varFormMode, "new");\nSet(varFormKey, 0);\n'
+    on_start = (('Set(varCollapsed, false); // fx-ignore FX-DELEG the role and master-data lists hold under 500 items by design (data-model.md)\n'
+                'Set(varMenu, ""); // AC-ITH-01.1 the app starts here, data comes from SharePoint lists\n' if not MOCK else 'Set(varCollapsed, false);\nSet(varMenu, "");\n') +
+                'Set(varNotifRead, false);\nSet(varModal, "");\nSet(varDrawer, false);\nSet(varFormMode, "new");\nSet(varFormKey, 0);\n'
                 'Set(varErrSubject, false);\nSet(varErrDesc, false);\nSet(varErrEmail, false);\nSet(varSaving, false);\nSet(varPrefill, "");\nSet(varView, "all");\nSet(varSearch, "");\n'
                 'Set(varFStatus, "");\nSet(varFPriority, "");\nSet(varFCategory, "");\nSet(varSort, "ID");\nSet(varDesc, true);\nSet(varPage, 1);\nSet(varPageSize, 10);\nSet(varKQ, "");\nSet(varKC, "");\n'
                 'Set(varArticle, Blank());\nSet(varTicket, Blank());\nSet(varLast, Blank());\nSet(varSavedMsg, "");\nSet(varLoading, false);\nSet(varLoadError, "");\nSet(varLoadReason, "");\n'
