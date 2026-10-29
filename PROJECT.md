@@ -48,7 +48,7 @@ carries it, and a component can never move to another publisher (PA-T1).
 |---|---|---|---|---|---|
 | G0 | Project set up | This file, renamed solution | `/project-setup` | — | Done |
 | G1 | Inputs converted | `inputs/_converted/INDEX.md` | `/ingest` | G0 | Done |
-| **G2** | **Acceptance criteria: Client PO sign-off** | `specs/acceptance-criteria/<CODE>_AcceptanceCriteria.xlsx` | `/acceptance-criteria` | G1 | In review |
+| **G2** | **Acceptance criteria: Client PO sign-off** | `specs/acceptance-criteria/<CODE>_AcceptanceCriteria.xlsx` | `/acceptance-criteria` | G1 | Approved |
 | G3 | Design spec | `specs/design-spec.md`, tokens in `App.Formulas` | `/deliver` | G2 | Not started |
 | G4 | Build plan | `specs/build-plan.md` | `/deliver` | G3 | Not started |
 | G5 | List schemas | `schemas/*.csv`, `specs/data-model.md`, list environment variables | `/deliver` | G4 | Not started |
@@ -59,7 +59,7 @@ carries it, and a component can never move to another publisher (PA-T1).
 | G10 | Test cases | *Test Cases* sheet of the AC workbook | `/deliver` | G2 | Not started |
 | G11 | Release candidate | `dist/<Solution>_<version>_managed.zip` + `specs/release-notes.md` | `/deliver` | G8, G9, G10 | Not started |
 
-**G2 signed off by · on:** 🔶 (the Client PO's name · `YYYY-MM-DD`, matching the workbook's Read Me)
+**G2 signed off by · on:** Albin . 2026-10-29 (the Client PO's name · `YYYY-MM-DD`, matching the workbook's Read Me)
 
 Status values: `Not started` · `In progress` · `Done` · `Reopened` (an upstream artefact changed after
 the stage was done — see `/status`). G2 instead goes `In review` (with the PO) → `Approved` (signed off).
@@ -76,27 +76,29 @@ asks.
 |---|---|---|---|---|
 | D-01 | | 🔶 Publisher: Acies' own (`AciesInnovations`) or one in the client's name | | |
 | D-02 | 2026-10-29 | Scope basis: everything in the BRD is in scope. The default (a BRD-only feature is a Candidate until the PO promotes it) is not used, so every AC row is `Draft` | The Acies delivery lead wants the BRD delivered in full | Acies delivery lead (instruction to Claude, 2026-10-29) |
+| D-03 | 2026-10-29 | Roles come from a SharePoint list (`ITH_UserRoles`: employee email, role) until the client gives security groups (Q-03). The list is read for what the app shows; list permissions still enforce (D6) once groups exist | The client said to handle groups later | Albin (PO), workbook Q-03 |
+| D-04 | 2026-10-29 | No ticket delete: tickets are only closed and kept for audit (Q-11). AC-ITH-30 and the delete part of AC-ITH-41 are not built; change proposed | The PO answered Q-11 after the criteria were drafted | Albin (PO), workbook Q-11 |
 
 ## 4. Open questions
 
 | ID | Raised | Question | Raised by | Owner | Answer · date |
 |---|---|---|---|---|---|
 | Q-01 | 2026-10-29 | Which version of `index (4).html` did the client accept, and when? Every "as shown in the design" depends on it. Baseline: the file in `inputs/design/` as it is | /ingest | Client PO | `index (4).html` confirmed as the accepted design by the Acies delivery lead · 2026-10-29. The date the client accepted it is still open |
-| Q-02 | 2026-10-29 | No brand guide: may the prototype's colours (indigo accent `#4f46e5`, light and dark) and Inter font stand as the brand? Inter is not a Studio font; baseline: Segoe UI | /ingest | Client PO | 🔶 |
-| Q-03 | 2026-10-29 | Which security groups are the Requesters, Technicians and Administrators (BRD R20)? The prototype has one fixed technician user. Baseline: role read from three group-backed list permissions | /ingest | Client admin | 🔶 |
-| Q-04 | 2026-10-29 | BRD R2 puts "mobile-specific layout design and dark theme" out of scope, but the prototype has a dark theme toggle and responsive breakpoints. Build the dark scheme? Baseline: build both schemes, chosen by configuration | /ingest | Client PO | 🔶 |
-| Q-05 | 2026-10-29 | Prototype-only items: "Reset demo data" (profile menu, Settings) and the Settings card "Simulated behaviour". Baseline: not built | /ingest | Client PO | 🔶 |
-| Q-06 | 2026-10-29 | Overview counts: should requesters see helpdesk-wide counts or only their own tickets (BRD R4)? Baseline: their own | /ingest | Client PO | 🔶 |
+| Q-02 | 2026-10-29 | No brand guide: may the prototype's colours (indigo accent `#4f46e5`, light and dark) and Inter font stand as the brand? Inter is not a Studio font; baseline: Segoe UI | /ingest | Client PO | Closed, no answer given: baseline applies · 2026-10-29 |
+| Q-03 | 2026-10-29 | Which security groups are the Requesters, Technicians and Administrators (BRD R20)? The prototype has one fixed technician user. Baseline: role read from three group-backed list permissions | /ingest | Client admin | Handled later. Now: a SharePoint list of employee email and role (Requester, Technician, Administrator) · 2026-10-29 |
+| Q-04 | 2026-10-29 | BRD R2 puts "mobile-specific layout design and dark theme" out of scope, but the prototype has a dark theme toggle and responsive breakpoints. Build the dark scheme? Baseline: build both schemes, chosen by configuration | /ingest | Client PO | Phone layout is out of scope. The dark scheme stays at the baseline · 2026-10-29 |
+| Q-05 | 2026-10-29 | Prototype-only items: "Reset demo data" (profile menu, Settings) and the Settings card "Simulated behaviour". Baseline: not built | /ingest | Client PO | Not needed · 2026-10-29 |
+| Q-06 | 2026-10-29 | Overview counts: should requesters see helpdesk-wide counts or only their own tickets (BRD R4)? Baseline: their own | /ingest | Client PO | Only their own tickets · 2026-10-29 |
 | Q-07 | 2026-10-29 | Expected ticket volume per month (BRD R5)? Decides delegation and indexes. Baseline: under 2,000 items | /ingest | Client PO | 🔶 |
 | Q-08 | 2026-10-29 | Who may edit a ticket after it is created: technicians only, or the requester too (BRD R11)? Baseline: technicians and administrators only | /ingest | Client PO | 🔶 |
 | Q-09 | 2026-10-29 | Confirm ticket ID format `HD-` + number, and whether requesters may set Priority (BRD R6). Baseline: yes to the format; requesters may set it, as in the prototype | /ingest | Client PO | 🔶 |
 | Q-10 | 2026-10-29 | The prototype's ID is "highest number plus one"; two simultaneous creates could clash. Baseline: the ID is the SharePoint item ID with the `HD-` prefix, no separate counter | /ingest | Acies lead | 🔶 |
-| Q-11 | 2026-10-29 | Delete: permanent, or close and retain for audit (BRD R14)? Baseline: permanent delete, Administrators only, as the prototype's confirmation says | /ingest | Client PO | 🔶 |
-| Q-12 | 2026-10-29 | BRD R3 asks whether an optional "Approvals" menu is wanted; the prototype has none. Baseline: not built | /ingest | Client PO | 🔶 |
+| Q-11 | 2026-10-29 | Delete: permanent, or close and retain for audit (BRD R14)? Baseline: permanent delete, Administrators only, as the prototype's confirmation says | /ingest | Client PO | Only closed and kept for audit: no delete (conflicts with approved AC-ITH-30, see proposed-changes-2026-10-29.md) · 2026-10-29 |
+| Q-12 | 2026-10-29 | BRD R3 asks whether an optional "Approvals" menu is wanted; the prototype has none. Baseline: not built | /ingest | Client PO | No approvals menu needed · 2026-10-29 |
 | Q-13 | 2026-10-29 | BRD queries still open: restrict status transitions (R10); technician private notes and internal comments (R9, R12); auto-close Resolved tickets after n days (R13); shared team queues (R15); auto-assignment by category (R16). Baseline: none of them | /ingest | Client PO | 🔶 |
 | Q-14 | 2026-10-29 | Maximum attachment size and allowed file types (BRD R8). Baseline: 10 MB, no restriction on type beyond SharePoint's | /ingest | Client PO | 🔶 |
 | Q-15 | 2026-10-29 | Which events send Outlook email, and from which mailbox (BRD R17)? Baseline: the five events listed in the BRD, from a shared mailbox 🔶 | /ingest | Client PO | 🔶 |
-| Q-16 | 2026-10-29 | Initial knowledge base articles and their maintainer, final categories, priority definitions and technician list (BRD R18, R19). Baseline: the prototype's six articles, five categories and four technicians as sample data | /ingest | Client PO | 🔶 |
+| Q-16 | 2026-10-29 | Initial knowledge base articles and their maintainer, final categories, priority definitions and technician list (BRD R18, R19). Baseline: the prototype's six articles, five categories and four technicians as sample data | /ingest | Client PO | Administrators manage the lists in SharePoint (partial: the starting content is still awaited) · 2026-10-29 |
 | Q-17 | 2026-10-29 | CSV export (BRD R21) is not in the prototype: which fields and roles? Baseline: the nine fields the BRD lists, technicians and administrators | /ingest | Client PO | 🔶 |
 | Q-18 | 2026-10-29 | Should the bell and the Recent activity feed show activity from all tickets, or only tickets the user can see (AC-ITH-07, 14)? Baseline: only tickets the user may see | /acceptance-criteria | Client PO | 🔶 |
 | Q-19 | 2026-10-29 | Should a person get an email about a change they made themselves (AC-ITH-33, 34)? Baseline: no | /acceptance-criteria | Client PO | 🔶 |
