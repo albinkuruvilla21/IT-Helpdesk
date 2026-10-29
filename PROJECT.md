@@ -50,7 +50,7 @@ carries it, and a component can never move to another publisher (PA-T1).
 | G1 | Inputs converted | `inputs/_converted/INDEX.md` | `/ingest` | G0 | Done |
 | **G2** | **Acceptance criteria: Client PO sign-off** | `specs/acceptance-criteria/<CODE>_AcceptanceCriteria.xlsx` | `/acceptance-criteria` | G1 | Approved |
 | G3 | Design spec | `specs/design-spec.md`, tokens in `App.Formulas` | `/deliver` | G2 | Done |
-| G4 | Build plan | `specs/build-plan.md` | `/deliver` | G3 | Not started |
+| G4 | Build plan | `specs/build-plan.md` | `/deliver` | G3 | Done |
 | G5 | List schemas | `schemas/*.csv`, `specs/data-model.md`, list environment variables | `/deliver` | G4 | Not started |
 | G6 | Scaffold | `canvas/` screens, solution components wired, samples removed | `/deliver` | G5 | Not started |
 | G7 | UI | Screens against sample data | `/deliver` | G6 | Not started |
