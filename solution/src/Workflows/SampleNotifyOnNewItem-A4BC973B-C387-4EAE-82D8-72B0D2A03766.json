@@ -4,7 +4,7 @@
       "shared_sharepointonline": {
         "runtimeSource": "embedded",
         "connection": {
-          "connectionReferenceLogicalName": "acies_sharepoint"
+          "connectionReferenceLogicalName": "ith_sharepoint"
         },
         "api": {
           "name": "shared_sharepointonline"
@@ -13,7 +13,7 @@
       "shared_office365": {
         "runtimeSource": "embedded",
         "connection": {
-          "connectionReferenceLogicalName": "acies_office365outlook"
+          "connectionReferenceLogicalName": "ith_office365outlook"
         },
         "api": {
           "name": "shared_office365"
@@ -32,25 +32,25 @@
           "defaultValue": {},
           "type": "SecureObject"
         },
-        "SharePoint site (acies_SharePointSite)": {
+        "SharePoint site (ith_SharePointSite)": {
           "defaultValue": "",
           "type": "String",
           "metadata": {
-            "schemaName": "acies_SharePointSite"
+            "schemaName": "ith_SharePointSite"
           }
         },
-        "Sample list (acies_SampleList)": {
+        "Sample list (ith_SampleList)": {
           "defaultValue": "",
           "type": "String",
           "metadata": {
-            "schemaName": "acies_SampleList"
+            "schemaName": "ith_SampleList"
           }
         },
-        "Support email (acies_SupportEmail)": {
+        "Support email (ith_SupportEmail)": {
           "defaultValue": "",
           "type": "String",
           "metadata": {
-            "schemaName": "acies_SupportEmail"
+            "schemaName": "ith_SupportEmail"
           }
         }
       },
@@ -69,8 +69,8 @@
               "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
             },
             "parameters": {
-              "dataset": "@parameters('SharePoint site (acies_SharePointSite)')",
-              "table": "@parameters('Sample list (acies_SampleList)')"
+              "dataset": "@parameters('SharePoint site (ith_SharePointSite)')",
+              "table": "@parameters('Sample list (ith_SampleList)')"
             },
             "authentication": "@parameters('$authentication')"
           }
@@ -92,7 +92,7 @@
                   "apiId": "/providers/Microsoft.PowerApps/apis/shared_office365"
                 },
                 "parameters": {
-                  "emailMessage/To": "@parameters('Support email (acies_SupportEmail)')",
+                  "emailMessage/To": "@parameters('Support email (ith_SupportEmail)')",
                   "emailMessage/Subject": "New item: @{triggerOutputs()?['body/Title']}",
                   "emailMessage/Body": "<p>A new item was added to the list.</p><p>Title: @{triggerOutputs()?['body/Title']}<br>Open it: <a href=\"@{triggerOutputs()?['body/{Link}']}\">@{triggerOutputs()?['body/{Link}']}</a></p>",
                   "emailMessage/Importance": "Normal"

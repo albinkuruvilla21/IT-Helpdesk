@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Workflow WorkflowId="{4bc77e40-5e47-4553-87a9-79c2a91c7a33}" Name="Sample - Notify on new item" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <JsonFileName>/Workflows/SampleNotifyOnNewItem-4BC77E40-5E47-4553-87A9-79C2A91C7A33.json</JsonFileName>
+<Workflow WorkflowId="{a4bc973b-c387-4eae-82d8-72b0d2a03766}" Name="Sample - Notify on new item" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <JsonFileName>/Workflows/SampleNotifyOnNewItem-A4BC973B-C387-4EAE-82D8-72B0D2A03766.json</JsonFileName>
   <Type>1</Type>
   <Subprocess>0</Subprocess>
   <Category>5</Category>

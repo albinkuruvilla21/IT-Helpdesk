@@ -1,26 +1,26 @@
 {
   "EnvironmentVariables": [
     {
-      "SchemaName": "acies_SampleList",
+      "SchemaName": "ith_SampleList",
       "Value": ""
     },
     {
-      "SchemaName": "acies_SharePointSite",
+      "SchemaName": "ith_SharePointSite",
       "Value": ""
     },
     {
-      "SchemaName": "acies_SupportEmail",
+      "SchemaName": "ith_SupportEmail",
       "Value": ""
     }
   ],
   "ConnectionReferences": [
     {
-      "LogicalName": "acies_office365outlook",
+      "LogicalName": "ith_office365outlook",
       "ConnectionId": "",
       "ConnectorId": "/providers/Microsoft.PowerApps/apis/shared_office365"
     },
     {
-      "LogicalName": "acies_sharepoint",
+      "LogicalName": "ith_sharepoint",
       "ConnectionId": "",
       "ConnectorId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
     }

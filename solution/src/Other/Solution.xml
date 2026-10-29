@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ImportExportXml version="9.2.26093.139" SolutionPackageVersion="9.2" languagecode="1033" generatedBy="CrmLive" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" OrganizationVersion="9.2.26093.139" OrganizationSchemaType="Standard" CRMServerServiceabilityVersion="9.2.26093.00139">
   <SolutionManifest>
-    <UniqueName>AciesStarter</UniqueName>
+    <UniqueName>AciesInnovationsITHelp</UniqueName>
     <LocalizedNames>
-      <LocalizedName description="Acies Starter" languagecode="1033" />
+      <LocalizedName description="Acies Innovations IT Help" languagecode="1033" />
     </LocalizedNames>
     <Descriptions />
     <Version>1.0.0.0</Version>
@@ -18,8 +18,8 @@
       </Descriptions>
       <EMailAddress xsi:nil="true"></EMailAddress>
       <SupportingWebsiteUrl xsi:nil="true"></SupportingWebsiteUrl>
-      <CustomizationPrefix>acies</CustomizationPrefix>
-      <CustomizationOptionValuePrefix>11638</CustomizationOptionValuePrefix>
+      <CustomizationPrefix>ith</CustomizationPrefix>
+      <CustomizationOptionValuePrefix>23797</CustomizationOptionValuePrefix>
       <Addresses>
         <Address>
           <AddressNumber>1</AddressNumber>
@@ -80,8 +80,8 @@
       </Addresses>
     </Publisher>
     <RootComponents>
-      <RootComponent type="29" id="{4bc77e40-5e47-4553-87a9-79c2a91c7a33}" behavior="0" />
-      <RootComponent type="300" schemaName="acies_starterapp_4cf77" behavior="0" />
+      <RootComponent type="29" id="{a4bc973b-c387-4eae-82d8-72b0d2a03766}" behavior="0" />
+      <RootComponent type="300" schemaName="ith_ithelp_572fd" behavior="0" />
     </RootComponents>
     <MissingDependencies />
   </SolutionManifest>

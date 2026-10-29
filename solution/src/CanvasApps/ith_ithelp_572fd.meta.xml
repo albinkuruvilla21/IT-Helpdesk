@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <CanvasApp xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <Name>acies_starterapp_4cf77</Name>
+  <Name>ith_ithelp_572fd</Name>
   <AppVersion>2026-10-20T00:00:00Z</AppVersion>
   <Status>Ready</Status>
   <CreatedByClientVersion>3.26091.9.0</CreatedByClientVersion>
@@ -9,7 +9,7 @@
   <IsCdsUpgraded>0</IsCdsUpgraded>
   <GalleryItemId xsi:nil="true"></GalleryItemId>
   <BackgroundColor>RGBA(15,108,189,1)</BackgroundColor>
-  <DisplayName>Starter App</DisplayName>
+  <DisplayName>IT Help</DisplayName>
   <Description xsi:nil="true"></Description>
   <CommitMessage xsi:nil="true"></CommitMessage>
   <Publisher xsi:nil="true"></Publisher>
@@ -26,6 +26,6 @@
   <IntroducedVersion>1.0</IntroducedVersion>
   <CdsDependencies>{"cdsdependencies":[]}</CdsDependencies>
   <IsCustomizable>1</IsCustomizable>
-  <BackgroundImageUri>/CanvasApps/acies_starterapp_4cf77_BackgroundImageUri</BackgroundImageUri>
-  <DocumentUri>/CanvasApps/acies_starterapp_4cf77_DocumentUri.msapp</DocumentUri>
+  <BackgroundImageUri>/CanvasApps/ith_ithelp_572fd_BackgroundImageUri</BackgroundImageUri>
+  <DocumentUri>/CanvasApps/ith_ithelp_572fd_DocumentUri.msapp</DocumentUri>
 </CanvasApp>

@@ -13,7 +13,7 @@
   <EntityDataProviders />
   <CanvasApps />
   <connectionreferences>
-    <connectionreference connectionreferencelogicalname="acies_sharepoint">
+    <connectionreference connectionreferencelogicalname="ith_sharepoint">
       <connectionreferencedisplayname>SharePoint</connectionreferencedisplayname>
       <connectorid>/providers/Microsoft.PowerApps/apis/shared_sharepointonline</connectorid>
       <iscustomizable>1</iscustomizable>
@@ -21,7 +21,7 @@
       <statecode>0</statecode>
       <statuscode>1</statuscode>
     </connectionreference>
-    <connectionreference connectionreferencelogicalname="acies_office365outlook">
+    <connectionreference connectionreferencelogicalname="ith_office365outlook">
       <connectionreferencedisplayname>Office 365 Outlook</connectionreferencedisplayname>
       <connectorid>/providers/Microsoft.PowerApps/apis/shared_office365</connectorid>
       <iscustomizable>1</iscustomizable>

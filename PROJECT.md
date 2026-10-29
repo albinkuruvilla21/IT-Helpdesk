@@ -13,15 +13,15 @@ showing until someone confirms it; a guess written as fact is worse than a visib
 
 | Field | Value |
 |---|---|
-| Client | 🔶 |
-| Project | 🔶 |
-| Project code | 🔶 |
-| List prefix | 🔶 |
-| Solution unique name | AciesStarter (template default: run `/project-setup`) |
-| Solution display name | Acies Starter (template default: run `/project-setup`) |
-| Publisher | AciesInnovations (🔶 confirm: Acies' own or the client's, §3 D-01) |
-| Publisher prefix | `acies_` (template default: run `/project-setup`) |
-| Canvas app | Starter App |
+| Client | Acies Innovations |
+| Project | IT Help |
+| Project code | ITH |
+| List prefix | ITH |
+| Solution unique name | AciesInnovationsITHelp |
+| Solution display name | Acies Innovations IT Help |
+| Publisher | AciesInnovations |
+| Publisher prefix | `ith_` |
+| Canvas app | IT Help |
 | Dev environment | 🔶 not set |
 | Dev site | 🔶 not set |
 | Production site(s) | 🔶 |
@@ -46,7 +46,7 @@ carries it, and a component can never move to another publisher (PA-T1).
 
 | # | Stage | Artefact | Run by | Needs | Status |
 |---|---|---|---|---|---|
-| G0 | Project set up | This file, renamed solution | `/project-setup` | — | Not started |
+| G0 | Project set up | This file, renamed solution | `/project-setup` | — | Done |
 | G1 | Inputs converted | `inputs/_converted/INDEX.md` | `/ingest` | G0 | Not started |
 | **G2** | **Acceptance criteria: Client PO sign-off** | `specs/acceptance-criteria/<CODE>_AcceptanceCriteria.xlsx` | `/acceptance-criteria` | G1 | Not started |
 | G3 | Design spec | `specs/design-spec.md`, tokens in `App.Formulas` | `/deliver` | G2 | Not started |
@@ -118,9 +118,9 @@ the portal's import wizard (or, for scripted imports, in `deployment/settings.<e
 
 | Schema name | Type | Holds | Dev | Test | Prod |
 |---|---|---|---|---|---|
-| `acies_SharePointSite` | Data source (SharePoint site) | The site holding the app's lists | 🔶 | 🔶 | 🔶 |
-| `acies_SampleList` | Data source (list, child of the site) | The starter's sample list | 🔶 | 🔶 | 🔶 |
-| `acies_SupportEmail` | Text | Where the starter flow sends its notification | 🔶 | 🔶 | 🔶 |
+| `ith_SharePointSite` | Data source (SharePoint site) | The site holding the app's lists | 🔶 | 🔶 | 🔶 |
+| `ith_SampleList` | Data source (list, child of the site) | The starter's sample list | 🔶 | 🔶 | 🔶 |
+| `ith_SupportEmail` | Text | Where the starter flow sends its notification | 🔶 | 🔶 | 🔶 |
 
 ### 6.3 Connection references
 
@@ -128,8 +128,8 @@ One per connector. In Test and Prod they bind to the **service account's** conne
 
 | Logical name | Connector | Connection owner |
 |---|---|---|
-| `acies_sharepoint` | SharePoint | 🔶 service account |
-| `acies_office365outlook` | Office 365 Outlook | 🔶 service account |
+| `ith_sharepoint` | SharePoint | 🔶 service account |
+| `ith_office365outlook` | Office 365 Outlook | 🔶 service account |
 
 ## 7. Releases
 

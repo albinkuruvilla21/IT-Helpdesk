@@ -4,8 +4,8 @@
   "buildManaged": true,
   "canvasApps": [
     {
-      "name": "acies_starterapp_4cf77",
-      "source": "canvas/StarterApp"
+      "name": "ith_ithelp_572fd",
+      "source": "canvas/ITHelp"
     }
   ],
   "environments": {

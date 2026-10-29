@@ -1,33 +1,19 @@
 <!-- README:intro -->
-# Acies Power Apps delivery template
+# Acies Innovations — IT Help
 
-The starting point for every Acies Power Apps project. Create a project from it, and you have:
-
-- **A working Power Platform solution, kept as source:** a canvas app, a cloud flow, environment
-  variables and connection references, built the Acies way (SharePoint lists as the database, standard
-  connectors only, design tokens, accessibility). `tools/pp.py build` turns it into a solution ZIP you
-  import at [make.powerapps.com](https://make.powerapps.com), and validates it first.
-- **A pipeline run by Claude Code:** from the client's BRD, PO walkthrough, accepted design or
-  prototype and brand guidelines to acceptance criteria. Once the client's PO signs those off (the one
-  approval), a single command, `/deliver`, builds the design spec, list schemas, screens, formulas,
-  flows and test cases through to a release candidate.
-- **The standards behind it:** development, design, list schemas, acceptance criteria and flows, plus
-  the Power Platform and SharePoint traps that cost time.
-
-It mirrors the Acies SPFx template (same stages, same acceptance-criteria workbook, same list
-schemas), and shares nothing with it: copy this folder out and use it as a repository of its own.
+The Power Apps solution Acies Innovations is delivering for Acies Innovations. Project code `ITH`, solution `AciesInnovationsITHelp`,
+publisher prefix `ith_`, canvas app *IT Help*. Built from the Acies Power Apps delivery template: the version it
+started from is the newest template entry in [CHANGELOG.md](CHANGELOG.md).
 
 | Read | For |
 |---|---|
-| This file | Starting a project, creating lists, building, importing and deploying |
+| [PROJECT.md](PROJECT.md) | **Start here.** Who the client and PO are, where every stage stands, decisions, open questions, tenant facts, environments, what is reused |
+| This file | Setting up your machine, creating lists, building, importing and deploying |
 | [docs/pipeline.md](docs/pipeline.md) | How the stages fit together, the one sign-off, where Claude's work meets Studio |
 | [PROMPTS.md](PROMPTS.md) | Every automation, how to run it, and the supporting prompts |
-| [CLAUDE.md](CLAUDE.md) | The rules Claude works by in this project (worth reading yourself) |
-| [docs/alm.md](docs/alm.md) | Environments, versioning, managed vs unmanaged, variables, connections, CI/CD |
-| [docs/standards/](docs/standards/) | The standards, and the traps |
-| [docs/lessons-learned.md](docs/lessons-learned.md) | What the first project taught: every failure, what guards against it, the start checklist |
-| [docs/standards/ui-patterns.md](docs/standards/ui-patterns.md) | How screens are built (read before any UI work) |
-| [CHANGELOG.md](CHANGELOG.md) | What changed in the template |
+| [CLAUDE.md](CLAUDE.md) | The rules Claude works by in this repository |
+| [specs/](specs/) | The signed-off acceptance criteria, design spec, build plan, data model, release notes |
+| [releases/](releases/) | Every release candidate's solution ZIPs, ready to import |
 
 ---
 <!-- /README:intro -->
@@ -61,58 +47,27 @@ Without uv: Python 3.10+ and `pip install --group tools` (pip 25.1+), from the s
 PowerShell 7 are not Python packages and are installed separately (above).
 
 <!-- README:start -->
-## Starting a project
+## Joining this project
 
-1. **Create the repository:** copy this folder into a new **private** repository (it will hold client
-   documents). Open Claude Code in it.
-2. **Set it up:**
-   ```
-   /project-setup "Contoso" "Site Requests" CON
-   ```
-   This names the solution, the publisher prefix (permanent once imported) and the app, regenerates the
-   flow and app IDs, fills `PROJECT.md`, and builds the starter ZIP. Without Claude:
-   `uv run tools/pp.py setup --client "Contoso" --project "Site Requests" --code CON`, then
-   `uv run tools/pp.py build`.
-3. **Add the inputs** to `inputs/` ([inputs/README.md](inputs/README.md)):
+1. Clone the repository and install the [prerequisites](#prerequisites): `pac`, PowerShell 7, uv, the GitHub CLI.
+2. From the repository root: `uv sync` ([Setting up the Python tools](#setting-up-the-python-tools)), then
+   `uv run tools/pp.py doctor` and `uv run tools/pp.py build`: 0 errors.
+3. `pac auth create --environment <Dev URL from PROJECT.md §6.1>`, only if you will import or export.
+4. The client's inputs are already in `inputs/`, with their text in `inputs/_converted/`. If a new version arrives,
+   add it there and run `/ingest`; never edit a file in place.
+5. Check you can read the [reuse catalogue](#the-reuse-catalogue): `uv run tools/catalogue.py fetch`.
+6. Run `/status` in Claude Code: it shows every stage, what is blocking, and what to do next.
+7. To work on the app in Studio, open it **from the imported solution** in Dev, never as a loose `.msapp`
+   (PA-T8, PA-T26), then **Run OnStart** once.
 
-   | Folder | What |
-   |---|---|
-   | `inputs/brd/` | The BRD (.xlsx preferred) |
-   | `inputs/transcripts/` | The PO walkthrough transcript (.vtt from Teams, or .docx) |
-   | `inputs/design/` | The **accepted** prototype: its HTML (best) or the Figma file, plus a PNG per screen ([The design](inputs/README.md#the-design)) |
-   | `inputs/branding/` | Brand guidelines, logos |
-   | `inputs/other/` | Anything else: list exports, an existing app to replace, process diagrams |
+The stages, and the skill that runs each one:
 
-4. **Draft the acceptance criteria:** `/ingest`, then `/acceptance-criteria`. This produces
-   `specs/acceptance-criteria/<CODE>_AcceptanceCriteria.xlsx`.
-5. **Get them signed off by the client's PO**: in the workbook (Read Me → *Approved by / on*), and in
-   `PROJECT.md` §2 (G2 → `Approved`, `Name · YYYY-MM-DD`). **This is the only approval.**
-6. **Run `/deliver`.** It runs every remaining stage in order, without stopping for review, and
-   commits each one:
-
-| Stage | Skill it runs | Produces |
+| Stage | Skill | Produces |
 |---|---|---|
-| G3 | `/design-spec` | `specs/design-spec.md` + the client's tokens in `App.Formulas` |
-| G4 | `/build-plan` | `specs/build-plan.md` |
-| G5 | `/list-schemas` | `schemas/*.csv` + `specs/data-model.md` + a data-source variable per list |
-| G6 | `/scaffold` | Every screen as YAML, mock data, solution components; samples removed |
-| G7 | `/ui-dev` | Screens on mock data, every state |
-| G8 | `/functionality-dev` | Formulas against the real lists |
-| G9 | `/flows` | Cloud flows in the solution |
-| G10 | `/test-cases` | Test cases in the AC workbook |
-| G11 | `/verify release` | Managed + unmanaged ZIPs + `specs/release-notes.md` |
-
-   It ends with a release candidate and an **outstanding list**: what only people can do (import the
-   lists, import the solution, open the app in Studio and bind the lists, compare the screens with the
-   design, turn the flows on, run the tests). The delivery lead reviews the lot and deploys.
-
-   `/status` tells you where things stand and what's next at any point. `/verify` runs every check
-   without releasing. Any stage's skill can be re-run on its own, e.g. `/ui-dev scrNewRequest` after a
-   design change.
-
-   Lessons the project learns go back to this template in the same session ([Improving the template](#improving-the-template)).
-   `/reset-template` turns a project built inside the template back into the template; a project in its own
-   repository never needs it.
+| G0 | `/project-setup` | PROJECT.md, the named solution |
+| G1 | `/ingest` | `inputs/_converted/`, `specs/prototype-fidelity.md` |
+| G2 | `/acceptance-criteria` | `specs/acceptance-criteria/ITH_AcceptanceCriteria.xlsx`. **The Client PO signs it off: the only approval** |
+| G3–G11 | `/deliver` | Design spec, build plan, list schemas, screens, formulas, flows, test cases, release candidate in `releases/` |
 <!-- /README:start -->
 
 ## Repository layout

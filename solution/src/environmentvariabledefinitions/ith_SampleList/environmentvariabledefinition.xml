@@ -1,4 +1,4 @@
-<environmentvariabledefinition schemaname="acies_SampleList">
+<environmentvariabledefinition schemaname="ith_SampleList">
   <apiid>/providers/microsoft.powerapps/apis/shared_sharepointonline</apiid>
   <displayname default="Sample list">
     <label description="Sample list" languagecode="1033" />
@@ -8,7 +8,7 @@
   <isrequired>0</isrequired>
   <parameterkey>table</parameterkey>
   <parentdefinitionid>
-    <schemaname>acies_SharePointSite</schemaname>
+    <schemaname>ith_SharePointSite</schemaname>
   </parentdefinitionid>
   <secretstore>0</secretstore>
   <type>100000004</type>

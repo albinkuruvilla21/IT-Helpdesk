@@ -32,6 +32,6 @@ App:
       ColorNoteFill = RGBA(255, 244, 206, 1);
       ColorNoteBorder = RGBA(232, 201, 90, 1);
       FontBody = Font.'Segoe UI';
-      AppTitle = "Starter App";
+      AppTitle = "IT Help";
       AppSubtitle = "Replace with the app subtitle";
     Theme: =PowerAppsTheme

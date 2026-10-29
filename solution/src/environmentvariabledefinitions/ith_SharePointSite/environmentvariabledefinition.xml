@@ -1,4 +1,4 @@
-<environmentvariabledefinition schemaname="acies_SharePointSite">
+<environmentvariabledefinition schemaname="ith_SharePointSite">
   <apiid>/providers/microsoft.powerapps/apis/shared_sharepointonline</apiid>
   <displayname default="SharePoint site">
     <label description="SharePoint site" languagecode="1033" />
