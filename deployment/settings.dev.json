@@ -47,6 +47,10 @@
     {
       "SchemaName": "ith_AppLink",
       "Value": ""
+    },
+    {
+      "SchemaName": "ith_MailOverride",
+      "Value": ""
     }
   ],
   "ConnectionReferences": [

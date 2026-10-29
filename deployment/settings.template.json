@@ -1,0 +1,202 @@
+{
+  "EnvironmentVariables": [
+    {
+      "SchemaName": "ith_AppLink",
+      "Value": "",
+      "Name": {
+        "Default": "App link",
+        "ByLcid": {
+          "1033": "App link"
+        }
+      },
+      "TypeId": 100000000,
+      "IsRequired": false
+    },
+    {
+      "SchemaName": "ith_ArticleList",
+      "Value": "",
+      "Name": {
+        "Default": "ITH_Article",
+        "ByLcid": {
+          "1033": "ITH_Article"
+        }
+      },
+      "TypeId": 100000004,
+      "IsRequired": false,
+      "ParameterKey": "table",
+      "ApiId": "/providers/microsoft.powerapps/apis/shared_sharepointonline",
+      "ParentSchemaName": "ith_SharePointSite"
+    },
+    {
+      "SchemaName": "ith_CategoryList",
+      "Value": "",
+      "Name": {
+        "Default": "ITH_Category",
+        "ByLcid": {
+          "1033": "ITH_Category"
+        }
+      },
+      "TypeId": 100000004,
+      "IsRequired": false,
+      "ParameterKey": "table",
+      "ApiId": "/providers/microsoft.powerapps/apis/shared_sharepointonline",
+      "ParentSchemaName": "ith_SharePointSite"
+    },
+    {
+      "SchemaName": "ith_MailOverride",
+      "Value": "",
+      "Name": {
+        "Default": "Mail override address",
+        "ByLcid": {
+          "1033": "Mail override address"
+        }
+      },
+      "TypeId": 100000000,
+      "IsRequired": false
+    },
+    {
+      "SchemaName": "ith_NotificationMailbox",
+      "Value": "",
+      "Name": {
+        "Default": "Notification mailbox",
+        "ByLcid": {
+          "1033": "Notification mailbox"
+        }
+      },
+      "TypeId": 100000000,
+      "IsRequired": false
+    },
+    {
+      "SchemaName": "ith_PriorityList",
+      "Value": "",
+      "Name": {
+        "Default": "ITH_Priority",
+        "ByLcid": {
+          "1033": "ITH_Priority"
+        }
+      },
+      "TypeId": 100000004,
+      "IsRequired": false,
+      "ParameterKey": "table",
+      "ApiId": "/providers/microsoft.powerapps/apis/shared_sharepointonline",
+      "ParentSchemaName": "ith_SharePointSite"
+    },
+    {
+      "SchemaName": "ith_SharePointSite",
+      "Value": "",
+      "Name": {
+        "Default": "SharePoint site",
+        "ByLcid": {
+          "1033": "SharePoint site"
+        }
+      },
+      "TypeId": 100000004,
+      "IsRequired": false,
+      "ParameterKey": "dataset",
+      "ApiId": "/providers/microsoft.powerapps/apis/shared_sharepointonline"
+    },
+    {
+      "SchemaName": "ith_StatusList",
+      "Value": "",
+      "Name": {
+        "Default": "ITH_Status",
+        "ByLcid": {
+          "1033": "ITH_Status"
+        }
+      },
+      "TypeId": 100000004,
+      "IsRequired": false,
+      "ParameterKey": "table",
+      "ApiId": "/providers/microsoft.powerapps/apis/shared_sharepointonline",
+      "ParentSchemaName": "ith_SharePointSite"
+    },
+    {
+      "SchemaName": "ith_TechnicianList",
+      "Value": "",
+      "Name": {
+        "Default": "ITH_Technician",
+        "ByLcid": {
+          "1033": "ITH_Technician"
+        }
+      },
+      "TypeId": 100000004,
+      "IsRequired": false,
+      "ParameterKey": "table",
+      "ApiId": "/providers/microsoft.powerapps/apis/shared_sharepointonline",
+      "ParentSchemaName": "ith_SharePointSite"
+    },
+    {
+      "SchemaName": "ith_TicketActivityList",
+      "Value": "",
+      "Name": {
+        "Default": "ITH_TicketActivity",
+        "ByLcid": {
+          "1033": "ITH_TicketActivity"
+        }
+      },
+      "TypeId": 100000004,
+      "IsRequired": false,
+      "ParameterKey": "table",
+      "ApiId": "/providers/microsoft.powerapps/apis/shared_sharepointonline",
+      "ParentSchemaName": "ith_SharePointSite"
+    },
+    {
+      "SchemaName": "ith_TicketCommentList",
+      "Value": "",
+      "Name": {
+        "Default": "ITH_TicketComment",
+        "ByLcid": {
+          "1033": "ITH_TicketComment"
+        }
+      },
+      "TypeId": 100000004,
+      "IsRequired": false,
+      "ParameterKey": "table",
+      "ApiId": "/providers/microsoft.powerapps/apis/shared_sharepointonline",
+      "ParentSchemaName": "ith_SharePointSite"
+    },
+    {
+      "SchemaName": "ith_TicketList",
+      "Value": "",
+      "Name": {
+        "Default": "ITH_Ticket",
+        "ByLcid": {
+          "1033": "ITH_Ticket"
+        }
+      },
+      "TypeId": 100000004,
+      "IsRequired": false,
+      "ParameterKey": "table",
+      "ApiId": "/providers/microsoft.powerapps/apis/shared_sharepointonline",
+      "ParentSchemaName": "ith_SharePointSite"
+    },
+    {
+      "SchemaName": "ith_UserRoleList",
+      "Value": "",
+      "Name": {
+        "Default": "ITH_UserRole",
+        "ByLcid": {
+          "1033": "ITH_UserRole"
+        }
+      },
+      "TypeId": 100000004,
+      "IsRequired": false,
+      "ParameterKey": "table",
+      "ApiId": "/providers/microsoft.powerapps/apis/shared_sharepointonline",
+      "ParentSchemaName": "ith_SharePointSite"
+    }
+  ],
+  "ConnectionReferences": [
+    {
+      "LogicalName": "ith_office365outlook",
+      "ConnectionId": "",
+      "ConnectorId": "/providers/Microsoft.PowerApps/apis/shared_office365"
+    },
+    {
+      "LogicalName": "ith_sharepoint",
+      "ConnectionId": "",
+      "ConnectorId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+    }
+  ],
+  "CopilotAgents": []
+}

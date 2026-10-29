@@ -119,6 +119,7 @@ App:
       Set(varArticle, Blank());
       Set(varTicket, Blank());
       Set(varLast, Blank());
+      Set(varLinkDone, false);
       Set(varSavedMsg, "");
       Set(varLoading, false);
       Set(varLoadError, "");

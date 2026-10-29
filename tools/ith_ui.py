@@ -401,6 +401,10 @@ def mini_list(p, key, head, items, empty_ac, view_all, ac_rows, rowfp=1, card_h=
 def overview():
     p = "ovw"
     s = ItScreen("scrOverview", p, on_visible())
+    # the link in the notification emails ends in ?ticket=<id>: open that ticket once the tickets are loaded (AC-ITH-32.2)
+    link = ("If(!IsBlank(Param(\"ticket\")) && !varLinkDone,\n  Set(varLinkDone, true);\n  With({id: IfError(Value(Param(\"ticket\")), 0)}, If(!IsBlank(LookUp(colTickets, ID = id)),\n    "
+            + open_ticket("LookUp(colTickets, ID = id)", ")))").replace(NL, NL + "    ") + "")
+    s.on_visible = s.on_visible + ";" + NL + link.replace("// AC-ITH-24.1", "// AC-ITH-32.2")
     stats = []
     for i, (cap, expr, ac) in enumerate([("Total tickets", "=CountRows(colTickets)", "AC-ITH-11.2"), ("Open", '=CountRows(Filter(colTickets, TicketStatus = "Open"))', "AC-ITH-11.2"),
                                          ("In progress", '=CountRows(Filter(colTickets, TicketStatus = "In Progress"))', "AC-ITH-11.2"),
@@ -1030,7 +1034,7 @@ def app_yaml():
                 'Set(varNotifRead, false);\nSet(varModal, "");\nSet(varDrawer, false);\nSet(varFormMode, "new");\nSet(varFormKey, 0);\n'
                 'Set(varErrSubject, false);\nSet(varErrDesc, false);\nSet(varErrEmail, false);\nSet(varSaving, false);\nSet(varPrefill, "");\nSet(varView, "all");\nSet(varSearch, "");\n'
                 'Set(varFStatus, "");\nSet(varFPriority, "");\nSet(varFCategory, "");\nSet(varSort, "ID");\nSet(varDesc, true);\nSet(varPage, 1);\nSet(varPageSize, 10);\nSet(varKQ, "");\nSet(varKC, "");\n'
-                'Set(varArticle, Blank());\nSet(varTicket, Blank());\nSet(varLast, Blank());\nSet(varSavedMsg, "");\nSet(varLoading, false);\nSet(varLoadError, "");\nSet(varLoadReason, "");\n'
+                'Set(varArticle, Blank());\nSet(varTicket, Blank());\nSet(varLast, Blank());\nSet(varLinkDone, false);\nSet(varSavedMsg, "");\nSet(varLoading, false);\nSet(varLoadError, "");\nSet(varLoadReason, "");\n'
                 'ClearCollect(colScheme, {Value: "Light"});\n' + role_load + loads + opts)
     text = ["App:", "  Properties:", "    Formulas: |-"]
     text += tok.rstrip("\n").split("\n")

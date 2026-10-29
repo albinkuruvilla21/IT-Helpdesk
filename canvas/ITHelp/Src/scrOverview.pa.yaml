@@ -14,7 +14,17 @@ Screens:
             true,
             Set(varLoadError, If(FirstError.Kind = ErrorKind.ReadPermission, "access", "error"));
             Set(varLoadReason, FirstError.Message));
-        Set(varLoading, false)
+        Set(varLoading, false);
+        If(!IsBlank(Param("ticket")) && !varLinkDone,
+          Set(varLinkDone, true);
+          With({id: IfError(Value(Param("ticket")), 0)}, If(!IsBlank(LookUp(colTickets, ID = id)),
+            Set(varTicket, LookUp(colTickets, ID = id)); Set(varMenu, ""); Set(varDrawer, true); // fx-ignore FX-DELEG one ticket's comments and activity, far under the 2,000 data row limit (S-DELEG)
+            IfError(
+                ClearCollect(colComments, ForAll(SortByColumns(Filter(ITH_TicketComment, TicketId = varTicket.ID), "ID", SortOrder.Ascending), {Author: AuthorName, AtText: Text(Created, "dd mmm yyyy, hh:mm", "en-GB"), Body: Coalesce(CommentText, "")}));
+                ClearCollect(colTActivity, ForAll(SortByColumns(Filter(ITH_TicketActivity, TicketId = varTicket.ID), "ID", SortOrder.Descending), {Text: Title, AtText: Text(Created, "dd mmm yyyy, hh:mm", "en-GB")}));
+                ClearCollect(colAttach, ForAll(LookUp(ITH_Ticket, ID = varTicket.ID).Attachments, {Name: Name}));
+                true,
+                Notify("The ticket details could not be loaded. " & FirstError.Message, NotificationType.Error))))) // AC-ITH-32.2
     Children:
       - ovwMain:
           Control: GroupContainer@1.5.0

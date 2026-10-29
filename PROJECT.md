@@ -55,7 +55,7 @@ carries it, and a component can never move to another publisher (PA-T1).
 | G6 | Scaffold | `canvas/` screens, solution components wired, samples removed | `/deliver` | G5 | Done |
 | G7 | UI | Screens against sample data | `/deliver` | G6 | Done |
 | G8 | Functionality | Formulas against real lists | `/deliver` | G7 | Done |
-| G9 | Flows | `solution/src/Workflows/` | `/deliver` | G5 | Not started |
+| G9 | Flows | `solution/src/Workflows/` | `/deliver` | G5 | Done |
 | G10 | Test cases | *Test Cases* sheet of the AC workbook | `/deliver` | G2 | Not started |
 | G11 | Release candidate | `dist/<Solution>_<version>_managed.zip` + `specs/release-notes.md` | `/deliver` | G8, G9, G10 | Not started |
 
@@ -156,6 +156,7 @@ the portal's import wizard (or, for scripted imports, in `deployment/settings.<e
 | `ith_UserRoleList` | Data source (list, child of the site) | `ITH_UserRole`: Employee roles (D-03) | 🔶 | 🔶 | 🔶 |
 | `ith_NotificationMailbox` | Text | Mailbox the notification emails go from (IN-04, Q-15) | 🔶 | 🔶 | 🔶 |
 | `ith_AppLink` | Text | The app's link, for emails (AC-ITH-32) | 🔶 | 🔶 | 🔶 |
+| `ith_MailOverride` | Text | Dev and Test: every notification email goes to this one tester mailbox. Prod: blank | 🔶 | 🔶 | blank |
 
 ### 6.3 Connection references
 

@@ -80,6 +80,9 @@
       </Addresses>
     </Publisher>
     <RootComponents>
+      <RootComponent type="29" id="{b6712dc7-0ca9-4281-bcb9-178c06bbd725}" behavior="0" />
+      <RootComponent type="29" id="{1eb8172d-b0bc-47b3-b061-18c743acb81c}" behavior="0" />
+      <RootComponent type="29" id="{85285539-ee98-4fce-a0bc-e65740349987}" behavior="0" />
       <RootComponent type="300" schemaName="ith_ithelp_572fd" behavior="0" />
     </RootComponents>
     <MissingDependencies />

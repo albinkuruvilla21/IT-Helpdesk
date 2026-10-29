@@ -1,0 +1,225 @@
+{
+  "properties": {
+    "connectionReferences": {
+      "shared_sharepointonline": {
+        "runtimeSource": "embedded",
+        "connection": {
+          "connectionReferenceLogicalName": "ith_sharepoint"
+        },
+        "api": {
+          "name": "shared_sharepointonline"
+        }
+      },
+      "shared_office365": {
+        "runtimeSource": "embedded",
+        "connection": {
+          "connectionReferenceLogicalName": "ith_office365outlook"
+        },
+        "api": {
+          "name": "shared_office365"
+        }
+      }
+    },
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "$connections": {
+          "defaultValue": {},
+          "type": "Object"
+        },
+        "$authentication": {
+          "defaultValue": {},
+          "type": "SecureObject"
+        },
+        "SharePoint site (ith_SharePointSite)": {
+          "defaultValue": "",
+          "type": "String",
+          "metadata": {
+            "schemaName": "ith_SharePointSite"
+          }
+        },
+        "ITH_Ticket (ith_TicketList)": {
+          "defaultValue": "",
+          "type": "String",
+          "metadata": {
+            "schemaName": "ith_TicketList"
+          }
+        },
+        "ITH_TicketActivity (ith_TicketActivityList)": {
+          "defaultValue": "",
+          "type": "String",
+          "metadata": {
+            "schemaName": "ith_TicketActivityList"
+          }
+        },
+        "Notification mailbox (ith_NotificationMailbox)": {
+          "defaultValue": "",
+          "type": "String",
+          "metadata": {
+            "schemaName": "ith_NotificationMailbox"
+          }
+        },
+        "App link (ith_AppLink)": {
+          "defaultValue": "",
+          "type": "String",
+          "metadata": {
+            "schemaName": "ith_AppLink"
+          }
+        },
+        "Mail override address (ith_MailOverride)": {
+          "defaultValue": "",
+          "type": "String",
+          "metadata": {
+            "schemaName": "ith_MailOverride"
+          }
+        }
+      },
+      "triggers": {
+        "When_a_ticket_event_is_recorded": {
+          "type": "OpenApiConnection",
+          "description": "AC-ITH-34.1 starts when a ticket's status changes, it is resolved, or a comment is added",
+          "recurrence": {
+            "interval": 1,
+            "frequency": "Minute"
+          },
+          "splitOn": "@triggerOutputs()?['body/value']",
+          "conditions": [
+            {
+              "expression": "@or(equals(triggerOutputs()?['body/EventType/Value'], 'StatusChanged'), equals(triggerOutputs()?['body/EventType/Value'], 'Resolved'), equals(triggerOutputs()?['body/EventType/Value'], 'Comment'))"
+            }
+          ],
+          "inputs": {
+            "host": {
+              "connectionName": "shared_sharepointonline",
+              "operationId": "GetOnNewItems",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+            },
+            "parameters": {
+              "dataset": "@parameters('SharePoint site (ith_SharePointSite)')",
+              "table": "@parameters('ITH_TicketActivity (ith_TicketActivityList)')"
+            },
+            "authentication": "@parameters('$authentication')"
+          }
+        }
+      },
+      "actions": {
+        "Try": {
+          "type": "Scope",
+          "runAfter": {},
+          "actions": {
+            "Get_the_ticket": {
+              "type": "OpenApiConnection",
+              "description": "AC-ITH-34.1 reads the ticket to find its requester",
+              "inputs": {
+                "host": {
+                  "connectionName": "shared_sharepointonline",
+                  "operationId": "GetItem",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+                },
+                "parameters": {
+                  "dataset": "@parameters('SharePoint site (ith_SharePointSite)')",
+                  "table": "@parameters('ITH_Ticket (ith_TicketList)')",
+                  "id": "@triggerOutputs()?['body/TicketId']"
+                },
+                "authentication": "@parameters('$authentication')"
+              },
+              "runAfter": {}
+            },
+            "Only_if_someone_else_made_the_change": {
+              "type": "If",
+              "description": "AC-ITH-34.4: no email to the person who made the change (Q-19)",
+              "expression": "@not(equals(toLower(outputs('Get_the_ticket')?['body']?['RequesterEmail']), toLower(triggerOutputs()?['body/ActorEmail'])))",
+              "actions": {
+                "Email_the_requester": {
+                  "type": "If",
+                  "description": "AC-ITH-34.1 to .3: status, resolved or comment email with the ID, subject and a link",
+                  "expression": "@empty(parameters('Notification mailbox (ith_NotificationMailbox)'))",
+                  "actions": {
+                    "Send_from_the_connection_mailbox": {
+                      "type": "OpenApiConnection",
+                      "description": "AC-ITH-34.1 to .3: status, resolved or comment email with the ID, subject and a link",
+                      "inputs": {
+                        "host": {
+                          "connectionName": "shared_office365",
+                          "operationId": "SendEmailV2",
+                          "apiId": "/providers/Microsoft.PowerApps/apis/shared_office365"
+                        },
+                        "parameters": {
+                          "emailMessage/To": "@{if(empty(parameters('Mail override address (ith_MailOverride)')), outputs('Get_the_ticket')?['body']?['RequesterEmail'], parameters('Mail override address (ith_MailOverride)'))}",
+                          "emailMessage/Subject": "@{if(equals(triggerOutputs()?['body/EventType/Value'], 'Comment'), 'New comment on ', if(equals(triggerOutputs()?['body/EventType/Value'], 'Resolved'), 'Resolved: ', 'Status changed: '))}HD-@{triggerOutputs()?['body/TicketId']} @{outputs('Get_the_ticket')?['body']?['Title']}",
+                          "emailMessage/Body": "<p>@{if(equals(triggerOutputs()?['body/EventType/Value'], 'Comment'), concat(triggerOutputs()?['body/ActorName'], ' added a comment.'), concat('The status is now ', triggerOutputs()?['body/EventValue'], '.'))}</p><p>Ticket: HD-@{triggerOutputs()?['body/TicketId']}<br>Subject: @{replace(replace(replace(outputs('Get_the_ticket')?['body']?['Title'], '&', '&amp;'), '<', '&lt;'), '>', '&gt;')}</p><p>Open it: <a href=\"@{parameters('App link (ith_AppLink)')}?ticket=@{triggerOutputs()?['body/TicketId']}\">@{parameters('App link (ith_AppLink)')}?ticket=@{triggerOutputs()?['body/TicketId']}</a></p>",
+                          "emailMessage/Importance": "Normal"
+                        },
+                        "authentication": "@parameters('$authentication')"
+                      },
+                      "runAfter": {}
+                    }
+                  },
+                  "else": {
+                    "actions": {
+                      "Send_as_the_notification_mailbox": {
+                        "type": "OpenApiConnection",
+                        "description": "AC-ITH-34.1 to .3: status, resolved or comment email with the ID, subject and a link",
+                        "inputs": {
+                          "host": {
+                            "connectionName": "shared_office365",
+                            "operationId": "SendEmailV2",
+                            "apiId": "/providers/Microsoft.PowerApps/apis/shared_office365"
+                          },
+                          "parameters": {
+                            "emailMessage/To": "@{if(empty(parameters('Mail override address (ith_MailOverride)')), outputs('Get_the_ticket')?['body']?['RequesterEmail'], parameters('Mail override address (ith_MailOverride)'))}",
+                            "emailMessage/Subject": "@{if(equals(triggerOutputs()?['body/EventType/Value'], 'Comment'), 'New comment on ', if(equals(triggerOutputs()?['body/EventType/Value'], 'Resolved'), 'Resolved: ', 'Status changed: '))}HD-@{triggerOutputs()?['body/TicketId']} @{outputs('Get_the_ticket')?['body']?['Title']}",
+                            "emailMessage/Body": "<p>@{if(equals(triggerOutputs()?['body/EventType/Value'], 'Comment'), concat(triggerOutputs()?['body/ActorName'], ' added a comment.'), concat('The status is now ', triggerOutputs()?['body/EventValue'], '.'))}</p><p>Ticket: HD-@{triggerOutputs()?['body/TicketId']}<br>Subject: @{replace(replace(replace(outputs('Get_the_ticket')?['body']?['Title'], '&', '&amp;'), '<', '&lt;'), '>', '&gt;')}</p><p>Open it: <a href=\"@{parameters('App link (ith_AppLink)')}?ticket=@{triggerOutputs()?['body/TicketId']}\">@{parameters('App link (ith_AppLink)')}?ticket=@{triggerOutputs()?['body/TicketId']}</a></p>",
+                            "emailMessage/Importance": "Normal",
+                            "emailMessage/From": "@parameters('Notification mailbox (ith_NotificationMailbox)')"
+                          },
+                          "authentication": "@parameters('$authentication')"
+                        },
+                        "runAfter": {}
+                      }
+                    }
+                  },
+                  "runAfter": {}
+                }
+              },
+              "else": {
+                "actions": {}
+              },
+              "runAfter": {
+                "Get_the_ticket": [
+                  "Succeeded"
+                ]
+              }
+            }
+          }
+        },
+        "Catch": {
+          "type": "Scope",
+          "runAfter": {
+            "Try": [
+              "Failed",
+              "TimedOut"
+            ]
+          },
+          "actions": {
+            "Terminate_as_failed": {
+              "type": "Terminate",
+              "runAfter": {},
+              "inputs": {
+                "runStatus": "Failed",
+                "runError": {
+                  "code": "FlowFailed",
+                  "message": "@{coalesce(result('Try')?[0]?['error']?['message'], 'The update email could not be sent.')}"
+                }
+              }
+            }
+          }
+        }
+      },
+      "outputs": {}
+    },
+    "templateName": null
+  },
+  "schemaVersion": "1.0.0.0"
+}
